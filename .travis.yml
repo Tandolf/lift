@@ -15,4 +15,4 @@ before_install:
   - docker ps -a
   
 after_success:
-  - ./mvnw clean verify -P integration-tests,coveralls
+  - ./mvnw clean verify coveralls:report -P integration-tests,coveralls
