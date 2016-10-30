@@ -12,6 +12,7 @@ import org.springframework.data.neo4j.util.IterableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import se.andolf.dto.PatchDTO;
 import se.andolf.entities.Category;
 import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.CategoryRepository;
@@ -72,19 +73,23 @@ public class CategoryService {
             return modelMapper.map(category, CategoryDTO.class);
         }
         else {
-            throw new NodeNotFoundException("Could not find category by id: " + id);
+            throw new NodeNotFoundException("Could not find category with id: " + id);
         }
     }
 
-    public void patch(JsonPatch jsonPatch, String id){
+    public void patch(List<PatchDTO> patches, String id){
 
         Category category = categoryRepository.findByUniqueId(id, 1);
         if(category == null)
             throw new NodeNotFoundException("Could not find category with id: " + id);
 
         try {
-            final JsonNode userJson = objectMapper.valueToTree(category);
-            final JsonNode patched = jsonPatch.apply(userJson);
+            final JsonNode categoryJson = objectMapper.valueToTree(category);
+            JsonNode patched = null;
+            for (PatchDTO patch : patches){
+                final JsonPatch jsonPatch = JsonPatch.fromJson(objectMapper.valueToTree(patch));
+                patched = jsonPatch.apply(categoryJson);
+            }
             category = objectMapper.readValue(patched.toString(), Category.class);
             categoryRepository.save(category);
         }  catch (IOException | JsonPatchException ex) {

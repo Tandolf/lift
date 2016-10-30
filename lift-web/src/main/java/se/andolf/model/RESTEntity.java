@@ -1,6 +1,5 @@
 package se.andolf.model;
 
-
 /**
  * Created by Thomas on 2016-06-25.
  */

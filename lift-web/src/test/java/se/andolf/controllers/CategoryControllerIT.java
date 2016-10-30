@@ -81,8 +81,7 @@ public class CategoryControllerIT {
     @Test
     public void should_save_a_correct_category(){
 
-        RESTCategory restCategory = new RESTCategory();
-        restCategory.setName(TestData.CATEGORY.NEW.getName());
+        RESTCategory restCategory = new RESTCategory(TestData.CATEGORY.NEW.getName());
 
         ReflectionUtils.setField(restCategory, "uniqueId", String.class, TestData.CATEGORY.NEW.getUniqueId());
 
@@ -98,8 +97,7 @@ public class CategoryControllerIT {
     @Test
     public void should_return_409_conflict_if_category_name_exists(){
 
-        RESTCategory restCategory = new RESTCategory();
-        restCategory.setName(TestData.CATEGORY.CURRENT.getName());
+        RESTCategory restCategory = new RESTCategory(TestData.CATEGORY.CURRENT.getName());
 
         given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -1,5 +1,6 @@
 package se.andolf.controllers;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  * Created by Thomas on 2016-06-12.
  */
 @RestController
+@Api(tags = "Exercises")
 public class ExerciseController {
 
     @Autowired

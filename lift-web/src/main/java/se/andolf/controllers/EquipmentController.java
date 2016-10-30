@@ -2,6 +2,7 @@ package se.andolf.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.logging.Log;
@@ -30,6 +31,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  * Created by Thomas on 2016-06-18.
  */
 @RestController
+@Api(tags = "Equipment")
 public class EquipmentController {
 
     private Log log = LogFactory.getLog(EquipmentController.class);

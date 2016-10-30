@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import static com.google.common.base.Predicates.or;
 import static springfox.documentation.builders.PathSelectors.regex;
-
 
 /**
  * Created by Thomas on 2016-06-25.
@@ -29,7 +29,12 @@ public class SwaggerConfiguration {
                 .useDefaultResponseMessages(false)
                 .select()
                 .paths(petstorePaths())
-                .build();
+                .build()
+                .tags(new Tag("Categories", "All api's related to exercise categories"),
+                        new Tag("Equipment", "All api's related to equipment"),
+                        new Tag("Exercises", "All api's related to exercises"),
+                        new Tag("Users", "All api's related to handling users")
+                );
     }
 
     private Predicate<String> petstorePaths() {

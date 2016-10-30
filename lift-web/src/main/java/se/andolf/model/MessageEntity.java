@@ -3,13 +3,13 @@ package se.andolf.model;
 /**
  * Created by Thomas on 2016-07-09.
  */
-public class RESTException {
+public class MessageEntity {
     private String message;
 
-    public RESTException() {
+    public MessageEntity() {
     }
 
-    public RESTException(String message) {
+    public MessageEntity(String message) {
         this.message = message;
     }
 
