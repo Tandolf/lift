@@ -3,6 +3,10 @@ jdk:
   - oraclejdk8
   
 sudo: required
+addons:
+  sonarqube:
+    token:
+      secure: "BP53L32EwsG8XK+i4uIZb5B1xGTVtAVTcJcxYhPWOMSdlZCvS1EngkV6RPnPeUB/m5++Jgn/8eogPetcN0avCKSuS2w38TxDgXZpM56T9tn5yTtjpsiTKai7xZCQ7IETqOjbW41vbs6LhdavO7tlhfO/LCAHuocs/EJrc6NlZa79cd/tCvZbM/AgjVCbozRc52QRzGFXwybeW6q/AjPwBTzUdZZ76TSwLgV8HwF4FMZn2Fhl3djPEPbXQM+3g0I7nLB4x32k3hev5545tpprdRtS0ubcj1wQQQsUAfH6/x7NmuYglWYVfYwNKrCuj3l4w879CcXm/GYR7pJQhUyioDcZs+0NVYOSDuWqvM+Y6kFD3UzbtoarI2yxBgMFW8/URVbwuDzwW0EAEP8IQg5qU34eLZDWT3c8IMGJMjmV1RbfkRk1bVVtF7EkJIDVsOAQiiV3ERzm0DdB7c+8Rx8x0k+rHlC/El+C06l1Rx1oDuKol5WTduLzTERkFua+R6nLYdUBlFFxEU1GOrwjKtw2TFMu0Vm9hFIBhi1S96t3fYmiXFMg4Y/4HVW4GaIVkigu5TGi6J10eQNN5PyDZ/e19mtv+wmBdfjX9k3d/EWMCU73a4LTiW1kZvQW0iRthnENceb7MEfHgz/wipJyPmzZcvYlHD1WIrWzdy+adEdHTd8="
 
 script: ./mvnw clean package
 
@@ -16,3 +20,9 @@ before_install:
   
 after_success:
   - ./mvnw clean verify coveralls:report -P integration-tests,coveralls
+  - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
