@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 public abstract class Entity {
 
     @ApiModelProperty(readOnly = true)
-    private String uniqueId;
+    protected String uniqueId;
 
     public Entity() {
     }

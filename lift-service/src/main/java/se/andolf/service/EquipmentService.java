@@ -75,8 +75,8 @@ public class EquipmentService {
         Equipment equipment = findByUniqueId(id, 1);
 
         try {
-            JsonNode userJson = objectMapper.valueToTree(equipment);
-            JsonNode patched = jsonPatch.apply(userJson);
+            final JsonNode equipmentAsJsonString = objectMapper.valueToTree(equipment);
+            final JsonNode patched = jsonPatch.apply(equipmentAsJsonString);
             equipment = objectMapper.readValue(patched.toString(), Equipment.class);
             equipmentRepository.save(equipment);
         }  catch (IOException | JsonPatchException ex) {
@@ -89,6 +89,7 @@ public class EquipmentService {
         try {
             return equipmentRepository.findByUniqueId(id, 1);
         } catch(DataRetrievalFailureException e){
+            LOG.debug(e);
             throw new NodeNotFoundException("Could not find equipment: " + id);
         }
     }

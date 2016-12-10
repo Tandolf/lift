@@ -16,6 +16,10 @@ public class Patch {
     @ApiModelProperty(required = true, notes = "the new value", example = "new value")
     private String value;
 
+    public Patch(){
+        //For serialization
+    }
+
     public Patch(String op, String path, String value) {
         this.op = op;
         this.path = path;

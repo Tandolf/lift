@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.github.fge.jsonpatch.diff.JsonDiff;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.modelmapper.ModelMapper;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import se.andolf.dto.PatchDTO;
 import se.andolf.entities.Category;
+import se.andolf.entities.Equipment;
 import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.CategoryRepository;
 import se.andolf.dto.CategoryDTO;
@@ -77,21 +79,19 @@ public class CategoryService {
         }
     }
 
-    public void patch(List<PatchDTO> patches, String id){
+    public void patch(JsonPatch patch, String id){
 
         Category category = categoryRepository.findByUniqueId(id, 1);
         if(category == null)
             throw new NodeNotFoundException("Could not find category with id: " + id);
 
         try {
-            final JsonNode categoryJson = objectMapper.valueToTree(category);
-            JsonNode patched = null;
-            for (PatchDTO patch : patches){
-                final JsonPatch jsonPatch = JsonPatch.fromJson(objectMapper.valueToTree(patch));
-                patched = jsonPatch.apply(categoryJson);
+            final JsonNode categoryAsJsonString = objectMapper.valueToTree(category);
+            final JsonNode patched = patch.apply(categoryAsJsonString);
+            if(patched != null){
+                category = objectMapper.readValue(patched.toString(), Category.class);
+                categoryRepository.save(category);
             }
-            category = objectMapper.readValue(patched.toString(), Category.class);
-            categoryRepository.save(category);
         }  catch (IOException | JsonPatchException ex) {
             LOG.debug(ex);
             throw new IllegalArgumentException(ex.getMessage());

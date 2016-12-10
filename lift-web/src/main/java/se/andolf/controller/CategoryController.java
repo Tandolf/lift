@@ -1,5 +1,6 @@
 package se.andolf.controller;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +23,9 @@ import javax.validation.Valid;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -52,7 +55,7 @@ public class CategoryController {
     @RequestMapping(method=PUT, value="/category")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> add(
-            @RequestBody @Valid Category category, HttpServletRequest request) throws URISyntaxException {
+            @RequestBody Category category, HttpServletRequest request) throws URISyntaxException {
         CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
         categoryDTO = categoryService.save(categoryDTO);
         final HttpHeaders responseHeaders = new HttpHeaders();
@@ -81,7 +84,7 @@ public class CategoryController {
     public Category getById(
             @ApiParam(value = "id of the category", required = true)
             @PathVariable("id") String uniqueId){
-        CategoryDTO categoryDTO = categoryService.findByUniqueId(uniqueId);
+        final CategoryDTO categoryDTO = categoryService.findByUniqueId(uniqueId);
         return modelMapper.map(categoryDTO, Category.class);
     }
 
@@ -108,11 +111,7 @@ public class CategoryController {
             @ApiParam(value = "uniqueId of equipment", required = true)
             @PathVariable String id,
             @ApiParam(value = "Json format as RFC6902", required = true)
-            @RequestBody List<Patch> patches){
-        if(patches.isEmpty())
-            throw new IllegalArgumentException("Input may not be empty");
-        final Type types = new TypeToken<List<PatchDTO>>() {}.getType();
-        List<PatchDTO> patchDTOs = modelMapper.map(patches, types);
-        categoryService.patch(patchDTOs, id);
+            @RequestBody JsonPatch patch){
+        categoryService.patch(patch, id);
     }
 }

@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 
 /**
- * Created by Thomas on 2016-07-03.
+ * @author Thomas on 2016-07-03.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
@@ -91,7 +91,7 @@ public class CategoryControllerIT {
                 .when()
                 .put(PATH_UNDER_TEST)
                 .then().log().all()
-                .header("Location", is(is(notNullValue())));
+                .header("Location", is(notNullValue()));
     }
 
     @Test
@@ -135,16 +135,16 @@ public class CategoryControllerIT {
     @Test
     public void should_succesfully_change_a_category_name(){
 
-        Patch patch = new Patch(PatchOperations.REPLACE, "/name", "Arms");
-        Patch patch2 = new Patch(PatchOperations.REPLACE, "/name", "Chest");
+        final Patch patch = new Patch(PatchOperations.REPLACE, "/name", "Arms");
+        final Patch patch2 = new Patch(PatchOperations.REPLACE, "/name", "Chest");
 
-        List<Patch> a = new ArrayList<>();
-        a.add(patch);
-        a.add(patch2);
+        final List<Patch> patches = new ArrayList<>();
+        patches.add(patch);
+        patches.add(patch2);
 
         given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(a)
+                .body(patches)
                 .when().patch(PATH_UNDER_TEST + "/" + TestData.CATEGORY.CURRENT.getUniqueId())
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
@@ -154,16 +154,16 @@ public class CategoryControllerIT {
     @Test
     public void should_give_400_if_param_doesnt_exist(){
 
-        Patch patch = new Patch(PatchOperations.REPLACE, "/na", "Arms");
-        Patch patch2 = new Patch(PatchOperations.REPLACE, "/ne", "Chest");
+        final Patch patch = new Patch(PatchOperations.REPLACE, "/na", "Arms");
+        final Patch patch2 = new Patch(PatchOperations.REPLACE, "/ne", "Chest");
 
-        List<Patch> a = new ArrayList<>();
-        a.add(patch);
-        a.add(patch2);
+        final List<Patch> patches = new ArrayList<>();
+        patches.add(patch);
+        patches.add(patch2);
 
         given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(a)
+                .body(patches)
                 .when().patch(PATH_UNDER_TEST + "/" + TestData.CATEGORY.CURRENT.getUniqueId())
                 .then().log().all()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
@@ -173,14 +173,14 @@ public class CategoryControllerIT {
     @Test
     public void should_give_404_if_id_doesnt_exist(){
 
-        Patch patch = new Patch(PatchOperations.REPLACE, "/na", "Arms");
+        final Patch patch = new Patch(PatchOperations.REPLACE, "/na", "Arms");
 
-        List<Patch> a = new ArrayList<>();
-        a.add(patch);
+        final List<Patch> patches = new ArrayList<>();
+        patches.add(patch);
 
         given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(a)
+                .body(patches)
                 .when().patch(PATH_UNDER_TEST + "/" + "ABCD")
                 .then().log().all()
                 .statusCode(HttpStatus.NOT_FOUND.value());

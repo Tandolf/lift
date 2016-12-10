@@ -16,6 +16,10 @@ public class Category extends Entity {
     @ApiModelProperty(required = true)
     private String name;
 
+    public Category() {
+        //For serialization
+    }
+
     public Category(String name) {
         this.name = name;
     }
@@ -31,6 +35,6 @@ public class Category extends Entity {
     @Override
     @ApiModelProperty(hidden = true)
     public void setUniqueId(String uniqueId) {
-        setUniqueId(uniqueId);
+        this.uniqueId = uniqueId;
     }
 }
