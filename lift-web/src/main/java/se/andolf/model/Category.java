@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by Thomas on 2016-06-21.
+ * @author Thomas Andolf
  */
 public class Category extends Entity {
 
@@ -15,6 +15,10 @@ public class Category extends Entity {
     @Size(min=2, max=30)
     @ApiModelProperty(required = true)
     private String name;
+
+    public Category() {
+        //For serialization
+    }
 
     public Category(String name) {
         this.name = name;
