@@ -31,6 +31,7 @@ public class User extends Entity {
     private Body body;
 
     public User() {
+        //For serialization
     }
 
     public String getFirstname() {

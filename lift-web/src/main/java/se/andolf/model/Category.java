@@ -16,10 +16,6 @@ public class Category extends Entity {
     @ApiModelProperty(required = true)
     private String name;
 
-    public Category() {
-        //For serialization
-    }
-
     public Category(String name) {
         this.name = name;
     }

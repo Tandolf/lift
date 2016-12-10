@@ -17,6 +17,7 @@ public class User extends Entity {
     private Body body;
 
     public User() {
+        //For Serialization
     }
 
     public String getFirstname() {
@@ -57,5 +58,41 @@ public class User extends Entity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+
+        User user = (User) o;
+
+        if (!firstname.equals(user.firstname))
+            return false;
+        if (!lastname.equals(user.lastname))
+            return false;
+        if (!email.equals(user.email))
+            return false;
+        if (gender != user.gender)
+            return false;
+        if (!body.equals(user.body))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + firstname.hashCode();
+        result = 31 * result + lastname.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + gender.hashCode();
+        result = 31 * result + body.hashCode();
+        return result;
     }
 }
