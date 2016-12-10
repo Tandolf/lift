@@ -12,20 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.andolf.dto.CategoryDTO;
-import se.andolf.dto.PatchDTO;
-import se.andolf.model.MessageEntity;
-import se.andolf.model.Patch;
 import se.andolf.model.Category;
+import se.andolf.model.MessageEntity;
 import se.andolf.service.CategoryService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 

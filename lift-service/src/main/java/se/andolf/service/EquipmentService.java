@@ -61,18 +61,19 @@ public class EquipmentService {
             Equipment equipment = equipmentRepository.findByUniqueId(uniqueId, 1);
             equipmentRepository.delete(equipment);
         } catch(DataRetrievalFailureException e){
+            LOG.debug(e);
             throw new NodeNotFoundException("Could not find equipment: " + uniqueId);
         }
     }
 
     public EquipmentDTO loadById(String id) {
-        final Equipment equipment = findByUniqueId(id, 1);
+        final Equipment equipment = findByUniqueId(id);
         return modelMapper.map(equipment, EquipmentDTO.class);
     }
 
     public void patch(JsonPatch jsonPatch, String id){
 
-        Equipment equipment = findByUniqueId(id, 1);
+        Equipment equipment = findByUniqueId(id);
 
         try {
             final JsonNode equipmentAsJsonString = objectMapper.valueToTree(equipment);
@@ -85,7 +86,7 @@ public class EquipmentService {
         }
     }
 
-    private Equipment findByUniqueId(String id, int depth){
+    private Equipment findByUniqueId(String id){
         try {
             return equipmentRepository.findByUniqueId(id, 1);
         } catch(DataRetrievalFailureException e){
