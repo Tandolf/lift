@@ -7,13 +7,13 @@ import javax.validation.constraints.Size;
 /**
  * Created by Thomas on 2016-06-18.
  */
-public class RESTEquipment extends RESTEntity {
+public class Equipment extends Entity {
 
     @NotNull
     @Size(min=2, max=32)
     private String name;
 
-    public RESTEquipment() {
+    public Equipment() {
     }
 
     public String getName() {

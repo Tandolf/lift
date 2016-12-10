@@ -18,7 +18,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
  * Created by Thomas on 2016-06-25.
  */
 @Configuration
-@ComponentScan("se.andolf.controllers")
+@ComponentScan("se.andolf.controller")
 public class SwaggerConfiguration {
 
     @Bean

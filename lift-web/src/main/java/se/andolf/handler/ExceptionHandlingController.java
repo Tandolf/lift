@@ -1,4 +1,4 @@
-package se.andolf.exceptionHandlers;
+package se.andolf.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

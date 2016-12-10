@@ -6,9 +6,8 @@ import se.andolf.api.Units;
 import se.andolf.configuration.mappers.UserDtoToUserRestMapping;
 import se.andolf.dto.UserDTO;
 import se.andolf.entities.Body;
-import se.andolf.entities.User;
 import se.andolf.mappers.UserToDtoMapping;
-import se.andolf.model.RESTUser;
+import se.andolf.model.User;
 
 /**
  * Created by Thomas on 2016-08-02.
@@ -19,12 +18,12 @@ public class TestData {
         CURRENT("John", "Doe", GenderType.MALE, "john@doe.co.uk", 175, 75, Units.METRIC),
         NEW("Thomas", "Andolf", GenderType.MALE, "thomas.andolf@gmail.com", 190, 85, Units.METRIC);
 
-        private User user;
-        private RESTUser restUser;
+        private se.andolf.entities.User user;
+        private User restUser;
         private UserDTO userDTO;
 
         USER(String firstname, String lastname, GenderType gender, String email, int height, int weight, Units unit) {
-            User user = new User();
+            se.andolf.entities.User user = new se.andolf.entities.User();
             Body body = new Body();
             user.setFirstname(firstname);
             user.setLastname(lastname);
@@ -44,16 +43,16 @@ public class TestData {
             userDtoToUserRestMapping.configure(modelMapper);
 
             userDTO = modelMapper.map(user, UserDTO.class);
-            restUser = modelMapper.map(userDTO, RESTUser.class);
+            restUser = modelMapper.map(userDTO, User.class);
 
 
         }
 
-        public User getUser() {
+        public se.andolf.entities.User getUser() {
             return user;
         }
 
-        public RESTUser getRestUser(){
+        public User getRestUser(){
             return restUser;
         }
     }

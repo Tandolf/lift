@@ -1,4 +1,4 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
 import org.junit.Before;
 import org.junit.Test;

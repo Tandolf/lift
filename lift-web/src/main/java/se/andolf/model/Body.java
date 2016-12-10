@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by Thomas on 2016-07-17.
  */
-public class RESTBody {
+public class Body {
 
     @NotNull
     private Units unit;
@@ -21,7 +21,7 @@ public class RESTBody {
     @Length(min = 2, max = 64)
     private int weight;
 
-    public RESTBody() {
+    public Body() {
     }
 
     public Units getUnit() {

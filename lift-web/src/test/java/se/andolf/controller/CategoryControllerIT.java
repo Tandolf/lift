@@ -1,4 +1,4 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.andolf.util.*;
-import se.andolf.model.RESTCategory;
+import se.andolf.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,13 +81,13 @@ public class CategoryControllerIT {
     @Test
     public void should_save_a_correct_category(){
 
-        RESTCategory restCategory = new RESTCategory(TestData.CATEGORY.NEW.getName());
+        Category category = new Category(TestData.CATEGORY.NEW.getName());
 
-        ReflectionUtils.setField(restCategory, "uniqueId", String.class, TestData.CATEGORY.NEW.getUniqueId());
+        ReflectionUtils.setField(category, "uniqueId", String.class, TestData.CATEGORY.NEW.getUniqueId());
 
         given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(restCategory)
+                .body(category)
                 .when()
                 .put(PATH_UNDER_TEST)
                 .then().log().all()
@@ -97,11 +97,11 @@ public class CategoryControllerIT {
     @Test
     public void should_return_409_conflict_if_category_name_exists(){
 
-        RESTCategory restCategory = new RESTCategory(TestData.CATEGORY.CURRENT.getName());
+        Category category = new Category(TestData.CATEGORY.CURRENT.getName());
 
         given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(restCategory)
+                .body(category)
                 .when()
                 .put(PATH_UNDER_TEST)
                 .then().log().all()

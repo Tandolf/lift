@@ -1,7 +1,5 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,7 +14,7 @@ import se.andolf.dto.CategoryDTO;
 import se.andolf.dto.PatchDTO;
 import se.andolf.model.MessageEntity;
 import se.andolf.model.Patch;
-import se.andolf.model.RESTCategory;
+import se.andolf.model.Category;
 import se.andolf.service.CategoryService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,8 +52,8 @@ public class CategoryController {
     @RequestMapping(method=PUT, value="/category")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> add(
-            @RequestBody @Valid RESTCategory restCategory, HttpServletRequest request) throws URISyntaxException {
-        CategoryDTO categoryDTO = modelMapper.map(restCategory, CategoryDTO.class);
+            @RequestBody @Valid Category category, HttpServletRequest request) throws URISyntaxException {
+        CategoryDTO categoryDTO = modelMapper.map(category, CategoryDTO.class);
         categoryDTO = categoryService.save(categoryDTO);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + categoryDTO.getUniqueId()));
@@ -68,9 +66,9 @@ public class CategoryController {
             @ApiResponse(code = 500, message = "Internal server error", response = MessageEntity.class)
     })
     @RequestMapping(method=GET, value="/category")
-    public List<RESTCategory> getAll(){
+    public List<Category> getAll(){
         List<CategoryDTO> categoriesDTO = categoryService.getAll();
-        Type types = new TypeToken<List<RESTCategory>>() {}.getType();
+        Type types = new TypeToken<List<Category>>() {}.getType();
         return modelMapper.map(categoriesDTO, types);
     }
 
@@ -80,11 +78,11 @@ public class CategoryController {
             @ApiResponse(code = 500, message = "Internal server error", response = MessageEntity.class)
     })
     @RequestMapping(method=GET, value="/category/{id}")
-    public RESTCategory getById(
+    public Category getById(
             @ApiParam(value = "id of the category", required = true)
             @PathVariable("id") String uniqueId){
         CategoryDTO categoryDTO = categoryService.findByUniqueId(uniqueId);
-        return modelMapper.map(categoryDTO, RESTCategory.class);
+        return modelMapper.map(categoryDTO, Category.class);
     }
 
     @ApiOperation(value = "Delete a category by id", produces = "application/json")
@@ -111,7 +109,9 @@ public class CategoryController {
             @PathVariable String id,
             @ApiParam(value = "Json format as RFC6902", required = true)
             @RequestBody List<Patch> patches){
-        Type types = new TypeToken<List<PatchDTO>>() {}.getType();
+        if(patches.isEmpty())
+            throw new IllegalArgumentException("Input may not be empty");
+        final Type types = new TypeToken<List<PatchDTO>>() {}.getType();
         List<PatchDTO> patchDTOs = modelMapper.map(patches, types);
         categoryService.patch(patchDTOs, id);
     }

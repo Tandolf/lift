@@ -1,4 +1,4 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.andolf.util.*;
-import se.andolf.model.RESTEquipment;
+import se.andolf.model.Equipment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public class EquipmentControllerIT {
     @Test
     public void should_return_201_if_new_equipment_was_created(){
 
-        RESTEquipment restEquipment = new RESTEquipment();
+        Equipment restEquipment = new Equipment();
         restEquipment.setName(TestData.EQUIPMENT.NEW.getName());
 
         given()
@@ -112,7 +112,7 @@ public class EquipmentControllerIT {
     @Test
     public void should_return_400_if_name_too_long(){
 
-        RESTEquipment restEquipment = new RESTEquipment();
+        Equipment restEquipment = new Equipment();
         restEquipment.setName(TestData.EQUIPMENT.TOO_LONG_NAME.getName());
 
         given()
@@ -128,7 +128,7 @@ public class EquipmentControllerIT {
     @Test
     public void should_return_409_if_equipment_with_same_name_exists(){
 
-        RESTEquipment restEquipment = new RESTEquipment();
+        Equipment restEquipment = new Equipment();
         restEquipment.setName(TestData.EQUIPMENT.CURRENT.getName());
 
         given()

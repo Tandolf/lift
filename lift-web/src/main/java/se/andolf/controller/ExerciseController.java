@@ -1,4 +1,4 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.andolf.dto.ExerciseDTO;
-import se.andolf.model.RESTEquipment;
-import se.andolf.model.RESTExercise;
+import se.andolf.model.Equipment;
+import se.andolf.model.Exercise;
 import se.andolf.service.ExerciseService;
 import se.andolf.util.MappingUtils;
 
@@ -41,7 +41,7 @@ public class ExerciseController {
 
     @RequestMapping(method = PUT, value="/exercise")
     @ApiOperation(value = "Add new exercise", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity add(@RequestBody @Valid RESTExercise restExcercise, HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity add(@RequestBody @Valid Exercise restExcercise, HttpServletRequest request) throws URISyntaxException {
         ExerciseDTO exerciseDTO = exerciseService.save(modelMapper.map(restExcercise, ExerciseDTO.class));
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + exerciseDTO.getUniqueId()));
@@ -50,14 +50,14 @@ public class ExerciseController {
 
     @RequestMapping(method = GET, value = "/exercise/{id}")
     @ApiOperation(value = "Gets equipment by name", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RESTExercise get(@PathVariable("id") String id){
+    public Exercise get(@PathVariable("id") String id){
         ExerciseDTO exerciseDTO = exerciseService.load(id);
 
-        RESTEquipment equipment = null;
+        Equipment equipment = null;
         if (exerciseDTO.getEquipment() != null) {
-            equipment = modelMapper.map(exerciseDTO.getEquipment(), RESTEquipment.class);
+            equipment = modelMapper.map(exerciseDTO.getEquipment(), Equipment.class);
         }
-        RESTExercise restExercise = new RESTExercise(exerciseDTO.getName(), equipment);
+        Exercise restExercise = new Exercise(exerciseDTO.getName(), equipment);
         restExercise.setUniqueId(exerciseDTO.getUniqueId());
 
         return restExercise;
@@ -65,9 +65,9 @@ public class ExerciseController {
 
     @RequestMapping(method = GET, value = "/exercise")
     @ApiOperation(value = "Gets all exercises as list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<RESTExercise> get(){
+    public List<Exercise> get(){
         List<ExerciseDTO> exercises = exerciseService.getAll();
-        List<RESTExercise> restExerciseList = modelMapper.map(exercises, MappingUtils.getTypeAsList(RESTExercise.class));
+        List<Exercise> restExerciseList = modelMapper.map(exercises, MappingUtils.getTypeAsList(Exercise.class));
         return restExerciseList;
     }
 

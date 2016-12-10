@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by Thomas on 2016-06-26.
  */
-public class RESTUser extends RESTEntity{
+public class User extends Entity {
 
     @NotNull
     @Length(min = 2, max = 64)
@@ -28,9 +28,9 @@ public class RESTUser extends RESTEntity{
     private String email;
 
     @NotNull
-    private RESTBody restBody;
+    private Body body;
 
-    public RESTUser() {
+    public User() {
     }
 
     public String getFirstname() {
@@ -57,12 +57,12 @@ public class RESTUser extends RESTEntity{
         this.gender = gender;
     }
 
-    public RESTBody getRestBody() {
-        return restBody;
+    public Body getBody() {
+        return body;
     }
 
-    public void setRestBody(RESTBody restBody) {
-        this.restBody = restBody;
+    public void setBody(Body body) {
+        this.body = body;
     }
 
     public String getEmail() {

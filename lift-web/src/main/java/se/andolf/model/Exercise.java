@@ -6,22 +6,22 @@ import javax.validation.constraints.Size;
 /**
  * Created by Thomas on 2016-06-18.
  */
-public class RESTExercise extends RESTEntity {
+public class Exercise extends Entity {
 
     @NotNull
     @Size(min=2, max=30)
     private String name;
-    private RESTEquipment equipment;
+    private Equipment equipment;
 
-    public RESTExercise() {
+    public Exercise() {
     }
 
-    public RESTExercise(String name, RESTEquipment equipment) {
+    public Exercise(String name, Equipment equipment) {
         this.name = name;
         this.equipment = equipment;
     }
 
-    public RESTExercise(String uniqueId, String name, RESTEquipment equipment) {
+    public Exercise(String uniqueId, String name, Equipment equipment) {
         super(uniqueId);
         this.name = name;
         this.equipment = equipment;
@@ -35,11 +35,11 @@ public class RESTExercise extends RESTEntity {
         this.name = name;
     }
 
-    public RESTEquipment getEquipment() {
+    public Equipment getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(RESTEquipment equipment) {
+    public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
     }
 }

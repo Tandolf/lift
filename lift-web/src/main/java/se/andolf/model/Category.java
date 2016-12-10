@@ -9,14 +9,14 @@ import javax.validation.constraints.Size;
 /**
  * Created by Thomas on 2016-06-21.
  */
-public class RESTCategory extends RESTEntity {
+public class Category extends Entity {
 
     @NotNull
     @Size(min=2, max=30)
     @ApiModelProperty(required = true)
     private String name;
 
-    public RESTCategory(String name) {
+    public Category(String name) {
         this.name = name;
     }
 

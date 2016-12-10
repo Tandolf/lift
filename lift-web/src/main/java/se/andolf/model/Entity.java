@@ -1,16 +1,19 @@
 package se.andolf.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Created by Thomas on 2016-06-25.
  */
-public abstract class RESTEntity {
+public abstract class Entity {
 
+    @ApiModelProperty(readOnly = true)
     private String uniqueId;
 
-    public RESTEntity() {
+    public Entity() {
     }
 
-    public RESTEntity(String uniqueId) {
+    public Entity(String uniqueId) {
         this.uniqueId = uniqueId;
     }
 

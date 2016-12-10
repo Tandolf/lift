@@ -1,4 +1,4 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.andolf.dto.EquipmentDTO;
-import se.andolf.model.RESTEquipment;
+import se.andolf.model.Equipment;
 import se.andolf.service.EquipmentService;
 import se.andolf.util.MappingUtils;
 
@@ -47,7 +47,7 @@ public class EquipmentController {
 
     @RequestMapping(method=PUT, value="/equipment")
     @ApiOperation(value = "Adds a new piece of equipment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity add(@RequestBody @Valid RESTEquipment restEquipment, HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity add(@RequestBody @Valid Equipment restEquipment, HttpServletRequest request) throws URISyntaxException {
         EquipmentDTO equipment = modelMapper.map(restEquipment, EquipmentDTO.class);
         equipment = equipmentService.save(equipment);
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -57,18 +57,18 @@ public class EquipmentController {
 
     @RequestMapping(method=GET, value="/equipment")
     @ApiOperation(value = "Gets all equipment as a list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<RESTEquipment> getAll(){
+    public List<Equipment> getAll(){
         List<EquipmentDTO> equipment = equipmentService.getAll();
-        return modelMapper.map(equipment, MappingUtils.getTypeAsList(RESTEquipment.class));
+        return modelMapper.map(equipment, MappingUtils.getTypeAsList(Equipment.class));
     }
 
     @RequestMapping(method=GET, value="/equipment/{id}")
     @ApiOperation(value = "Gets single equipment by id", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RESTEquipment getById(
+    public Equipment getById(
             @ApiParam(value = "uniqueId of equipment", required = true)
             @PathVariable String id){
         EquipmentDTO equipment = equipmentService.loadById(id);
-        return modelMapper.map(equipment, RESTEquipment.class);
+        return modelMapper.map(equipment, Equipment.class);
     }
 
     @RequestMapping(method=DELETE, value="/equipment/{id}")

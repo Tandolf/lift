@@ -1,4 +1,4 @@
-package se.andolf.controllers;
+package se.andolf.controller;
 
 import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.*;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.andolf.model.RESTUser;
+import se.andolf.model.User;
 import se.andolf.dto.UserDTO;
 import se.andolf.service.UserService;
 
@@ -52,7 +52,7 @@ public class UserController {
     })
     public ResponseEntity add(
             @ApiParam(value = "New user", required = true)
-            @Valid @RequestBody RESTUser user, HttpServletRequest request) throws URISyntaxException {
+            @Valid @RequestBody User user, HttpServletRequest request) throws URISyntaxException {
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         userDTO = userService.save(userDTO);
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -62,16 +62,16 @@ public class UserController {
 
     @ApiOperation(value = "Get user by id", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @RequestMapping(method=GET, value="/user/{id}")
-    public RESTUser getUserById(@PathVariable("id") String userId){
+    public User getUserById(@PathVariable("id") String userId){
         UserDTO user = userService.getUserById(userId);
-        return modelMapper.map(user, RESTUser.class);
+        return modelMapper.map(user, User.class);
     }
 
     @ApiOperation(value = "Gets all the users as a list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @RequestMapping(method=GET, value="/user")
-    public List<RESTUser> getAll(){
+    public List<User> getAll(){
         List<UserDTO> users = userService.getAll();
-        Type userListType = new TypeToken<List<RESTUser>>() {}.getType();
+        Type userListType = new TypeToken<List<User>>() {}.getType();
         return modelMapper.map(users, userListType);
     }
 
