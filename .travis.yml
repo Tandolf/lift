@@ -16,7 +16,7 @@ before_install:
 - docker ps -a
 after_success:
 - ./mvnw clean verify coveralls:report -P integration-tests,coveralls
-- ./mvnw clean verify integration-test org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+- ./mvnw clean verify org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -P integration-tests
 cache:
   directories:
   - $HOME/.m2/repository
