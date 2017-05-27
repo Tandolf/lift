@@ -8,14 +8,12 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.data.neo4j.util.IterableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import se.andolf.repository.EquipmentRepository;
 import se.andolf.dto.ExerciseDTO;
 import se.andolf.entities.Exercise;
 import se.andolf.exceptions.NodeExistsException;
 import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.ExerciseRepository;
-import se.andolf.util.MappingUtils;
 
 import java.util.List;
 
@@ -76,6 +74,6 @@ public class ExerciseService {
 
     public List<ExerciseDTO> getAll() {
         List<Exercise> exercises =IterableUtils.toList(exerciseRepository.findAll());
-        return modelMapper.map(exercises, MappingUtils.getTypeAsList(ExerciseDTO.class));
+        return null;
     }
 }

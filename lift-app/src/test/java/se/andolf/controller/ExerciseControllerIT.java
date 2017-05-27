@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.andolf.model.Exercise;
-import se.andolf.util.ReflectionUtils;
 import se.andolf.util.TestData;
 
 import static io.restassured.RestAssured.given;
@@ -63,8 +62,6 @@ public class ExerciseControllerIT {
 
         Exercise restExercise = new Exercise();
         restExercise.setName(TestData.EXERCISE.NEW.getName());
-
-        ReflectionUtils.setField(restExercise, "uniqueId", String.class, TestData.EXERCISE.NEW.getId());
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)

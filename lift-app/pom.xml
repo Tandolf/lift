@@ -22,10 +22,6 @@
         </dependency>
         <dependency>
             <groupId>se.andolf</groupId>
-            <artifactId>lift-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>se.andolf</groupId>
             <artifactId>lift-service</artifactId>
         </dependency>
         <dependency>

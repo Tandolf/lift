@@ -16,12 +16,12 @@ import se.andolf.dto.ExerciseDTO;
 import se.andolf.api.Equipment;
 import se.andolf.model.Exercise;
 import se.andolf.service.ExerciseService;
-import se.andolf.util.MappingUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -67,7 +67,7 @@ public class ExerciseController {
     @ApiOperation(value = "Gets all exercises as list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Exercise> get(){
         List<ExerciseDTO> exercises = exerciseService.getAll();
-        List<Exercise> restExerciseList = modelMapper.map(exercises, MappingUtils.getTypeAsList(Exercise.class));
+        List<Exercise> restExerciseList = new ArrayList<>();
         return restExerciseList;
     }
 
