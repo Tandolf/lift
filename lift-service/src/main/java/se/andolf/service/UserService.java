@@ -53,7 +53,7 @@ public class UserService {
 
     public void delete(String id) {
         try {
-            User user = userRepository.findByUniqueId(id, -1);
+            User user = userRepository.findOne(Long.parseLong(id), -1);
             userRepository.delete(user);
         } catch (DataRetrievalFailureException e){
             LOG.warn(e);
@@ -62,14 +62,14 @@ public class UserService {
     }
 
     public UserDTO getUserById(String id) {
-        User user = userRepository.findByUniqueId(id, 1);
+        User user = userRepository.findOne(Long.parseLong(id), 1);
         return modelMapper.map(user, UserDTO.class);
     }
 
     public void patch(JsonPatch jsonPatch, String id) {
 
         try {
-            User user = userRepository.findByUniqueId(id, 1);
+            User user = userRepository.findOne(Long.parseLong(id), 1);
             final JsonNode userJson = objectMapper.valueToTree(user);
             final JsonNode patched = jsonPatch.apply(userJson);
             user = objectMapper.readValue(patched.toString(), User.class);

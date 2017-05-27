@@ -6,25 +6,24 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.modelmapper.ModelMapper;
+import org.neo4j.driver.v1.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.data.neo4j.util.IterableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.andolf.dto.CategoryDTO;
-import se.andolf.dto.EquipmentDTO;
-import se.andolf.entities.Equipment;
+import se.andolf.api.Equipment;
+import se.andolf.entities.EquipmentEntity;
 import se.andolf.exceptions.NodeExistsException;
 import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.EquipmentRepository;
-import se.andolf.util.MappingUtils;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
- * Created by Thomas on 2016-06-18.
+ * @author Thomas on 2016-06-18.
  */
 @Service
 @Transactional
@@ -36,62 +35,62 @@ public class EquipmentService {
     private EquipmentRepository equipmentRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
-    public EquipmentDTO save(EquipmentDTO newEquipment) {
-        Equipment equipment = equipmentRepository.findByName(newEquipment.getName(), 1);
-        if (equipment == null) {
-            equipment = equipmentRepository.save(modelMapper.map(newEquipment, Equipment.class));
-            return modelMapper.map(equipment, EquipmentDTO.class);
+    public long save(Equipment equipment) {
+
+        final EquipmentEntity equipmentEntity = new EquipmentEntity(equipment.getName());
+        try {
+            return equipmentRepository.save(equipmentEntity).getId();
+        } catch(ClientException e){
+            LOG.info(e);
+            throw new NodeExistsException("Equipment " + equipment.getName() + " exists please select another name");
         }
+    }
+
+    public List<Equipment> find() {
+        return StreamSupport.stream(equipmentRepository.findAll().spliterator(), false).map(e -> toEquipment(e.getId(), e.getName())).collect(Collectors.toList());
+    }
+
+    public void delete(long id) {
+        final Optional<EquipmentEntity> equipmentEntity = Optional.ofNullable(equipmentRepository.findOne(id));
+        if(equipmentEntity.isPresent())
+            equipmentRepository.delete(id);
         else
-            throw new NodeExistsException("Equipment " + newEquipment.getName() + " exists please select another name");
+            throw new NodeNotFoundException("Could not find node with id " + id);
     }
 
-    public List<EquipmentDTO> getAll() {
-        List<Equipment> equipment = IterableUtils.toList(equipmentRepository.findAll());
-        return modelMapper.map(equipment, MappingUtils.getTypeAsList(CategoryDTO.class));
-    }
+    public void patch(JsonPatch jsonPatch, long id){
+        final Optional<EquipmentEntity> equipmentEntity = Optional.ofNullable(equipmentRepository.findOne(id));
+        if(equipmentEntity.isPresent()){
 
-    public void delete(String uniqueId) {
-        try {
-            Equipment equipment = equipmentRepository.findByUniqueId(uniqueId, 1);
-            equipmentRepository.delete(equipment);
-        } catch(DataRetrievalFailureException e){
-            LOG.debug(e);
-            throw new NodeNotFoundException("Could not find equipment: " + uniqueId);
+            final EquipmentEntity equipment = equipmentEntity.get();
+
+            try {
+                final JsonNode equipmentAsJsonString = objectMapper.valueToTree(equipment);
+                final JsonNode patched = jsonPatch.apply(equipmentAsJsonString);
+                final EquipmentEntity updatedEquipment = objectMapper.readValue(patched.toString(), EquipmentEntity.class);
+                equipmentRepository.save(updatedEquipment);
+            }  catch (IOException | JsonPatchException ex) {
+                LOG.debug(ex);
+                throw new IllegalArgumentException(ex.getMessage());
+            }
+        } else {
+            throw new NodeNotFoundException("Could not find node with id " + id);
         }
+
     }
 
-    public EquipmentDTO loadById(String id) {
-        final Equipment equipment = findByUniqueId(id);
-        return modelMapper.map(equipment, EquipmentDTO.class);
-    }
-
-    public void patch(JsonPatch jsonPatch, String id){
-
-        Equipment equipment = findByUniqueId(id);
-
-        try {
-            final JsonNode equipmentAsJsonString = objectMapper.valueToTree(equipment);
-            final JsonNode patched = jsonPatch.apply(equipmentAsJsonString);
-            equipment = objectMapper.readValue(patched.toString(), Equipment.class);
-            equipmentRepository.save(equipment);
-        }  catch (IOException | JsonPatchException ex) {
-            LOG.debug(ex);
-            throw new IllegalArgumentException(ex.getMessage());
-        }
-    }
-
-    private Equipment findByUniqueId(String id){
-        try {
-            return equipmentRepository.findByUniqueId(id, 1);
-        } catch(DataRetrievalFailureException e){
-            LOG.debug(e);
+    public Equipment find(long id){
+        final Optional<EquipmentEntity> equipmentEntity = Optional.ofNullable(equipmentRepository.findOne(id));
+        if(equipmentEntity.isPresent())
+            return new Equipment(equipmentEntity.get().getId(), equipmentEntity.get().getName());
+        else {
             throw new NodeNotFoundException("Could not find equipment: " + id);
         }
+    }
+
+    private static Equipment toEquipment(long id, String name) {
+        return new Equipment(id, name);
     }
 }

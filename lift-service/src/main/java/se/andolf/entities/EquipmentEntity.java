@@ -1,8 +1,9 @@
 package se.andolf.entities;
 
+import org.neo4j.ogm.annotation.GraphId;
+import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import se.andolf.api.Equipment;
 
 import java.util.Set;
 
@@ -10,17 +11,30 @@ import java.util.Set;
  * @author Thomas on 2016-06-11.
  */
 @NodeEntity
-public class Exercise extends Entity {
+public class EquipmentEntity {
 
-    public Exercise() {}
+    @GraphId
+    public Long id;
 
+    @Index(unique = true)
     private String name;
 
     @Relationship
     private Set<Image> images;
 
-    @Relationship(type = "USES")
-    private Equipment equipment;
+    public EquipmentEntity() { }
+
+    public EquipmentEntity(String name) {
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -36,13 +50,5 @@ public class Exercise extends Entity {
 
     public void setImages(Set<Image> images) {
         this.images = images;
-    }
-
-    public Equipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
     }
 }

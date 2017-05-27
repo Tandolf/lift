@@ -41,7 +41,7 @@ public class ExerciseService {
     public ExerciseDTO save(ExerciseDTO exerciseDTO) {
         Exercise exercise = modelMapper.map(exerciseDTO, Exercise.class);
         try {
-            Assert.isNull(exerciseRepository.findByName(exercise.getName(), 1));
+            exerciseRepository.findByName(exercise.getName(), 1);
         } catch (DataRetrievalFailureException e){
             log.debug(e);
         } catch (IllegalArgumentException e){
@@ -56,7 +56,7 @@ public class ExerciseService {
     public ExerciseDTO load(String id) {
         Exercise exercise;
         try {
-            exercise = exerciseRepository.findByUniqueId(id, 1);
+            exercise = exerciseRepository.findOne(Long.parseLong(id));
         } catch (DataRetrievalFailureException e){
             log.warn(e);
             throw new NodeNotFoundException("Could not find exercise with id: " + id);
@@ -67,7 +67,7 @@ public class ExerciseService {
     public void delete(String id) {
         Exercise exercise;
         try {
-            exercise = exerciseRepository.findByUniqueId(id, 1);
+            exercise = exerciseRepository.findOne(Long.parseLong(id));
             exerciseRepository.delete(exercise);
         } catch (DataRetrievalFailureException e){
             throw new NodeNotFoundException("Could not find exercise with id: " +  id);
