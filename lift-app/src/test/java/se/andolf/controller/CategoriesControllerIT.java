@@ -92,7 +92,7 @@ public class CategoriesControllerIT {
         deleteCategory(UriUtil.extractLastPath(header));
     }
 
-    @Test @Ignore
+    @Test
     public void shouldReturn409ConflictIfCategoryNameExists(){
 
         final Category category = new Category("Arms");
