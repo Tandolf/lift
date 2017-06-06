@@ -1,7 +1,5 @@
 package se.andolf.controller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,102 +8,143 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import se.andolf.model.Exercise;
+import se.andolf.api.Exercise;
+import se.andolf.util.DbUtil;
 import se.andolf.util.TestData;
+import se.andolf.util.UriUtil;
+import sun.net.util.URLUtil;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
+import static se.andolf.util.DbUtil.delete;
+import static se.andolf.util.DbUtil.purge;
 
 /**
- * Created by Thomas on 2016-09-03.
+ *  @author Thomas on 2016-09-03.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
 public class ExerciseControllerIT {
 
-    private Log log = LogFactory.getLog(ExerciseControllerIT.class);
-    private static String PATH_UNDER_TEST = "/exercise";
+    private static final String RESOURCE = "exercises";
+    private boolean initialized = false;
 
     @Before
     public void init(){
+        if(!initialized){
+            purge(RESOURCE);
+            initialized = true;
+        }
     }
 
-    @Test @Ignore
-    public void should_return_a_full_list_of_exercises(){
+    @Test
+    public void shouldReturnAFullListOfExercises(){
+
+        final String boxjumps = put(new Exercise("Boxjumps"));
+        final String snatch = put(new Exercise("Snatch"));
+        final String cleans = put(new Exercise("Cleans"));
 
         given().log().everything()
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .when()
-                .get(PATH_UNDER_TEST)
+                .get(RESOURCE)
                 .then()
-                .body("get(0).uniqueId", is(equalTo(TestData.EXERCISE.CURRENT.getId())))
-                .body("get(0).name", is(equalTo(TestData.EXERCISE.CURRENT.getName())));
+                .statusCode(200)
+                .body("name", hasItems("Boxjumps", "Snatch", "Cleans"));
+
+        delete(RESOURCE, boxjumps, snatch, cleans);
     }
 
-    @Test @Ignore
-    public void should_return_an_exercise_by_id(){
-        given()
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .when()
-                .get(PATH_UNDER_TEST + "/" + TestData.EXERCISE.CURRENT.getId())
-                .then()
-                .body("name", is(equalTo(TestData.EXERCISE.CURRENT.getName())))
-                .body("uniqueId", is(equalTo(TestData.EXERCISE.CURRENT.getId())));
-
-    }
-
-    @Test @Ignore
-    public void should_save_an_exercise(){
-
-        Exercise restExercise = new Exercise();
-        restExercise.setName(TestData.EXERCISE.NEW.getName());
+    @Test
+    public void shouldReturn200AndAnExercise(){
+        final String boxjumps = put(new Exercise("Boxjumps"));
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(restExercise)
                 .when()
-                .put(PATH_UNDER_TEST)
+                .get("{path}/{id}", RESOURCE, boxjumps)
                 .then()
-                .header("Location", is(notNullValue()));
+                .assertThat().log().everything()
+                .statusCode(200)
+                .body("name", is("Boxjumps"));
+
+        DbUtil.delete(RESOURCE, boxjumps);
     }
 
-    @Test @Ignore
-    public void should_return_409_conflict_if_exercise_name_exists(){
+    @Test
+    public void shouldReturn200WhenSavingAnExercise(){
 
-        Exercise restExercise = new Exercise();
-        restExercise.setName(TestData.EXERCISE.CURRENT.getName());
+        final Exercise boxjumps = new Exercise("Boxjumps");
+
+        final String location = given()
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .body(boxjumps)
+                .when()
+                .put(RESOURCE)
+                .then()
+                .header("Location", is(notNullValue()))
+                .extract().response().getHeader("Location");
+
+        delete(RESOURCE, UriUtil.extractLastPath(location));
+    }
+
+    @Test
+    public void shouldReturn409ConflictIfExerciseNameExists(){
+
+        final String boxjumps = put(new Exercise("Boxjumps"));
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(restExercise)
+                .body(new Exercise("Boxjumps"))
                 .when()
-                .put(PATH_UNDER_TEST)
+                .put(RESOURCE)
                 .then()
-                .statusCode(HttpStatus.CONFLICT.value());
+                .statusCode(409);
+
+        DbUtil.delete(RESOURCE, boxjumps);
     }
 
-    @Test @Ignore
-    public void should_delete_an_exercise(){
+    @Test
+    public void shouldReturn204NoContentWhenDeletingAnExercise(){
 
-        given().log().everything()
+        final String boxjumps = put(new Exercise("Boxjumps"));
+
+        given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .when()
-                .delete(PATH_UNDER_TEST + "/" + TestData.EXERCISE.CURRENT.getId())
+                .delete("{path}/{id}", RESOURCE, boxjumps)
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(204);
     }
 
-    @Test @Ignore
-    public void should_return_404_not_found_if_deleting_an_non_existing_exercise(){
+    @Test
+    public void shouldReturn404NotFoundIfDeletingNonExistingExercise(){
 
-        given().log().everything()
+        given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .when()
-                .delete(PATH_UNDER_TEST + "/" + TestData.EXERCISE.NEW.getId())
+                .delete("{path}/{id}", RESOURCE, 999999)
                 .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+                .statusCode(404);
     }
+
+    private String put(Exercise exercise) {
+        try {
+            final String header = given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).body(exercise).put(RESOURCE).getHeader("Location");
+            return UriUtil.extractLastPath(header);
+        } catch (Exception e){
+            throw new AssertionError(e);
+        }
+    }
+
+    private void delete(String resource, String... ids) {
+        for (String id : ids){
+            DbUtil.delete(resource, id);
+        }
+    }
+
 }

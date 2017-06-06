@@ -1,21 +1,19 @@
-package se.andolf.model;
-
-import se.andolf.api.Equipment;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+package se.andolf.api;
 
 /**
- * Created by Thomas on 2016-06-18.
+ * @author by Thomas on 2016-06-18.
  */
-public class Exercise extends Entity {
+public class Exercise {
 
-    @NotNull
-    @Size(min=2, max=30)
+    private long id;
     private String name;
     private Equipment equipment;
 
     public Exercise() {
+    }
+
+    public Exercise(String name) {
+        this.name = name;
     }
 
     public Exercise(String name, Equipment equipment) {
@@ -23,10 +21,13 @@ public class Exercise extends Entity {
         this.equipment = equipment;
     }
 
-    public Exercise(String uniqueId, String name, Equipment equipment) {
-        super(uniqueId);
+    public Exercise(Long id, String name) {
+        this.id = id;
         this.name = name;
-        this.equipment = equipment;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {

@@ -36,9 +36,6 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     public Long save(Category category){

@@ -3,9 +3,6 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-
-import java.util.Set;
 
 /**
  * @author Thomas on 2016-06-11.
@@ -18,9 +15,6 @@ public class EquipmentEntity {
 
     @Index(unique = true)
     private String name;
-
-    @Relationship
-    private Set<Image> images;
 
     public EquipmentEntity() { }
 
@@ -42,13 +36,5 @@ public class EquipmentEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(Set<Image> images) {
-        this.images = images;
     }
 }

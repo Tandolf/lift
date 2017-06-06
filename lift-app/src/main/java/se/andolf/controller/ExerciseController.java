@@ -8,13 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.andolf.dto.ExerciseDTO;
 import se.andolf.api.Equipment;
-import se.andolf.model.Exercise;
+import se.andolf.api.Exercise;
 import se.andolf.service.ExerciseService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +24,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
- * Created by Thomas on 2016-06-12.
+ * @author Thomas on 2016-06-12.
  */
 @RestController
 @Api(tags = "Exercises")
@@ -36,45 +33,31 @@ public class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @RequestMapping(method = PUT, value="/exercise")
+    @RequestMapping(method = PUT, value="/exercises")
     @ApiOperation(value = "Add new exercise", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity add(@RequestBody @Valid Exercise restExcercise, HttpServletRequest request) throws URISyntaxException {
-        ExerciseDTO exerciseDTO = exerciseService.save(modelMapper.map(restExcercise, ExerciseDTO.class));
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + exerciseDTO.getUniqueId()));
+    public ResponseEntity add(@RequestBody Exercise exercise, HttpServletRequest request) throws URISyntaxException {
+        final long id = exerciseService.save(exercise);
+        final HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + id));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = GET, value = "/exercise/{id}")
+    @RequestMapping(method = GET, value = "/exercises/{id}")
     @ApiOperation(value = "Gets equipment by name", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Exercise get(@PathVariable("id") String id){
-        ExerciseDTO exerciseDTO = exerciseService.load(id);
-
-        Equipment equipment = null;
-        if (exerciseDTO.getEquipment() != null) {
-            equipment = modelMapper.map(exerciseDTO.getEquipment(), Equipment.class);
-        }
-        Exercise restExercise = new Exercise(exerciseDTO.getName(), equipment);
-        restExercise.setUniqueId(exerciseDTO.getUniqueId());
-
-        return restExercise;
+    public Exercise find(@PathVariable("id") long id){
+        return exerciseService.find(id);
     }
 
-    @RequestMapping(method = GET, value = "/exercise")
+    @RequestMapping(method = GET, value = "/exercises")
     @ApiOperation(value = "Gets all exercises as list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Exercise> get(){
-        List<ExerciseDTO> exercises = exerciseService.getAll();
-        List<Exercise> restExerciseList = new ArrayList<>();
-        return restExerciseList;
+    public List<Exercise> getAll(){
+        return exerciseService.find();
     }
 
-    @RequestMapping(method = DELETE, value = "/exercise/{name}")
+    @RequestMapping(method = DELETE, value = "/exercises/{name}")
     @ApiOperation(value = "Delete equipment by name")
-    public void delete(@PathVariable("name") String name){
-        exerciseService.delete(name);
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("name") String id){
+        exerciseService.delete(Long.parseLong(id));
     }
-
 }

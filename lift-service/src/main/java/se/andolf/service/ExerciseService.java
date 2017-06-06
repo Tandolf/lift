@@ -3,19 +3,24 @@ package se.andolf.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.modelmapper.ModelMapper;
+import org.neo4j.driver.v1.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.data.neo4j.util.IterableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.andolf.repository.EquipmentRepository;
+import se.andolf.api.Exercise;
 import se.andolf.dto.ExerciseDTO;
-import se.andolf.entities.Exercise;
+import se.andolf.entities.ExerciseEntity;
 import se.andolf.exceptions.NodeExistsException;
 import se.andolf.exceptions.NodeNotFoundException;
+import se.andolf.repository.EquipmentRepository;
 import se.andolf.repository.ExerciseRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 /**
@@ -30,50 +35,41 @@ public class ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
-    @Autowired
-    private EquipmentRepository equipmentRepository;
+    public Long save(Exercise exercise) {
 
-    @Autowired
-    private ModelMapper modelMapper;
+        final ExerciseEntity exerciseEntity = new ExerciseEntity(exercise.getName());
 
-    public ExerciseDTO save(ExerciseDTO exerciseDTO) {
-        Exercise exercise = modelMapper.map(exerciseDTO, Exercise.class);
         try {
-            exerciseRepository.findByName(exercise.getName(), 1);
-        } catch (DataRetrievalFailureException e){
-            log.debug(e);
-        } catch (IllegalArgumentException e){
-            log.debug(e);
-            throw new NodeExistsException("Exercise " + exercise.getName() + " exists please select another name");
+            return exerciseRepository.save(exerciseEntity).getId();
+        } catch (ClientException e){
+            log.warn(e);
+            throw new NodeExistsException("ExerciseEntity " + exercise.getName() + " exists please select another name");
         }
-
-        exercise = exerciseRepository.save(exercise);
-        return modelMapper.map(exercise, ExerciseDTO.class);
     }
 
-    public ExerciseDTO load(String id) {
-        Exercise exercise;
-        try {
-            exercise = exerciseRepository.findOne(Long.parseLong(id));
-        } catch (DataRetrievalFailureException e){
-            log.warn(e);
+    public List<Exercise> find() {
+        return StreamSupport.stream(exerciseRepository.findAll().spliterator(), false).map(ExerciseService::toExercise).collect(Collectors.toList());
+    }
+
+    private static Exercise toExercise(ExerciseEntity exerciseEntity) {
+        return new Exercise(exerciseEntity.getId(), exerciseEntity.getName());
+    }
+
+    public Exercise find(long id) {
+        final Optional<ExerciseEntity> exerciseEntity = Optional.ofNullable(exerciseRepository.findOne(id));
+        if(exerciseEntity.isPresent()){
+            return toExercise(exerciseEntity.get());
+        } else {
             throw new NodeNotFoundException("Could not find exercise with id: " + id);
         }
-        return modelMapper.map(exercise, ExerciseDTO.class);
     }
 
-    public void delete(String id) {
-        Exercise exercise;
-        try {
-            exercise = exerciseRepository.findOne(Long.parseLong(id));
-            exerciseRepository.delete(exercise);
-        } catch (DataRetrievalFailureException e){
+    public void delete(long id) {
+        final Optional<ExerciseEntity> exerciseEntity = Optional.ofNullable(exerciseRepository.findOne(id));
+        if(exerciseEntity.isPresent()){
+            exerciseRepository.delete(id);
+        } else {
             throw new NodeNotFoundException("Could not find exercise with id: " +  id);
         }
-    }
-
-    public List<ExerciseDTO> getAll() {
-        List<Exercise> exercises =IterableUtils.toList(exerciseRepository.findAll());
-        return null;
     }
 }

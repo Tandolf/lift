@@ -73,7 +73,7 @@ public class EquipmentControllerIT {
     }
 
     @Test
-    public void shouldReturn201IfNewEquipmentWasCreated(){
+    public void shouldReturn204IfNewEquipmentWasCreated(){
 
         final Equipment equipment = new Equipment("Barbell");
 
@@ -124,7 +124,7 @@ public class EquipmentControllerIT {
     }
 
     @Test
-    public void shouldDeleteEquipment(){
+    public void shouldReturn204NoContentWhenDeletingEquipment(){
 
         final String id = put(new Equipment("Barbell"));
 
@@ -217,9 +217,9 @@ public class EquipmentControllerIT {
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
-    private String put(Equipment category) {
+    private String put(Equipment equipment) {
         try {
-            final String header = given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).body(category).put("/equipments").getHeader("Location");
+            final String header = given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).body(equipment).put("/equipments").getHeader("Location");
             return UriUtil.extractLastPath(header);
         } catch (Exception e) {
             throw new AssertionError(e);

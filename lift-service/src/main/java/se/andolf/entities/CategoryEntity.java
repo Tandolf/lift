@@ -38,10 +38,10 @@ public class CategoryEntity {
         this.name = name;
     }
 
-    public List<Exercise> getExercises() {
+    public List<ExerciseEntity> getExercises() {
         return exercises;
     }
 
     @Relationship(type = "HAS", direction = Relationship.UNDIRECTED)
-    private List<Exercise> exercises;
+    private List<ExerciseEntity> exercises;
 }

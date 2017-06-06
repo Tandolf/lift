@@ -76,7 +76,7 @@ public class CategoryController {
     @RequestMapping(method=DELETE, value="/categories/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(
-            @ApiParam(value = "id of the category that will get deleted", required = true)
+            @ApiParam(value = "id of the category that will find deleted", required = true)
             @PathVariable("id") String id){
         categoryService.delete(Long.parseLong(id));
     }
