@@ -23,6 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 import static se.andolf.util.DbUtil.deleteEquipment;
+import static se.andolf.util.DbUtil.purgeCategories;
 import static se.andolf.util.DbUtil.purgeEquipments;
 
 /**
@@ -32,9 +33,14 @@ import static se.andolf.util.DbUtil.purgeEquipments;
 @SpringBootTest(webEnvironment = DEFINED_PORT)
 public class EquipmentControllerIT {
 
+    private static boolean initialized = false;
+
     @Before
     public void init(){
-        purgeEquipments();
+        if(!initialized){
+            purgeEquipments();
+            initialized = true;
+        }
     }
 
     @Test
@@ -48,7 +54,6 @@ public class EquipmentControllerIT {
         .when()
                 .get("equipments")
         .then()
-
                 .statusCode(200)
                 .body("name", hasItems("Barbell", "Kettlebell", "Box"));
 
@@ -101,11 +106,11 @@ public class EquipmentControllerIT {
         deleteEquipment(id);
     }
 
-    @Test @Ignore
+    @Test
     public void shouldReturn409IfEquipmentWithSameNameExists(){
 
         final Equipment barbell = new Equipment("Barbell");
-        put(barbell);
+        final String id = put(barbell);
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -114,6 +119,8 @@ public class EquipmentControllerIT {
                 .put("equipments")
         .then()
                 .statusCode(HttpStatus.CONFLICT.value());
+
+        deleteEquipment(id);
     }
 
     @Test
@@ -162,7 +169,8 @@ public class EquipmentControllerIT {
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .get("equipments/{id}", id)
-                .then().assertThat()
+                .then()
+                .assertThat()
                 .statusCode(200)
                 .body("name", Matchers.is("Kettlebells"));
 
@@ -185,6 +193,7 @@ public class EquipmentControllerIT {
                 .body(a)
                 .when().patch("equipments/{id}", id)
                 .then()
+                .assertThat()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
 
         deleteEquipment(id);
