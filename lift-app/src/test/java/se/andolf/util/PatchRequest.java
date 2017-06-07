@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by Thomas on 2016-09-04.
+ * @author Thomas on 2016-09-04
  */
 public class PatchRequest {
 

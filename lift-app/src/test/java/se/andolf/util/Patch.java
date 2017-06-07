@@ -1,7 +1,7 @@
 package se.andolf.util;
 
 /**
- * Created by Thomas on 2016-09-04.
+ * @author Thomas on 2016-09-04.se.andolf
  */
 public class Patch {
 

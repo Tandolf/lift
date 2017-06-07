@@ -1,15 +1,15 @@
-package se.andolf.model;
+package se.andolf.api;
 
 /**
  * Created by Thomas on 2016-07-09.
  */
-public class MessageEntity {
+public class ErrorMessage {
     private String message;
 
-    public MessageEntity() {
+    public ErrorMessage() {
     }
 
-    public MessageEntity(String message) {
+    public ErrorMessage(String message) {
         this.message = message;
     }
 

@@ -1,26 +1,20 @@
 package se.andolf.controller;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.andolf.api.Exercise;
 import se.andolf.util.DbUtil;
-import se.andolf.util.TestData;
 import se.andolf.util.UriUtil;
-import sun.net.util.URLUtil;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
-import static se.andolf.util.DbUtil.delete;
 import static se.andolf.util.DbUtil.purge;
 
 /**

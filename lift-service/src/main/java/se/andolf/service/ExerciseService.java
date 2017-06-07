@@ -2,19 +2,14 @@ package se.andolf.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.modelmapper.ModelMapper;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.data.neo4j.util.IterableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.andolf.api.Exercise;
-import se.andolf.dto.ExerciseDTO;
 import se.andolf.entities.ExerciseEntity;
 import se.andolf.exceptions.NodeExistsException;
 import se.andolf.exceptions.NodeNotFoundException;
-import se.andolf.repository.EquipmentRepository;
 import se.andolf.repository.ExerciseRepository;
 
 import java.util.List;
@@ -24,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 
 /**
- * Created by Thomas on 2016-06-18.
+ * @author Thomas on 2016-06-18.
  */
 @Service
 @Transactional
