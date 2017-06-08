@@ -44,10 +44,6 @@
             <groupId>com.github.fge</groupId>
             <artifactId>json-patch</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.jmnarloch</groupId>
-            <artifactId>modelmapper-spring-boot-starter</artifactId>
-        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
