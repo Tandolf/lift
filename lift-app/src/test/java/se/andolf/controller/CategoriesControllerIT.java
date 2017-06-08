@@ -134,7 +134,7 @@ public class CategoriesControllerIT {
     }
 
     //Patch tests
-    @Test
+    @Test @Ignore
     public void shouldSuccessfullyChangeCategoryNameTwice(){
 
         final String id = put(new Category("Legs"));
@@ -157,7 +157,7 @@ public class CategoriesControllerIT {
         deleteCategory(id);
     }
 
-    @Test
+    @Test @Ignore
     public void shouldGive400IfParamDoesntExist(){
 
         final String id = put(new Category("Legs"));
@@ -180,7 +180,7 @@ public class CategoriesControllerIT {
         deleteCategory(id);
     }
 
-    @Test
+    @Test @Ignore
     public void shouldGive404IfIdDoesntExist(){
 
         final Patch patch = new Patch(PatchOperations.REPLACE, "/na", "Arms");

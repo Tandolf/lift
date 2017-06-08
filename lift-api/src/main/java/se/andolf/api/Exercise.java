@@ -1,16 +1,13 @@
 package se.andolf.api;
 
 /**
- * @author by Thomas on 2016-06-18.
+ * @author Thomas on 2016-06-18.
  */
 public class Exercise {
 
     private long id;
     private String name;
     private Equipment equipment;
-
-    public Exercise() {
-    }
 
     public Exercise(String name) {
         this.name = name;

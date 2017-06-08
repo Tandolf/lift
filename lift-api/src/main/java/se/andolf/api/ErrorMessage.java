@@ -1,13 +1,10 @@
 package se.andolf.api;
 
 /**
- * Created by Thomas on 2016-07-09.
+ * @author Thomas on 2016-07-09.
  */
 public class ErrorMessage {
     private String message;
-
-    public ErrorMessage() {
-    }
 
     public ErrorMessage(String message) {
         this.message = message;

@@ -1,7 +1,7 @@
 package se.andolf.exceptions;
 
 /**
- * Created by Thomas on 2016-06-12.
+ * @author Thomas on 2016-06-12.
  */
 public class NodeNotFoundException extends RuntimeException {
 
