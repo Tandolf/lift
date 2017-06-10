@@ -157,7 +157,7 @@ public class CategoriesControllerIT {
         deleteCategory(id);
     }
 
-    @Test @Ignore
+    @Test
     public void shouldGive400IfParamDoesntExist(){
 
         final String id = put(new Category("Legs"));

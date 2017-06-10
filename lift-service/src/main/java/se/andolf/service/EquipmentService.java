@@ -49,7 +49,7 @@ public class EquipmentService {
     }
 
     public List<Equipment> find() {
-        return StreamSupport.stream(equipmentRepository.findAll().spliterator(), false).map(e -> toEquipment(e.getId(), e.getName())).collect(Collectors.toList());
+        return StreamSupport.stream(equipmentRepository.findAll().spliterator(), false).map(EquipmentService::toEquipment).collect(Collectors.toList());
     }
 
     public void delete(long id) {
@@ -90,7 +90,7 @@ public class EquipmentService {
         }
     }
 
-    private static Equipment toEquipment(long id, String name) {
-        return new Equipment(id, name);
+    public static Equipment toEquipment(EquipmentEntity equipmentEntity) {
+        return new Equipment(equipmentEntity.getId(), equipmentEntity.getName());
     }
 }

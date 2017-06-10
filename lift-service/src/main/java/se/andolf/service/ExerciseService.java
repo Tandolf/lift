@@ -6,12 +6,16 @@ import org.neo4j.driver.v1.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.andolf.api.Equipment;
 import se.andolf.api.Exercise;
+import se.andolf.entities.EquipmentEntity;
 import se.andolf.entities.ExerciseEntity;
 import se.andolf.exceptions.NodeExistsException;
 import se.andolf.exceptions.NodeNotFoundException;
+import se.andolf.repository.EquipmentRepository;
 import se.andolf.repository.ExerciseRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,9 +34,24 @@ public class ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
+    @Autowired
+    private EquipmentRepository equipmentRepository;
+
     public Long save(Exercise exercise) {
 
-        final ExerciseEntity exerciseEntity = new ExerciseEntity(exercise.getName());
+        final List<EquipmentEntity> equipmentEntities = new ArrayList<>();
+        if(exercise.getEquipments() != null && !exercise.getEquipments().isEmpty()){
+            exercise.getEquipments().stream().forEach(equipment -> {
+                final Optional<EquipmentEntity> equipmentEntity = Optional.ofNullable(equipmentRepository.findOne(equipment.getId()));
+                if (equipmentEntity.isPresent())
+                    equipmentEntities.add(equipmentEntity.get());
+                else {
+                    throw new NodeNotFoundException("Could not find selected exercise with id " + equipment.getId());
+                }
+            });
+        }
+
+        final ExerciseEntity exerciseEntity = new ExerciseEntity(exercise.getName(), equipmentEntities);
 
         try {
             return exerciseRepository.save(exerciseEntity).getId();
@@ -47,7 +66,11 @@ public class ExerciseService {
     }
 
     private static Exercise toExercise(ExerciseEntity exerciseEntity) {
-        return new Exercise(exerciseEntity.getId(), exerciseEntity.getName());
+        final List<Equipment> equipments = new ArrayList<>();
+        if(exerciseEntity.getEquipments() != null){
+            exerciseEntity.getEquipments().stream().forEach(e -> equipments.add(EquipmentService.toEquipment(e)));
+        }
+        return new Exercise(exerciseEntity.getId(), exerciseEntity.getName(), equipments);
     }
 
     public Exercise find(long id) {

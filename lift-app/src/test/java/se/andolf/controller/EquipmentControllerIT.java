@@ -2,6 +2,7 @@ package se.andolf.controller;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.andolf.api.Equipment;
+import se.andolf.config.Client;
 import se.andolf.util.Patch;
 import se.andolf.util.PatchOperations;
 import se.andolf.util.UriUtil;
@@ -22,9 +24,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
-import static se.andolf.util.DbUtil.deleteEquipment;
-import static se.andolf.util.DbUtil.purgeCategories;
-import static se.andolf.util.DbUtil.purgeEquipments;
+import static se.andolf.util.DbUtil.*;
 
 /**
  * @author Thomas on 2016-07-30.
@@ -35,8 +35,13 @@ public class EquipmentControllerIT {
 
     private static boolean initialized = false;
 
+    @BeforeClass
+    public static void init(){
+        Client.init();
+    }
+
     @Before
-    public void init(){
+    public void purge(){
         if(!initialized){
             purgeEquipments();
             initialized = true;
@@ -215,14 +220,5 @@ public class EquipmentControllerIT {
                 .patch("equipments/{id}", 999999)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
-    }
-
-    private String put(Equipment equipment) {
-        try {
-            final String header = given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).body(equipment).put("/equipments").then().assertThat().statusCode(201).extract().header("Location");
-            return UriUtil.extractLastPath(header);
-        } catch (Exception e) {
-            throw new AssertionError(e);
-        }
     }
 }

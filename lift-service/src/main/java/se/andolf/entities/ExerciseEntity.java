@@ -6,6 +6,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import se.andolf.api.Equipment;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,13 +21,18 @@ public class ExerciseEntity {
     @Index(unique = true)
     private String name;
 
-    @Relationship(type = "USES")
-    private Equipment equipment;
+    @Relationship(type = "USES", direction = Relationship.UNDIRECTED)
+    private List<EquipmentEntity> equipments;
 
     public ExerciseEntity() {}
 
     public ExerciseEntity(String name) {
         this.name = name;
+    }
+
+    public ExerciseEntity(String name, List<EquipmentEntity> equipmentEntities) {
+        this.name = name;
+        this.equipments = equipmentEntities;
     }
 
     public Long getId() {
@@ -41,11 +47,11 @@ public class ExerciseEntity {
         this.name = name;
     }
 
-    public Equipment getEquipment() {
-        return equipment;
+    public List<EquipmentEntity> getEquipments() {
+        return equipments;
     }
 
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
+    public void setEquipment(List<EquipmentEntity> equipments) {
+        this.equipments = equipments;
     }
 }

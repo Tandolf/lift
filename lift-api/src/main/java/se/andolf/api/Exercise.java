@@ -1,5 +1,7 @@
 package se.andolf.api;
 
+import java.util.List;
+
 /**
  * @author Thomas on 2016-06-18.
  */
@@ -7,20 +9,26 @@ public class Exercise {
 
     private long id;
     private String name;
-    private Equipment equipment;
+    private List<Equipment> equipments;
 
     public Exercise(String name) {
         this.name = name;
     }
 
-    public Exercise(String name, Equipment equipment) {
+    public Exercise(String name, List<Equipment> equipments) {
         this.name = name;
-        this.equipment = equipment;
+        this.equipments = equipments;
     }
 
     public Exercise(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Exercise(Long id, String name, List<Equipment> equipments) {
+        this.id = id;
+        this.name = name;
+        this.equipments = equipments;
     }
 
     public long getId() {
@@ -35,11 +43,11 @@ public class Exercise {
         this.name = name;
     }
 
-    public Equipment getEquipment() {
-        return equipment;
+    public List<Equipment> getEquipments() {
+        return equipments;
     }
 
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
+    public void setEquipments(List<Equipment> equipments) {
+        this.equipments = equipments;
     }
 }
