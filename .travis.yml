@@ -1,23 +1,35 @@
 language: java
 jdk:
 - oraclejdk8
+
 sudo: required
-addons:
-  sonarqube:
-    token:
-      secure: "MmAo7zmdGwnY10NeedsSgsuvmt9AsCqAyyZkLVy2z3Vn/cM2jx8ItMaldIkgWJ07uPqlfGYB49Ktr5btV0gDx0QYb2tIVwE4lqw5VTMjpF0d+JWdsrTZsooZxv1ga4h41zU5ghMzQKzZ23yusbLN5ainnD/y8ScBbuSJJUkMB01t6BGN9c9nOd+3PohnVsH8g/hphb/o7PJrOpWDOBAUHfe9h4TgJeyH+IYbpzUR5YI9vRasMgkX5moZmlvj9cDgBOsILJKJPMaXHL5BoqcUBriAQHhzK5WRe3deY8Fx/i662p0GRRqsHjqdXXFq3yj7KwLfw99gbVxHgLccfS2XyUTrTGY5uYtVmsijA0792Hmw4Gglm8xp6KmVhY9ceSLwNUSrC+9roLn+OLx5bwdP/G0m9dC4/BYyZZ3kcC8zrHRVXmI5kxUu5NDiVVmPAE8Ugov8BpWQkajeCe6a9Xq7pXBmAUR52r8H335SRHhxh3pFORqdiK7QWY4bv7xkYhCpyzk8FaRe+n+Qj3cm1JtG28Bcx827RkZJmRvgNVSYZ5m6aDtGIJN51/LxJzvTmcG3GhZjTCVTr7w757ogIhHQUK86hj/HmQz6J0z6WfjazaRSr5Sr60f98jwDAiCsUJlXq2L8fbyw/W85xLeYzyuJW6B1AaO9ZZ4vT71FmdSFaM8="
-script: ./mvnw clean package
-services:
-- docker
-before_install:
-- docker pull neo4j
-- docker run -d --name neo4j --publish=7474:7474 --publish=7687:7687 --env=NEO4J_AUTH=neo4j/password
-  neo4j:3.2
-- docker ps -a
-after_success:
-- ./mvnw clean verify coveralls:report -P integration-tests,coveralls
-- ./mvnw clean verify org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -P integration-tests
+
 cache:
   directories:
   - $HOME/.m2/repository
   - $HOME/.sonar/cache
+
+addons:
+  sonarqube:
+    token:
+      secure: $SONARQUBE_AUTH_TOKEN
+
+script: ./mvnw clean package
+
+services:
+- docker
+
+before_install:
+- docker run -d --name neo4j --publish=7474:7474 --publish=7687:7687 --env=NEO4J_AUTH=neo4j/password
+  neo4j:3.2
+- docker ps -a
+
+after_success:
+- ./mvnw clean verify coveralls:report -P integration-tests,coveralls
+- ./mvnw clean verify org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -P integration-tests
+
+deploy:
+  provider: heroku
+  app: lift-service
+  api_key:
+    secure: $HEROKU_AUTH_TOKEN
