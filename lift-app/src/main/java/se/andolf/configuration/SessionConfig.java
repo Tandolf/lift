@@ -40,7 +40,8 @@ public class SessionConfig {
         org.neo4j.ogm.config.Configuration config = new org.neo4j.ogm.config.Configuration();
         config.driverConfiguration()
                 .setDriverClassName(driverConfig.getName())
-                .setURI(driverConfig.getUri());
+                .setURI(driverConfig.getUri())
+                .setCredentials(driverConfig.getUsername(), driverConfig.getPassword());
         if(driverConfig.getPool().getSize() != 0)
             config.driverConfiguration().setConnectionPoolSize(driverConfig.getPool().getSize());
         config.autoIndexConfiguration().setAutoIndex(driverConfig.getIndex());
