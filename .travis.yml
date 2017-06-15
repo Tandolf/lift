@@ -18,7 +18,7 @@ addons:
     token:
       secure: $SONARQUBE_AUTH_TOKEN
 
-script: ./mvnw clean package
+script: ./mvnw clean package --dbToken=$DB_AUTH_TOKEN
 
 services:
 - docker
