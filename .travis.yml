@@ -31,6 +31,7 @@ before_install:
 - sudo apt-get -y install python3-pip
 - python3 -V
 - pip3 -V
+- pip3 install requests
 
 after_success:
 - ./mvnw clean verify coveralls:report -P integration-tests,coveralls
@@ -41,3 +42,6 @@ deploy:
   app: lift-service
   api_key:
     secure: $HEROKU_AUTH_TOKEN
+
+after_deploy:
+- ./health.py http://lift-service.herokuapp.com/health
