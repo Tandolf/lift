@@ -15,6 +15,7 @@ if r.status_code == 200:
     try:
         status = j['status']
         if status == 'UP':
+            print("Health check was passed")
             exit(0)
         else:
             print('Health check did not pass. Current application status: "%s"' % str(status))

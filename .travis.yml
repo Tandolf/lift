@@ -44,4 +44,4 @@ deploy:
     secure: $HEROKU_AUTH_TOKEN
 
 after_deploy:
-- ./health.py http://lift-service.herokuapp.com/health
+- sudo ./health.py http://lift-service.herokuapp.com/health
