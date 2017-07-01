@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.neo4j.driver.v1.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import se.andolf.api.Equipment;
 import se.andolf.api.Exercise;
 import se.andolf.entities.EquipmentEntity;
@@ -26,10 +25,9 @@ import java.util.stream.StreamSupport;
  * @author Thomas on 2016-06-18.
  */
 @Service
-@Transactional
 public class ExerciseService {
 
-    private Log log = LogFactory.getLog(ExerciseService.class);
+    private final static Log log = LogFactory.getLog(ExerciseService.class);
 
     @Autowired
     private ExerciseRepository exerciseRepository;
@@ -65,7 +63,7 @@ public class ExerciseService {
         return StreamSupport.stream(exerciseRepository.findAll().spliterator(), false).map(ExerciseService::toExercise).collect(Collectors.toList());
     }
 
-    private static Exercise toExercise(ExerciseEntity exerciseEntity) {
+    public static Exercise toExercise(ExerciseEntity exerciseEntity) {
         final List<Equipment> equipments = new ArrayList<>();
         if(exerciseEntity.getEquipments() != null){
             exerciseEntity.getEquipments().stream().forEach(e -> equipments.add(EquipmentService.toEquipment(e)));

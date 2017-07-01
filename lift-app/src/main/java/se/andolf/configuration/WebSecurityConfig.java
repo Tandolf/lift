@@ -1,7 +1,5 @@
 package se.andolf.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * Created by Thomas on 2016-09-24.
  */

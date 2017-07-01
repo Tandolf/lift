@@ -6,7 +6,7 @@ package se.andolf.util;
 public enum PatchOperations {
     ADD("add"), REMOVE("remove"), REPLACE("replace"), MOVE("move"), COPY("copy");
 
-    private String name;
+    private final String name;
 
     PatchOperations(String name) {
         this.name = name;

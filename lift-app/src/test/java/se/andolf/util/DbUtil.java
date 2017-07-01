@@ -1,6 +1,5 @@
 package se.andolf.util;
 
-import io.restassured.response.ValidatableResponse;
 import org.springframework.http.MediaType;
 import se.andolf.api.Equipment;
 
@@ -8,7 +7,6 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.path.json.JsonPath.from;
-import static se.andolf.util.UriUtil.extractLastPath;
 
 /**
  * @author Thomas on 2017-05-25.
@@ -66,6 +64,8 @@ public class DbUtil {
                 .extract().response()
                 .getBody().asString();
 
+        if(json.isEmpty())
+            return;
         final List<Integer> ids = from(json).get("id");
         ids.forEach(id -> delete(path, Integer.toString(id)));
     }

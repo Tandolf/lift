@@ -4,10 +4,8 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import se.andolf.api.Equipment;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Thomas on 2016-06-11.
@@ -24,7 +22,8 @@ public class ExerciseEntity {
     @Relationship(type = "USES", direction = Relationship.UNDIRECTED)
     private List<EquipmentEntity> equipments;
 
-    public ExerciseEntity() {}
+    public ExerciseEntity() {
+    }
 
     public ExerciseEntity(String name) {
         this.name = name;

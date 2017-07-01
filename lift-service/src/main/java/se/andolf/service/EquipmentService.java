@@ -29,7 +29,7 @@ import java.util.stream.StreamSupport;
 @Transactional
 public class EquipmentService {
 
-    private static Log LOG = LogFactory.getLog(EquipmentService.class);
+    private final static Log LOG = LogFactory.getLog(EquipmentService.class);
 
     @Autowired
     private EquipmentRepository equipmentRepository;

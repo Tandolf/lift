@@ -1,5 +1,6 @@
 package se.andolf.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,10 @@ public class Exercise {
     private String name;
     private List<Equipment> equipments;
 
+    public Exercise(long id) {
+        this.id = id;
+    }
+
     public Exercise(String name) {
         this.name = name;
     }
@@ -20,12 +25,13 @@ public class Exercise {
         this.equipments = equipments;
     }
 
-    public Exercise(Long id, String name) {
+    public Exercise(Long id, String name, List<Equipment> equipments) {
         this.id = id;
         this.name = name;
+        this.equipments = equipments;
     }
 
-    public Exercise(Long id, String name, List<Equipment> equipments) {
+    public Exercise(int id, String name, List<Equipment> equipments) {
         this.id = id;
         this.name = name;
         this.equipments = equipments;
@@ -47,7 +53,32 @@ public class Exercise {
         return equipments;
     }
 
-    public void setEquipments(List<Equipment> equipments) {
-        this.equipments = equipments;
+    public static class Builder {
+
+        private String name;
+        private List<Equipment> equipments;
+        private int id;
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder addEquipment(Equipment equipment) {
+
+            if(equipments == null)
+                equipments = new ArrayList<>();
+            equipments.add(equipment);
+            return this;
+        }
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Exercise build() {
+            return new Exercise(id, name, equipments);
+        }
     }
 }

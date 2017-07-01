@@ -5,9 +5,9 @@ package se.andolf.util;
  */
 public class Patch {
 
-    private String op;
-    private String path;
-    private String value;
+    private final String op;
+    private final String path;
+    private final String value;
 
     public Patch(PatchOperations op, String path, String value) {
         this.op = op.getName();
