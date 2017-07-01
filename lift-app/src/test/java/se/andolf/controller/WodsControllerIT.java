@@ -32,7 +32,6 @@ public class WodsControllerIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";
     private static final String WODS_RESOURCE = "wods";
-    private static List<Integer> exerciseIds;
 
     @BeforeClass
     public static void init(){
@@ -43,12 +42,25 @@ public class WodsControllerIT {
     public void purgeDB() {
         purge(WODS_RESOURCE);
         purge(EXERCISE_RESOURCE);
-        exerciseIds = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
     }
 
     @Test
     public void shouldSaveWod(){
-        final String id = put(formatJson("wod_170607.json", exerciseIds));
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
+        final String id = put(formatJson("wod_170607.json", exercises));
+
+        given()
+                .get("/wods/{id}", id)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("id", is(Integer.parseInt(id)));
+    }
+
+    @Test
+    public void shouldSaveOtherWod(){
+        final List<Integer> exercises = putExercises("Back squats", "Stride stance one arm", "Toes to bar", "3D maps same side to opposite side lateral", "Half turkish get up", "3D maps posterior");
+        final String id = put(formatJson("wod_170510.json", exercises));
 
         given()
                 .get("/wods/{id}", id)
@@ -60,7 +72,8 @@ public class WodsControllerIT {
 
     @Test
     public void shouldDeleteWod() {
-        final String id = put(formatJson("wod_170607.json", exerciseIds));
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
+        final String id = put(formatJson("wod_170607.json", exercises));
         given()
                 .delete("{path}/{id}", WODS_RESOURCE, id)
                 .then()
@@ -69,9 +82,10 @@ public class WodsControllerIT {
 
     @Test
     public void shouldReturnAListOfIds() {
-        put(formatJson("wod_170607.json", exerciseIds));
-        put(formatJson("wod_170607.json", exerciseIds));
-        put(formatJson("wod_170607.json", exerciseIds));
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
+        put(formatJson("wod_170607.json", exercises));
+        put(formatJson("wod_170607.json", exercises));
+        put(formatJson("wod_170607.json", exercises));
         final String json = given().get("/wods").then().assertThat().statusCode(200).extract().body().asString();
         final List<Long> ids = from(json).get("id");
         assertEquals(3, ids.size());

@@ -1,0 +1,129 @@
+{
+  "name": "Squat and abs workout",
+  "date": "2017-05-10",
+  "workouts": [
+    {
+      "work": 60,
+      "rest": 0,
+      "sets": 5,
+      "type": "E2M",
+      "isAlternating": false,
+      "groups": [
+        {
+          "resistance": [
+            {
+              "exerciseId": %1$d,
+              "weight": 0,
+              "distance": 0,
+              "calories": 0,
+              "repsFrom": 4,
+              "repsTo": 6,
+              "altLeftRight": false,
+              "units": "METRIC"
+            },
+            {
+              "exerciseId": %2$d,
+              "weight": 0,
+              "distance": 0,
+              "calories": 0,
+              "repsFrom": 6,
+              "repsTo": 6,
+              "altLeftRight": true,
+              "units": "METRIC"
+            }
+          ],
+          "exercises": [
+            {
+              "id": %1$d
+            },
+            {
+              "id": %2$d
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "work": 60,
+      "rest": 0,
+      "sets": 5,
+      "type": "E2M",
+      "isAlternating": false,
+      "groups": [
+        {
+          "resistance": [
+            {
+              "exerciseId": %3$d,
+              "weight": 0,
+              "distance": 0,
+              "calories": 0,
+              "repsFrom": 8,
+              "repsTo": 10,
+              "altLeftRight": false,
+              "units": "METRIC"
+            },
+            {
+              "exerciseId": %4$d,
+              "weight": 0,
+              "distance": 0,
+              "calories": 0,
+              "repsFrom": 12,
+              "repsTo": 12,
+              "altLeftRight": true,
+              "units": "METRIC"
+            }
+          ],
+          "exercises": [
+            {
+              "id": %3$d
+            },
+            {
+              "id": %4$d
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "work": 60,
+      "rest": 0,
+      "sets": 5,
+      "type": "E2M",
+      "isAlternating": false,
+      "groups": [
+        {
+          "resistance": [
+            {
+              "exerciseId": %5$d,
+              "weight": 0,
+              "distance": 0,
+              "calories": 0,
+              "repsFrom": 4,
+              "repsTo": 4,
+              "altLeftRight": true,
+              "units": "METRIC"
+            },
+            {
+              "exerciseId": %6$d,
+              "weight": 0,
+              "distance": 0,
+              "calories": 0,
+              "repsFrom": 6,
+              "repsTo": 6,
+              "altLeftRight": true,
+              "units": "METRIC"
+            }
+          ],
+          "exercises": [
+            {
+              "id": %5$d
+            },
+            {
+              "id": %6$d
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
