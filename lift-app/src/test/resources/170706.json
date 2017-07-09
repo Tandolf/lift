@@ -1,0 +1,85 @@
+{
+  "date": "2017-07-06",
+  "work": 180,
+  "rest": 60,
+  "sets": 8,
+  "resistances": [
+    {
+      "exerciseId": %1$d,
+      "distance": 40
+    },
+    {
+      "exerciseId": %2$d,
+      "distance": 120
+    },
+    {
+      "exerciseId": %3$d,
+      "repsFrom": 5,
+      "repsTo": 5
+    },
+    {
+      "exerciseId": %4$d,
+      "calories": 6
+    },
+    {
+      "exerciseId": %5$d,
+      "weight": 24
+    },
+    {
+      "exerciseId": %7$d,
+      "repsFrom": 8,
+      "repsTo": 8
+    },
+    {
+      "exerciseId": %8$d,
+      "repsFrom": 7,
+      "repsTo": 7
+    }
+  ],
+  "exercises": [
+    {
+      "type": "AMRAP",
+      "exercises": [
+        {
+          "id": %1$d
+        },
+        {
+          "id": %2$d
+        }
+      ]
+    },
+    {
+      "type": "AMRAP",
+      "exercises": [
+        {
+          "id": %3$d
+        },
+        {
+          "id": %4$d
+        }
+      ]
+    },
+    {
+      "type": "AMRAP",
+      "exercises": [
+        {
+          "id": %5$d
+        },
+        {
+          "id": %6$d
+        }
+      ]
+    },
+    {
+      "type": "AMRAP",
+      "exercises": [
+        {
+          "id": %7$d
+        },
+        {
+          "id": %8$d
+        }
+      ]
+    }
+  ]
+}

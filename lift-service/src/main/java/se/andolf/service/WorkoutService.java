@@ -38,21 +38,18 @@ public class WorkoutService {
 
         IntStream.range(0, workout.getExercises().size()).forEach(i -> {
             final Exercise exercise = workout.getExercises().get(i);
-
             final GroupEntity groupEntity = new GroupEntity();
-            groupEntity.setValue(i);
 
             if (exercise.getExercises() != null) {
                 IntStream.range(0, exercise.getExercises().size()).forEach(f -> {
                     final Exercise e = exercise.getExercises().get(f);
                     groupEntity.addExercise(new HasExerciseRel(f, groupEntity, getExerciseEntity(e.getId())));
                 });
-            }
-
-            if (exercise.getId() != null){
+            } else {
                 groupEntity.addExercise(new HasExerciseRel(0, groupEntity, getExerciseEntity(exercise.getId())));
             }
 
+            groupEntity.setValue(i);
             groupEntity.setType(exercise.getType());
             workoutEntity.addGroup(groupEntity);
         });
@@ -78,6 +75,7 @@ public class WorkoutService {
         resistanceEntity.setUnits(resistance.getUnits());
         resistanceEntity.isForCal(resistance.isForCal());
         resistanceEntity.isForDistance(resistance.isForDistance());
+        resistanceEntity.isStrapless(resistance.isStrapless());
         return resistanceEntity;
     }
 

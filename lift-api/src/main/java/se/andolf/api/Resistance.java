@@ -15,11 +15,12 @@ public class Resistance {
     private boolean forDistance;
     private boolean forCal;
     private int effort;
+    private boolean strapless;
     private final boolean alternateSides;
     private final WorkoutType type;
     private final Unit units;
 
-    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, WorkoutType type) {
+    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, WorkoutType type, boolean strapless) {
         this.id = id;
         this.exerciseId = exerciseId;
         this.weight = weight;
@@ -33,6 +34,7 @@ public class Resistance {
         this.forCal = forCal;
         this.forDistance = forDistance;
         this.type = type;
+        this.strapless = strapless;
     }
 
     public Long getId() {
@@ -85,5 +87,9 @@ public class Resistance {
 
     public WorkoutType getType() {
         return type;
+    }
+
+    public boolean isStrapless() {
+        return strapless;
     }
 }

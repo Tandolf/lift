@@ -6,6 +6,10 @@
   "effort": 85,
   "resistances": [
     {
+      "exerciseId": %1$d,
+      "alternateSides": true
+    },
+    {
       "exerciseId": %3$d,
       "forCal": true
     },

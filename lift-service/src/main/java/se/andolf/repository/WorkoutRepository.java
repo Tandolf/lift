@@ -11,10 +11,10 @@ import java.util.List;
  */
 public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> {
 
-    @Query("MATCH (workout) WHERE ID(workout)={id} " +
-            "MATCH (workout)-[*..5]->(resistances:ResistanceEntity) " +
-            "MATCH (workout)-[*..5]->(groups:GroupEntity) " +
-            "DETACH DELETE workout, resistances, groups")
+    @Query("MATCH (w:WorkoutEntity) WHERE ID(w)={id} " +
+            "OPTIONAL MATCH (w)--(r:ResistanceEntity) " +
+            "OPTIONAL MATCH (w)--(g:GroupEntity) " +
+            "DETACH DELETE w, r, g")
     void deleteWorkoutById(long id);
 
     @Query("MATCH (w:WorkoutEntity) RETURN ID(w)")

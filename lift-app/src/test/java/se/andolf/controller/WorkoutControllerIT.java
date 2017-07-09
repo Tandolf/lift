@@ -45,9 +45,11 @@ public class WorkoutControllerIT {
     }
 
     @Test
-    public void shouldSaveWod(){
+    public void shouldSaveTwoDifferentWorkoutsOnTheSameDay(){
         final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk");
+        final List<Integer> exercises2 = putExercises("Back Squats", "Half TGU");
         final String id = put(formatJson("170607_1.json", exercises));
+        final String id2 = put(formatJson("170607_2.json", exercises2));
 
         given()
                 .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
@@ -55,23 +57,17 @@ public class WorkoutControllerIT {
                 .assertThat()
                 .statusCode(200)
                 .body("id", is(Integer.parseInt(id)));
-    }
-
-    @Test
-    public void shouldSaveOtherWod(){
-        final List<Integer> exercises = putExercises("Back Squats", "Half TGU");
-        final String id = put(formatJson("170607_2.json", exercises));
 
         given()
-                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .get("/{resource}/{id}", WORKOUT_RESOURCE, id2)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("id", is(Integer.parseInt(id)));
+                .body("id", is(Integer.parseInt(id2)));
     }
 
     @Test
-    public void shouldSaveAerobWod(){
+    public void shouldSaveWorkoutWithMultipleGroups(){
         final List<Integer> exercises = putExercises("Sledge slams", "Target sprawls", "Assault bike", "Row", "Walking lunges", "Shuttle runs");
         final String id = put(formatJson("170502.json", exercises));
 
@@ -84,7 +80,20 @@ public class WorkoutControllerIT {
     }
 
     @Test
-    public void shouldDeleteWod() {
+    public void shouldSaveWorkoutWithStraplessParam(){
+        final List<Integer> exercises = putExercises("Heavy farmers walk", "Shuttle runs", "Toes to bar", "Assault bike", "Goblet reverse lunge from block", "Row", "Dumbbell Thrusters", "Target burpees");
+        final String id = put(formatJson("170706.json", exercises));
+
+        given()
+                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("id", is(Integer.parseInt(id)));
+    }
+
+    @Test
+    public void shouldDeleteASingleWorkout() {
         final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
         final String id = put(formatJson("170607_1.json", exercises));
         given()
