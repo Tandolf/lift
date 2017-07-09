@@ -1,0 +1,52 @@
+{
+  "date": "2017-05-02",
+  "work": 120,
+  "rest": 30,
+  "sets": 15,
+  "effort": 85,
+  "resistances": [
+    {
+      "exerciseId": %3$d,
+      "forCal": true
+    },
+    {
+      "exerciseId": %4$d,
+      "forDistance": true
+    },
+    {
+      "exerciseId": %5$d,
+      "repsFrom": 5,
+      "repsTo": 5,
+      "alternateSides": true
+    },
+    {
+      "exerciseId": %6$d,
+      "distance": 30
+    }
+  ],
+  "exercises": [
+    {
+      "id": %1$d
+    },
+    {
+      "id": %2$d
+    },
+    {
+      "id": %3$d
+    },
+    {
+      "id": %4$d
+    },
+    {
+      "type": "AMRAP",
+      "exercises": [
+        {
+          "id": %5$d
+        },
+        {
+          "id": %6$d
+        }
+      ]
+    }
+  ]
+}

@@ -68,7 +68,7 @@ public class ExerciseService {
         if(exerciseEntity.getEquipments() != null){
             exerciseEntity.getEquipments().stream().forEach(e -> equipments.add(EquipmentService.toEquipment(e)));
         }
-        return new Exercise(exerciseEntity.getId(), exerciseEntity.getName(), equipments);
+        return new Exercise.Builder().setId(exerciseEntity.getId()).setName(exerciseEntity.getName()).setEquipments(equipments).build();
     }
 
     public Exercise find(long id) {

@@ -2,42 +2,28 @@ package se.andolf.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Thomas on 2016-06-18.
  */
 public class Exercise {
 
-    private long id;
-    private String name;
-    private List<Equipment> equipments;
+    private final Long id;
+    private final String name;
+    private final List<Equipment> equipments;
+    private final List<Exercise> exercises;
+    private final WorkoutType type;
 
-    public Exercise(long id) {
-        this.id = id;
-    }
-
-    public Exercise(String name) {
-        this.name = name;
-    }
-
-    public Exercise(String name, List<Equipment> equipments) {
-        this.name = name;
-        this.equipments = equipments;
-    }
-
-    public Exercise(Long id, String name, List<Equipment> equipments) {
+    public Exercise(Long id, String name, List<Equipment> equipments, List<Exercise> exercises, WorkoutType type) {
         this.id = id;
         this.name = name;
         this.equipments = equipments;
+        this.exercises = exercises;
+        this.type = type;
     }
 
-    public Exercise(int id, String name, List<Equipment> equipments) {
-        this.id = id;
-        this.name = name;
-        this.equipments = equipments;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -45,40 +31,53 @@ public class Exercise {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Equipment> getEquipments() {
         return equipments;
     }
 
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public WorkoutType getType() {
+        return type;
+    }
+
     public static class Builder {
 
+        private Long id;
         private String name;
         private List<Equipment> equipments;
-        private int id;
+        private List<Exercise> exercises;
+        private WorkoutType type;
 
         public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder addEquipment(Equipment equipment) {
-
-            if(equipments == null)
-                equipments = new ArrayList<>();
-            equipments.add(equipment);
-            return this;
-        }
-
-        public Builder setId(int id) {
+        public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
+        public Builder setExercises(List<Exercise> exercises) {
+            this.exercises = exercises;
+            return this;
+        }
+
+        public Builder setType(WorkoutType type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder setEquipments(List<Equipment> equipments) {
+            this.equipments = equipments;
+            return this;
+        }
+
         public Exercise build() {
-            return new Exercise(id, name, equipments);
+            return new Exercise(id, name, equipments, exercises, type);
         }
     }
 }

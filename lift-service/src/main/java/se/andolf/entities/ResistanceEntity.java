@@ -4,6 +4,9 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Relationship;
 import se.andolf.api.Unit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Thomas on 2017-06-24.
  */
@@ -16,23 +19,16 @@ public class ResistanceEntity {
     private int calories;
     private int repsFrom;
     private int repsTo;
-    private boolean altLeftRight;
+    private boolean alternateSides;
+    private boolean forCal;
+    private boolean forDistance;
     private Unit units;
 
     @Relationship(type = "FOR_EXERCISE")
-    private ResistanceToExerciseRel resistanceToExerciseRel;
+    private List<ExerciseEntity> exercises;
 
     public ResistanceEntity() {
-    }
-
-    public ResistanceEntity(int weight, int distance, int calories, int repsFrom, int repsTo, boolean altLeftRight, Unit units) {
-        this.weight = weight;
-        this.distance = distance;
-        this.calories = calories;
-        this.repsFrom = repsFrom;
-        this.repsTo = repsTo;
-        this.altLeftRight = altLeftRight;
-        this.units = units;
+        this.exercises = new ArrayList<>();
     }
 
     public Long getId() {
@@ -83,12 +79,28 @@ public class ResistanceEntity {
         this.repsTo = repsTo;
     }
 
-    public boolean isAltLeftRight() {
-        return altLeftRight;
+    public boolean isAlternateSides() {
+        return alternateSides;
     }
 
-    public void setAltLeftRight(boolean altLeftRight) {
-        this.altLeftRight = altLeftRight;
+    public void setAlternateSides(boolean alternateSides) {
+        this.alternateSides = alternateSides;
+    }
+
+    public boolean isForCal() {
+        return forCal;
+    }
+
+    public void setForCal(boolean forCal) {
+        this.forCal = forCal;
+    }
+
+    public boolean isForDistance() {
+        return forDistance;
+    }
+
+    public void setForDistance(boolean forDistance) {
+        this.forDistance = forDistance;
     }
 
     public Unit getUnits() {
@@ -99,11 +111,15 @@ public class ResistanceEntity {
         this.units = units;
     }
 
-    public ResistanceToExerciseRel getResistanceToExerciseRel() {
-        return resistanceToExerciseRel;
+    public void addExercise(ExerciseEntity exerciseEntity) {
+        exercises.add(exerciseEntity);
     }
 
-    public void setResistanceToExerciseRel(ResistanceToExerciseRel resistanceToExerciseRel) {
-        this.resistanceToExerciseRel = resistanceToExerciseRel;
+    public void isForCal(boolean forCal) {
+        this.forCal = forCal;
+    }
+
+    public void isForDistance(boolean forDistance) {
+        this.forDistance = forDistance;
     }
 }

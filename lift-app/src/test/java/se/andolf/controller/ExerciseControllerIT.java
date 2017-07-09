@@ -52,9 +52,9 @@ public class ExerciseControllerIT {
     @Test
     public void shouldReturnAFullListOfExercises(){
 
-        final String boxjumps = put(new Exercise("Boxjumps"));
-        final String snatch = put(new Exercise("Snatch"));
-        final String cleans = put(new Exercise("Cleans"));
+        final String boxjumps = put(new Exercise.Builder().setName("Boxjumps").build());
+        final String snatch = put(new Exercise.Builder().setName("Snatch").build());
+        final String cleans = put(new Exercise.Builder().setName("Cleans").build());
 
         given()
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -74,7 +74,7 @@ public class ExerciseControllerIT {
         final Equipment fetchedEquipment = DbUtil.get(equipmentId);
         final List<Equipment> equipments = new ArrayList<>();
         equipments.add(fetchedEquipment);
-        final Exercise exercise = new Exercise("Deadlift", equipments);
+        final Exercise exercise = new Exercise.Builder().setName("Deadlift").setEquipments(equipments).build();
         final String exerciseId = put(exercise);
 
         given()
@@ -100,7 +100,7 @@ public class ExerciseControllerIT {
         final Equipment fetchedEquipment = DbUtil.get(equipmentID);
         final List<Equipment> equipments = new ArrayList<>();
         equipments.add(fetchedEquipment);
-        final Exercise exercise = new Exercise("Deadlift", equipments);
+        final Exercise exercise = new Exercise.Builder().setName("Deadlift").setEquipments(equipments).build();
 
 
         final String location = given()
@@ -122,7 +122,7 @@ public class ExerciseControllerIT {
         final Equipment equipment = new Equipment("Barbell");
         final List<Equipment> equipments = new ArrayList<>();
         equipments.add(equipment);
-        final Exercise exercise = new Exercise("Deadlift", equipments);
+        final Exercise exercise = new Exercise.Builder().setName("Deadlift").setEquipments(equipments).build();
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -136,11 +136,12 @@ public class ExerciseControllerIT {
     @Test
     public void shouldReturn409ConflictIfExerciseNameExists(){
 
-        final String boxjumps = put(new Exercise("Boxjumps"));
+        final Exercise exercise = new Exercise.Builder().setName("Boxjumps").build();
+        final String boxjumps = put(exercise);
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .body(new Exercise("Boxjumps"))
+                .body(exercise)
                 .when()
                 .put(EXERCISE_RESOURCE)
                 .then()
@@ -152,7 +153,7 @@ public class ExerciseControllerIT {
     @Test
     public void shouldReturn204NoContentWhenDeletingAnExercise(){
 
-        final String boxjumps = put(new Exercise("Boxjumps"));
+        final String boxjumps = put(new Exercise.Builder().setName("Boxjumps").build());
 
         given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)

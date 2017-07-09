@@ -1,0 +1,51 @@
+{
+  "date": "2017-06-07",
+  "work": 60,
+  "sets": 14,
+  "type": "EMOM",
+  "isAlternating": true,
+  "resistances": [
+    {
+      "exerciseId": %1$d,
+      "repsFrom": 2,
+      "repsTo": 2
+    },
+    {
+      "exerciseId": %2$d,
+      "repsFrom": 2,
+      "repsTo": 2
+    },
+    {
+      "exerciseId": %3$d,
+      "repsFrom": 2,
+      "repsTo": 2
+    },
+    {
+      "exerciseId": %4$d,
+      "repsFrom": 2,
+      "repsTo": 2
+    }
+  ],
+  "exercises": [
+    {
+      "exercises": [
+        {
+          "id": %1$d
+        },
+        {
+          "id": %2$d
+        }
+      ]
+    },
+    {
+      "exercises": [
+        {
+          "id": %3$d
+        },
+        {
+          "id": %4$d
+        }
+      ]
+    }
+  ]
+}

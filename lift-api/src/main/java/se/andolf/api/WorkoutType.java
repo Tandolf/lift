@@ -7,6 +7,7 @@ public enum WorkoutType {
 
     EMOM,
     WITHIN,
-    E2M
+    E2M,
+    AMRAP
 
 }

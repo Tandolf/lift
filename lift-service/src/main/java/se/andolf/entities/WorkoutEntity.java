@@ -2,9 +2,12 @@ package se.andolf.entities;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.annotation.typeconversion.Convert;
 import se.andolf.api.WorkoutType;
+import se.andolf.converter.LocalDateConverter;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * @author Thomas on 2017-06-18.
@@ -13,24 +16,26 @@ public class WorkoutEntity {
 
     @GraphId
     private Long id;
+
+    @Convert(LocalDateConverter.class)
+    private LocalDate date;
+
     private int work;
     private int rest;
     private int sets;
+    private int effort;
     private WorkoutType workoutType;
     private boolean isAlternating;
 
-    @Relationship(type = "BELONGS_TO")
-    private List<GroupEntity> groupEntites;
+    @Relationship(type = "RECOMMENDED_RESISTANCE")
+    private List<ResistanceEntity> resistanceEntities;
+
+    @Relationship(type = "HAS_GROUP")
+    private List<GroupEntity> groupEntitys;
 
     public WorkoutEntity() {
-    }
-
-    public WorkoutEntity(int work, int rest, int sets, WorkoutType workoutType, boolean isAlternating) {
-        this.work = work;
-        this.rest = rest;
-        this.sets = sets;
-        this.workoutType = workoutType;
-        this.isAlternating = isAlternating;
+        this.resistanceEntities = new ArrayList<>();
+        this.groupEntitys = new ArrayList<>();
     }
 
     public Long getId() {
@@ -39,6 +44,14 @@ public class WorkoutEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public int getWork() {
@@ -65,6 +78,10 @@ public class WorkoutEntity {
         this.sets = sets;
     }
 
+    public int getEffort() {
+        return effort;
+    }
+
     public WorkoutType getWorkoutType() {
         return workoutType;
     }
@@ -81,11 +98,15 @@ public class WorkoutEntity {
         isAlternating = alternating;
     }
 
-    public List<GroupEntity> getGroupEntites() {
-        return groupEntites;
+    public void addResistanceRelation(ResistanceEntity resistanceEntity) {
+        resistanceEntities.add(resistanceEntity);
     }
 
-    public void setGroupEntites(List<GroupEntity> groupEntites) {
-        this.groupEntites = groupEntites;
+    public void addGroup(GroupEntity groupEntity) {
+        groupEntitys.add(groupEntity);
+    }
+
+    public void setEffort(int effort) {
+        this.effort = effort;
     }
 }

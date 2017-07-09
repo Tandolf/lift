@@ -26,6 +26,7 @@ public enum JacksonObjectMapper {
                 .registerModule(new JavaTimeModule());
         objectMapper.setSerializationInclusion(NON_NULL);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.configure(DeserializationFeature.USE_LONG_FOR_INTS, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
     }
 

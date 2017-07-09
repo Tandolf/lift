@@ -1,0 +1,28 @@
+{
+  "date": "2017-06-07",
+  "work": 120,
+  "sets": 8,
+  "type": "E2M",
+  "isAlternating": true,
+  "resistances": [
+    {
+      "exerciseId": %1$d,
+      "repsFrom": 2,
+      "repsTo": 2,
+      "effort": 85
+    },
+    {
+      "exerciseId": %2$d,
+      "repsFrom": 2,
+      "repsTo": 2
+    }
+  ],
+  "exercises": [
+    {
+      "id": %1$d
+    },
+    {
+      "id": %2$d
+    }
+  ]
+}

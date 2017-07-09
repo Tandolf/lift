@@ -3,29 +3,29 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.*;
 
 /**
- * @author Thomas on 2017-06-24.
+ * @author Thomas on 2017-07-08.
  */
-@RelationshipEntity(type="FOR_EXERCISE")
-public class ResistanceToExerciseRel {
+@RelationshipEntity(type="HAS_EXERCISE")
+public class HasExerciseRel {
 
     @GraphId
     private Long id;
 
     @Property
-    private int order;
+    private Integer order;
 
     @StartNode
-    private ResistanceEntity resistanceEntity;
+    private GroupEntity groupEntity;
 
     @EndNode
     private ExerciseEntity exerciseEntity;
 
-    public ResistanceToExerciseRel() {
+    public HasExerciseRel() {
     }
 
-    public ResistanceToExerciseRel(int order, ResistanceEntity resistanceEntity, ExerciseEntity exerciseEntity) {
+    public HasExerciseRel(Integer order, GroupEntity groupEntity, ExerciseEntity exerciseEntity) {
         this.order = order;
-        this.resistanceEntity = resistanceEntity;
+        this.groupEntity = groupEntity;
         this.exerciseEntity = exerciseEntity;
     }
 
@@ -37,20 +37,20 @@ public class ResistanceToExerciseRel {
         this.id = id;
     }
 
-    public int getOrder() {
+    public Integer getOrder() {
         return order;
     }
 
-    public void setOrder(int order) {
+    public void setOrder(Integer order) {
         this.order = order;
     }
 
-    public ResistanceEntity getResistanceEntity() {
-        return resistanceEntity;
+    public GroupEntity getGroupEntity() {
+        return groupEntity;
     }
 
-    public void setResistanceEntity(ResistanceEntity resistanceEntity) {
-        this.resistanceEntity = resistanceEntity;
+    public void setGroupEntity(GroupEntity groupEntity) {
+        this.groupEntity = groupEntity;
     }
 
     public ExerciseEntity getExerciseEntity() {

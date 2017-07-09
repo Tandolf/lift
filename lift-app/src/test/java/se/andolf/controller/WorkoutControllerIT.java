@@ -28,10 +28,10 @@ import static se.andolf.util.DbUtil.purge;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
-public class WodsControllerIT {
+public class WorkoutControllerIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";
-    private static final String WODS_RESOURCE = "wods";
+    private static final String WORKOUT_RESOURCE = "workouts";
 
     @BeforeClass
     public static void init(){
@@ -40,17 +40,17 @@ public class WodsControllerIT {
 
     @Before
     public void purgeDB() {
-        purge(WODS_RESOURCE);
+        purge(WORKOUT_RESOURCE);
         purge(EXERCISE_RESOURCE);
     }
 
     @Test
     public void shouldSaveWod(){
-        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
-        final String id = put(formatJson("wod_170607.json", exercises));
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk");
+        final String id = put(formatJson("170607_1.json", exercises));
 
         given()
-                .get("/wods/{id}", id)
+                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -59,11 +59,24 @@ public class WodsControllerIT {
 
     @Test
     public void shouldSaveOtherWod(){
-        final List<Integer> exercises = putExercises("Back squats", "Stride stance one arm", "Toes to bar", "3D maps same side to opposite side lateral", "Half turkish get up", "3D maps posterior");
-        final String id = put(formatJson("wod_170510.json", exercises));
+        final List<Integer> exercises = putExercises("Back Squats", "Half TGU");
+        final String id = put(formatJson("170607_2.json", exercises));
 
         given()
-                .get("/wods/{id}", id)
+                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("id", is(Integer.parseInt(id)));
+    }
+
+    @Test
+    public void shouldSaveAerobWod(){
+        final List<Integer> exercises = putExercises("Sledge slams", "Target sprawls", "Assault bike", "Row", "Walking lunges", "Shuttle runs");
+        final String id = put(formatJson("170502.json", exercises));
+
+        given()
+                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -73,20 +86,20 @@ public class WodsControllerIT {
     @Test
     public void shouldDeleteWod() {
         final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
-        final String id = put(formatJson("wod_170607.json", exercises));
+        final String id = put(formatJson("170607_1.json", exercises));
         given()
-                .delete("{path}/{id}", WODS_RESOURCE, id)
+                .delete("{resource}/{id}", WORKOUT_RESOURCE, id)
                 .then()
                 .statusCode(204);
     }
 
     @Test
     public void shouldReturnAListOfIds() {
-        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
-        put(formatJson("wod_170607.json", exercises));
-        put(formatJson("wod_170607.json", exercises));
-        put(formatJson("wod_170607.json", exercises));
-        final String json = given().get("/wods").then().assertThat().statusCode(200).extract().body().asString();
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk");
+        put(formatJson("170607_1.json", exercises));
+        put(formatJson("170607_1.json", exercises));
+        put(formatJson("170607_1.json", exercises));
+        final String json = given().get("/workouts").then().assertThat().statusCode(200).extract().body().asString();
         final List<Long> ids = from(json).get("id");
         assertEquals(3, ids.size());
     }
@@ -94,14 +107,14 @@ public class WodsControllerIT {
     private List<Integer> putExercises(String... equipmentNames){
         final List<Integer> exerciseIds = new ArrayList<>();
         for(String name : equipmentNames) {
-            exerciseIds.add(Integer.parseInt(put(new Exercise(name))));
+            exerciseIds.add(Integer.parseInt(put(new Exercise.Builder().setName(name).build())));
         }
         return exerciseIds;
     }
 
     public static String put(Exercise exercise) {
         try {
-            final String header = given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).body(exercise).put("/exercises").then().assertThat().statusCode(201).extract().header("Location");
+            final String header = given().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).body(exercise).put(EXERCISE_RESOURCE).then().assertThat().statusCode(201).extract().header("Location");
             return UriUtil.extractLastPath(header);
         } catch (Exception e) {
             throw new AssertionError(e);
@@ -119,8 +132,10 @@ public class WodsControllerIT {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .body(json)
                 .when()
-                .put(WODS_RESOURCE)
+                .put(WORKOUT_RESOURCE)
                 .then()
+                .assertThat()
+                .statusCode(201)
                 .header("Location", is(notNullValue()))
                 .extract().response().getHeader("Location"));
     }

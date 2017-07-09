@@ -2,7 +2,9 @@ package se.andolf.entities;
 
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Relationship;
+import se.andolf.api.WorkoutType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,13 +15,13 @@ public class GroupEntity {
     @GraphId
     private Long id;
     private int value;
+    private WorkoutType type;
 
-    @Relationship(type = "RECOMMENDED_RESISTANCE")
-    private List<ResistanceEntity> resistances;
+    @Relationship(type = "HAS_EXERCISE")
+    private List<HasExerciseRel> hasExerciseRels;
 
-    public GroupEntity(int value, List<ResistanceEntity> resistances) {
-        this.value = value;
-        this.resistances = resistances;
+    public GroupEntity() {
+        hasExerciseRels = new ArrayList<>();
     }
 
     public Long getId() {
@@ -38,11 +40,15 @@ public class GroupEntity {
         this.value = value;
     }
 
-    public List<ResistanceEntity> getResistances() {
-        return resistances;
+    public WorkoutType getType() {
+        return type;
     }
 
-    public void setResistances(List<ResistanceEntity> resistances) {
-        this.resistances = resistances;
+    public void setType(WorkoutType type) {
+        this.type = type;
+    }
+
+    public void addExercise(HasExerciseRel hasExerciseRels) {
+        this.hasExerciseRels.add(hasExerciseRels);
     }
 }

@@ -8,7 +8,7 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.List;
 
 /**
- * Created by Thomas on 2016-06-11.
+ * @author Thomas on 2016-06-11.
  */
 @NodeEntity
 public class CategoryEntity {
