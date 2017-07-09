@@ -6,10 +6,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.time.LocalDate;
 
 import static com.google.common.base.Predicates.or;
 import static springfox.documentation.builders.PathSelectors.regex;
@@ -18,50 +23,44 @@ import static springfox.documentation.builders.PathSelectors.regex;
  * @author Thomas on 2016-06-25.
  */
 @Configuration
-@ComponentScan("se.andolf.controller")
+@ComponentScan(basePackages = "se.andolf.controller")
 public class SwaggerConfiguration {
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                    .select()
+                    .apis(RequestHandlerSelectors.any())
+                    .paths(paths())
+                    .build()
                 .apiInfo(apiInfo())
+                .directModelSubstitute(LocalDate.class, String.class)
                 .ignoredParameterTypes(ResponseEntity.class)
                 .useDefaultResponseMessages(false)
-                .select()
-                .paths(petstorePaths())
-                .build()
-                .tags(new Tag("Categories", "All api's related to exercise categories"),
-                        new Tag("Equipments", "All api's related to equipment"),
-                        new Tag("Exercises", "All api's related to exercises"),
-                        new Tag("Users", "All api's related to handling users")
+                .tags(new Tag("Categories", ""),
+                        new Tag("Equipments", ""),
+                        new Tag("Exercises", ""),
+                        new Tag("Workouts", "")
                 );
     }
 
-    private Predicate<String> petstorePaths() {
+    private Predicate<String> paths() {
 
         return or(
                 regex("/exercises.*"),
                 regex("/categories.*"),
                 regex("/equipments.*"),
-                regex("/users.*")
+                regex("/workouts.*")
         );
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Lift API")
-                .description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum " +
-                        "has been the industry's standard dummy text ever since the 1500s, when an unknown printer "
-                        + "took a " +
-                        "galley of type and scrambled it to make a type specimen book. It has survived not only five " +
-                        "centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                        "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum " +
-                        "passages, and more recently with desktop publishing software like Aldus PageMaker including " +
-                        "versions of Lorem Ipsum.")
-                .termsOfServiceUrl("http://springfox.io")
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/springfox/springfox/blob/master/LICENSE")
-                .version("2.0")
+                .description("This is the API for the Lift application. Its an application that has the ability to log " +
+                        "crossfit workouts so that you can keep track of your progress. ")
+                .contact(new Contact("Tandolf", "http://www.github.com/lift", "thomas.andolf@gmail.com"))
+                .version("1.0")
                 .build();
     }
 }
