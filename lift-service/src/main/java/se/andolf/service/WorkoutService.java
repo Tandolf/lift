@@ -9,6 +9,7 @@ import se.andolf.entities.*;
 import se.andolf.repository.ExerciseRepository;
 import se.andolf.repository.WorkoutRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -92,12 +93,46 @@ public class WorkoutService {
     }
 
     public Workout find(Long id) {
-        return toWorkout(workoutRepository.findOne(id));
+        return toWorkout(workoutRepository.findById(id));
     }
 
     private Workout toWorkout(WorkoutEntity workout) {
+        return new Workout.Builder()
+                .setId(workout.getId())
+                .setDate(workout.getDate())
+                .setWork(workout.getWork())
+                .setSets(workout.getSets())
+                .setRest(workout.getRest())
+                .setEffort(workout.getEffort())
+                .isAlternating(workout.isAlternating())
+                .setResistances(toResistance(workout.getResistanceEntities()))
+                .build();
+    }
 
+    private List<Resistance> toResistance(List<ResistanceEntity> resistanceEntities) {
+        final List<Resistance> resistances = new ArrayList<>();
+        resistanceEntities.stream().forEach(r -> {
+            r.getExercises().stream().forEach(e -> {
+                final Resistance.Builder builder = toResistance(r);
+                resistances.add(builder.setExerciseId(e.getId()).build());
+            });
+        });
 
-        return new Workout.Builder().setId(workout.getId()).setDate(workout.getDate()).build();
+        return resistances;
+    }
+
+    private Resistance.Builder toResistance(ResistanceEntity resistanceEntity) {
+        return new Resistance.Builder()
+                .setId(resistanceEntity.getId())
+                .setWeight(resistanceEntity.getWeight())
+                .setDistance(resistanceEntity.getDistance())
+                .setCalories(resistanceEntity.getCalories())
+                .setRepsFrom(resistanceEntity.getRepsFrom())
+                .setRepsTo(resistanceEntity.getRepsTo())
+                .isAlternateSides(resistanceEntity.isAlternateSides())
+                .setForCal(resistanceEntity.isForCal())
+                .setForDistance(resistanceEntity.isForDistance())
+                .setUnits(resistanceEntity.getUnits())
+                .setStrapless(resistanceEntity.isStrapless());
     }
 }

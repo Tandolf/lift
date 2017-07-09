@@ -23,10 +23,10 @@ public class ResistanceEntity {
     private boolean forCal;
     private boolean forDistance;
     private Unit units;
+    private boolean strapless;
 
     @Relationship(type = "FOR_EXERCISE")
     private List<ExerciseEntity> exercises;
-    private boolean strapless;
 
     public ResistanceEntity() {
         this.exercises = new ArrayList<>();
@@ -130,5 +130,9 @@ public class ResistanceEntity {
 
     public boolean isStrapless() {
         return strapless;
+    }
+
+    public List<ExerciseEntity> getExercises() {
+        return exercises;
     }
 }

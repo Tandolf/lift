@@ -12,15 +12,14 @@ public class Resistance {
     private final int calories;
     private final int repsFrom;
     private final int repsTo;
-    private boolean forDistance;
-    private boolean forCal;
-    private int effort;
-    private boolean strapless;
+    private final boolean forDistance;
+    private final boolean forCal;
+    private final int effort;
+    private final boolean strapless;
     private final boolean alternateSides;
-    private final WorkoutType type;
     private final Unit units;
 
-    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, WorkoutType type, boolean strapless) {
+    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless) {
         this.id = id;
         this.exerciseId = exerciseId;
         this.weight = weight;
@@ -33,7 +32,6 @@ public class Resistance {
         this.effort = effort;
         this.forCal = forCal;
         this.forDistance = forDistance;
-        this.type = type;
         this.strapless = strapless;
     }
 
@@ -85,11 +83,93 @@ public class Resistance {
         return forCal;
     }
 
-    public WorkoutType getType() {
-        return type;
-    }
-
     public boolean isStrapless() {
         return strapless;
+    }
+
+    public static class Builder {
+
+        private Long id;
+        private Long exerciseId;
+        private int weight;
+        private int distance;
+        private int calories;
+        private int repsFrom;
+        private int repsTo;
+        private boolean forDistance;
+        private boolean forCal;
+        private int effort;
+        private boolean strapless;
+        private boolean alternateSides;
+        private Unit units;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setExerciseId(Long exerciseId) {
+            this.exerciseId = exerciseId;
+            return this;
+        }
+
+        public Builder setWeight(int weight) {
+            this.weight = weight;
+            return this;
+        }
+
+        public Builder setDistance(int distance) {
+            this.distance = distance;
+            return this;
+        }
+
+        public Builder setCalories(int calories) {
+            this.calories = calories;
+            return this;
+        }
+
+        public Builder setRepsFrom(int repsFrom) {
+            this.repsFrom = repsFrom;
+            return this;
+        }
+
+        public Builder setRepsTo(int repsTo) {
+            this.repsTo = repsTo;
+            return this;
+        }
+
+        public Builder setForDistance(boolean forDistance) {
+            this.forDistance = forDistance;
+            return this;
+        }
+
+        public Builder setForCal(boolean forCal) {
+            this.forCal = forCal;
+            return this;
+        }
+
+        public Builder setEffort(int effort) {
+            this.effort = effort;
+            return this;
+        }
+
+        public Builder setStrapless(boolean strapless) {
+            this.strapless = strapless;
+            return this;
+        }
+
+        public Builder isAlternateSides(boolean alternateSides) {
+            this.alternateSides = alternateSides;
+            return this;
+        }
+
+        public Builder setUnits(Unit units) {
+            this.units = units;
+            return this;
+        }
+
+        public Resistance build() {
+            return new Resistance(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless);
+        }
     }
 }

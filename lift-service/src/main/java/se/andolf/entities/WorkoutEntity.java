@@ -31,11 +31,11 @@ public class WorkoutEntity {
     private List<ResistanceEntity> resistanceEntities;
 
     @Relationship(type = "HAS_GROUP")
-    private List<GroupEntity> groupEntitys;
+    private List<GroupEntity> groupEntitis;
 
     public WorkoutEntity() {
         this.resistanceEntities = new ArrayList<>();
-        this.groupEntitys = new ArrayList<>();
+        this.groupEntitis = new ArrayList<>();
     }
 
     public Long getId() {
@@ -103,10 +103,14 @@ public class WorkoutEntity {
     }
 
     public void addGroup(GroupEntity groupEntity) {
-        groupEntitys.add(groupEntity);
+        groupEntitis.add(groupEntity);
     }
 
     public void setEffort(int effort) {
         this.effort = effort;
+    }
+
+    public List<ResistanceEntity> getResistanceEntities() {
+        return resistanceEntities;
     }
 }

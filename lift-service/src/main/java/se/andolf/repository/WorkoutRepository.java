@@ -19,4 +19,9 @@ public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> 
 
     @Query("MATCH (w:WorkoutEntity) RETURN ID(w)")
     List<Long> findAllIdsAsList();
+
+    @Query("MATCH (w:WorkoutEntity) WHERE ID(w)={id}" +
+            "MATCH workout=(w)--(n)--(e:ExerciseEntity)" +
+            "RETURN workout")
+    WorkoutEntity findById(Long id);
 }
