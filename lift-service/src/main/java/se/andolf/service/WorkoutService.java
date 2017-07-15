@@ -11,7 +11,6 @@ import se.andolf.repository.ExerciseRepository;
 import se.andolf.repository.WorkoutRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.andolf.api.ErrorMessage;
 import se.andolf.api.Workout;
 import se.andolf.service.WorkoutService;
 
@@ -16,9 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * @author Thomas on 2017-06-18.
