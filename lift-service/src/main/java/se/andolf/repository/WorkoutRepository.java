@@ -18,8 +18,9 @@ public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> 
             "DETACH DELETE w, r, g")
     void deleteWorkoutById(long id);
 
-    @Query("MATCH (w:WorkoutEntity) RETURN ID(w)")
-    List<Long> findAllIdsAsList();
+    @Query("MATCH (w:WorkoutEntity) " +
+            "RETURN w ORDER BY w.date")
+    List<WorkoutEntity> findAllWorkoutsAsList();
 
     @Query("MATCH workout=(w:WorkoutEntity)--(n)--(e:ExerciseEntity) " +
             "WHERE ID(w)={id}" +

@@ -95,7 +95,7 @@ public class WorkoutService {
     }
 
     public List<Workout> getAll() {
-        return workoutRepository.findAllIdsAsList().stream().map(aLong -> new Workout.Builder().setId(aLong).build()).collect(Collectors.toList());
+        return workoutRepository.findAllWorkoutsAsList().stream().map(workoutEntity -> new Workout.Builder().setId(workoutEntity.getId()).setDate(workoutEntity.getDate()).build()).collect(Collectors.toList());
     }
 
     public Workout find(Long id) {
@@ -137,12 +137,10 @@ public class WorkoutService {
 
     private List<Resistance> toResistance(List<ResistanceEntity> resistanceEntities) {
         final List<Resistance> resistances = new ArrayList<>();
-        resistanceEntities.stream().forEach(r -> {
-            r.getExercises().stream().forEach(e -> {
-                final Resistance.Builder builder = toResistance(r);
-                resistances.add(builder.setExerciseId(e.getId()).build());
-            });
-        });
+        resistanceEntities.stream().forEach(r -> r.getExercises().stream().forEach(e -> {
+            final Resistance.Builder builder = toResistance(r);
+            resistances.add(builder.setExerciseId(e.getId()).build());
+        }));
 
         return resistances;
     }

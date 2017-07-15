@@ -1,5 +1,6 @@
 package se.andolf.controller;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,10 +18,8 @@ import java.util.List;
 
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
-import static io.restassured.path.json.JsonPath.from;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 import static se.andolf.util.DbUtil.purge;
 
@@ -151,18 +150,22 @@ public class WorkoutControllerIT {
     }
 
     @Test
-    public void shouldReturnAListOfIds() {
-        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk");
+    public void shouldReturnAListOfWorkoutsWithIdAndDate() {
+        final List<Integer> exercises = putExercises(
+                "Hang Power Clean",
+                "Push Press",
+                "Power Clean",
+                "Split Jerk");
         put(formatJson("170607_1.json", exercises));
         put(formatJson("170607_1.json", exercises));
         put(formatJson("170607_1.json", exercises));
-        final String json = given().get("/workouts")
+        get("/workouts")
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .extract().body().asString();
-        final List<Long> ids = from(json).get("id");
-        assertEquals(3, ids.size());
+                .body("size()", equalTo(3))
+                .body("id", hasItem(CoreMatchers.notNullValue()))
+                .body("date", hasItem(notNullValue()));
     }
 
     @Test
