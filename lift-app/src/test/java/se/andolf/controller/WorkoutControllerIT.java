@@ -19,6 +19,7 @@ import java.util.List;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 import static se.andolf.util.DbUtil.purge;
@@ -166,6 +167,34 @@ public class WorkoutControllerIT {
                 .body("size()", equalTo(3))
                 .body("id", hasItem(CoreMatchers.notNullValue()))
                 .body("date", hasItem(notNullValue()));
+    }
+
+    @Test
+    public void shouldReturnAListOfWorkoutsFilteredByDate() {
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk");
+        final List<Integer> exercises2 = putExercises("Back Squats", "Half TGU");
+        final List<Integer> exercises3 = putExercises(
+                "Heavy farmers walk",
+                "Shuttle runs",
+                "Toes to bar",
+                "Assault bike",
+                "Goblet reverse lunge from block",
+                "Row",
+                "Dumbbell Thrusters",
+                "Target burpees"
+        );
+        final int id = Integer.parseInt(put(formatJson("170607_1.json", exercises)));
+        final int id2 = Integer.parseInt(put(formatJson("170607_2.json", exercises2)));
+        put(formatJson("170706.json", exercises3));
+
+        given()
+                .queryParam("date", "2017-06-07")
+                .get("/{resource}", WORKOUT_RESOURCE)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("size()", is(equalTo(2)))
+                .body("id", containsInAnyOrder(id, id2));
     }
 
     @Test

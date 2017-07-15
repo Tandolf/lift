@@ -10,6 +10,7 @@ import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.ExerciseRepository;
 import se.andolf.repository.WorkoutRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -160,5 +161,9 @@ public class WorkoutService {
                 .setEffort(resistanceEntity.getEffort())
                 .isStrapless(resistanceEntity.isStrapless())
                 .setDamper(resistanceEntity.getDamper());
+    }
+
+    public List<Workout> getAll(LocalDate date) {
+        return workoutRepository.findByDate(date).stream().map(workoutEntity -> new Workout.Builder().setId(workoutEntity.getId()).setDate(workoutEntity.getDate()).build()).collect(Collectors.toList());
     }
 }

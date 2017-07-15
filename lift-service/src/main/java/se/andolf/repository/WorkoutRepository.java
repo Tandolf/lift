@@ -4,6 +4,7 @@ import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import se.andolf.entities.WorkoutEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -21,6 +22,8 @@ public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> 
     @Query("MATCH (w:WorkoutEntity) " +
             "RETURN w ORDER BY w.date")
     List<WorkoutEntity> findAllWorkoutsAsList();
+
+    List<WorkoutEntity> findByDate(LocalDate date);
 
     @Query("MATCH workout=(w:WorkoutEntity)--(n)--(e:ExerciseEntity) " +
             "WHERE ID(w)={id}" +

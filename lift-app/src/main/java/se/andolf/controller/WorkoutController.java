@@ -2,6 +2,7 @@ package se.andolf.controller;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +14,9 @@ import se.andolf.service.WorkoutService;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -63,7 +66,10 @@ public class WorkoutController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/workouts")
-    public List<Workout> getAll(){
+    public List<Workout> getAll(@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        if(date != null)
+            return workoutService.getAll(date);
+
         return workoutService.getAll();
     }
 
