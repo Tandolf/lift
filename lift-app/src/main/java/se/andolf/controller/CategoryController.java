@@ -33,8 +33,8 @@ public class CategoryController {
             @ApiResponse(code = 201, message = "CategoryEntity added", responseHeaders = {
                     @ResponseHeader(name = "Location", description = "path to the newly created resource", response = String.class)
             }),
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=PUT, value="/categories")
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,8 +48,8 @@ public class CategoryController {
 
     @ApiOperation(value = "Gets all the categories as a list", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/categories")
     public List<Category> getAll(){
@@ -58,8 +58,8 @@ public class CategoryController {
 
     @ApiOperation(value = "Gets a category by id", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/categories/{id}")
     public Category find(
@@ -70,8 +70,8 @@ public class CategoryController {
 
     @ApiOperation(value = "Delete a category by id", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=DELETE, value="/categories/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -83,8 +83,8 @@ public class CategoryController {
 
     @ApiOperation(value = "Patch category with RFC6902")
     @ApiResponses(value = {
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=PATCH, value="/categories/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -77,7 +77,7 @@ public class WorkoutController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/workouts/{id}")
-    public Object getById(@PathVariable("id") Long id){
+    public Workout getById(@PathVariable("id") Long id){
         return workoutService.find(id);
     }
 }
