@@ -10,9 +10,12 @@ import se.andolf.repository.ExerciseRepository;
 import se.andolf.repository.WorkoutRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static se.andolf.service.ExerciseService.toExercise;
 
 /**
  * @author Thomas on 2017-06-18.
@@ -108,7 +111,24 @@ public class WorkoutService {
                 .setEffort(workout.getEffort())
                 .isAlternating(workout.isAlternating())
                 .setResistances(toResistance(workout.getResistanceEntities()))
+                .setExercises(toExercises(workout.getGroupEntities()))
                 .build();
+    }
+
+    private List<Exercise> toExercises(List<GroupEntity> groupEntities) {
+        final List<Exercise> exercises = new ArrayList<>();
+        groupEntities.sort((g1, g2) -> Integer.compare(g1.getValue(), g2.getValue()));
+        groupEntities.stream().forEach(groupEntity -> {
+            final List<HasExerciseRel> hasExerciseRels = groupEntity.getHasExerciseRels();
+            hasExerciseRels.sort((r1, r2) -> Integer.compare(r1.getOrder(), r2.getOrder()));
+            final List<Exercise> e = hasExerciseRels.stream().map(hasExerciseRel -> toExercise(hasExerciseRel.getExerciseEntity())).collect(Collectors.toList());
+            if(e.size() == 1)
+                exercises.add(e.get(0));
+            else {
+                exercises.add(new Exercise.Builder().setExercises(e).setType(groupEntity.getType()).build());
+            }
+        });
+        return exercises;
     }
 
     private List<Resistance> toResistance(List<ResistanceEntity> resistanceEntities) {

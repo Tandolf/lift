@@ -51,4 +51,8 @@ public class GroupEntity {
     public void addExercise(HasExerciseRel hasExerciseRels) {
         this.hasExerciseRels.add(hasExerciseRels);
     }
+
+    public List<HasExerciseRel> getHasExerciseRels() {
+        return hasExerciseRels;
+    }
 }

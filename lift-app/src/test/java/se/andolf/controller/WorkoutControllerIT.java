@@ -85,7 +85,40 @@ public class WorkoutControllerIT {
     }
 
     @Test
-    public void shouldSaveWorkoutWithStraplessParam(){
+    public void shouldFetchWorkoutWithMultipleGroupsInCorrectOrderOfGroupsAndExercises(){
+        final List<Integer> exercises = putExercises(
+                "Heavy farmers walk",
+                "Shuttle runs",
+                "Toes to bar",
+                "Assault bike",
+                "Goblet reverse lunge from block",
+                "Row",
+                "Dumbbell Thrusters",
+                "Target burpees"
+        );
+        final String id = put(formatJson("170706.json", exercises));
+
+        given()
+                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("exercises[0].type", is("AMRAP"))
+                .body("exercises.exercises[0][0].id", is(exercises.get(0)))
+                .body("exercises.exercises[0][1].id", is(exercises.get(1)))
+                .body("exercises[1].type", is("AMRAP"))
+                .body("exercises.exercises[1][0].id", is(exercises.get(2)))
+                .body("exercises.exercises[1][1].id", is(exercises.get(3)))
+                .body("exercises[2].type", is("AMRAP"))
+                .body("exercises.exercises[2][0].id", is(exercises.get(4)))
+                .body("exercises.exercises[2][1].id", is(exercises.get(5)))
+                .body("exercises[3].type", is("AMRAP"))
+                .body("exercises.exercises[3][0].id", is(exercises.get(6)))
+                .body("exercises.exercises[3][1].id", is(exercises.get(7)));
+    }
+
+    @Test
+    public void shouldSaveWorkoutWithStraplessAndDamperParam(){
         final List<Integer> exercises = putExercises(
                 "Heavy farmers walk",
                 "Shuttle runs",
