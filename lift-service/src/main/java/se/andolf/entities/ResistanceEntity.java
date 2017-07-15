@@ -24,6 +24,8 @@ public class ResistanceEntity {
     private boolean forDistance;
     private Unit units;
     private boolean strapless;
+    private int effort;
+    private int damper;
 
     @Relationship(type = "FOR_EXERCISE")
     private List<ExerciseEntity> exercises;
@@ -134,5 +136,21 @@ public class ResistanceEntity {
 
     public List<ExerciseEntity> getExercises() {
         return exercises;
+    }
+
+    public int getEffort() {
+        return effort;
+    }
+
+    public void setEffort(int effort) {
+        this.effort = effort;
+    }
+
+    public int getDamper() {
+        return damper;
+    }
+
+    public void setDamper(int damper) {
+        this.damper = damper;
     }
 }

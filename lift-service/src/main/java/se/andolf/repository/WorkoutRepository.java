@@ -11,7 +11,8 @@ import java.util.List;
  */
 public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> {
 
-    @Query("MATCH (w:WorkoutEntity) WHERE ID(w)={id} " +
+    @Query("MATCH (w:WorkoutEntity) " +
+            "WHERE ID(w)={id} " +
             "OPTIONAL MATCH (w)--(r:ResistanceEntity) " +
             "OPTIONAL MATCH (w)--(g:GroupEntity) " +
             "DETACH DELETE w, r, g")
@@ -20,8 +21,8 @@ public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> 
     @Query("MATCH (w:WorkoutEntity) RETURN ID(w)")
     List<Long> findAllIdsAsList();
 
-    @Query("MATCH (w:WorkoutEntity) WHERE ID(w)={id}" +
-            "MATCH workout=(w)--(n)--(e:ExerciseEntity)" +
+    @Query("MATCH workout=(w:WorkoutEntity)--(n)--(e:ExerciseEntity) " +
+            "WHERE ID(w)={id}" +
             "RETURN workout")
     WorkoutEntity findById(Long id);
 }

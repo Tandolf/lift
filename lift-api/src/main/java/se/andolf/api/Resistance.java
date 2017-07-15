@@ -16,10 +16,11 @@ public class Resistance {
     private final boolean forCal;
     private final int effort;
     private final boolean strapless;
+    private final int damper;
     private final boolean alternateSides;
     private final Unit units;
 
-    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless) {
+    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper) {
         this.id = id;
         this.exerciseId = exerciseId;
         this.weight = weight;
@@ -33,6 +34,7 @@ public class Resistance {
         this.forCal = forCal;
         this.forDistance = forDistance;
         this.strapless = strapless;
+        this.damper = damper;
     }
 
     public Long getId() {
@@ -87,6 +89,10 @@ public class Resistance {
         return strapless;
     }
 
+    public int getDamper() {
+        return damper;
+    }
+
     public static class Builder {
 
         private Long id;
@@ -102,6 +108,7 @@ public class Resistance {
         private boolean strapless;
         private boolean alternateSides;
         private Unit units;
+        private int damper;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -153,7 +160,7 @@ public class Resistance {
             return this;
         }
 
-        public Builder setStrapless(boolean strapless) {
+        public Builder isStrapless(boolean strapless) {
             this.strapless = strapless;
             return this;
         }
@@ -168,8 +175,13 @@ public class Resistance {
             return this;
         }
 
+        public Builder setDamper(int damper) {
+            this.damper = damper;
+            return this;
+        }
+
         public Resistance build() {
-            return new Resistance(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless);
+            return new Resistance(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless, damper);
         }
     }
 }

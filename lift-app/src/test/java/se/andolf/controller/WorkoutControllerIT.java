@@ -1,5 +1,6 @@
 package se.andolf.controller;
 
+import org.hamcrest.core.Every;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,7 +18,11 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.path.json.JsonPath.from;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
@@ -81,7 +86,16 @@ public class WorkoutControllerIT {
 
     @Test
     public void shouldSaveWorkoutWithStraplessParam(){
-        final List<Integer> exercises = putExercises("Heavy farmers walk", "Shuttle runs", "Toes to bar", "Assault bike", "Goblet reverse lunge from block", "Row", "Dumbbell Thrusters", "Target burpees");
+        final List<Integer> exercises = putExercises(
+                "Heavy farmers walk",
+                "Shuttle runs",
+                "Toes to bar",
+                "Assault bike",
+                "Goblet reverse lunge from block",
+                "Row",
+                "Dumbbell Thrusters",
+                "Target burpees"
+        );
         final String id = put(formatJson("170706.json", exercises));
 
         given()
@@ -89,7 +103,12 @@ public class WorkoutControllerIT {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("id", is(Integer.parseInt(id)));
+                .body("id", is(Integer.parseInt(id)))
+                .body("work", equalTo(180))
+                .body("rest", equalTo(60))
+                .body("sets", equalTo(8))
+                .body("resistances.damper", hasItems(3))
+                .body("resistances.strapless", hasItems(true));
     }
 
     @Test
@@ -108,7 +127,11 @@ public class WorkoutControllerIT {
         put(formatJson("170607_1.json", exercises));
         put(formatJson("170607_1.json", exercises));
         put(formatJson("170607_1.json", exercises));
-        final String json = given().get("/workouts").then().assertThat().statusCode(200).extract().body().asString();
+        final String json = given().get("/workouts")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .extract().body().asString();
         final List<Long> ids = from(json).get("id");
         assertEquals(3, ids.size());
     }

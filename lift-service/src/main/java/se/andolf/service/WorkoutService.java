@@ -77,6 +77,8 @@ public class WorkoutService {
         resistanceEntity.isForCal(resistance.isForCal());
         resistanceEntity.isForDistance(resistance.isForDistance());
         resistanceEntity.isStrapless(resistance.isStrapless());
+        resistanceEntity.setEffort(resistance.getEffort());
+        resistanceEntity.setDamper(resistance.getDamper());
         return resistanceEntity;
     }
 
@@ -133,6 +135,8 @@ public class WorkoutService {
                 .setForCal(resistanceEntity.isForCal())
                 .setForDistance(resistanceEntity.isForDistance())
                 .setUnits(resistanceEntity.getUnits())
-                .setStrapless(resistanceEntity.isStrapless());
+                .setEffort(resistanceEntity.getEffort())
+                .isStrapless(resistanceEntity.isStrapless())
+                .setDamper(resistanceEntity.getDamper());
     }
 }

@@ -26,6 +26,11 @@
       "weight": 24
     },
     {
+      "exerciseId": %6$d,
+      "strapless": true,
+      "damper": 3
+    },
+    {
       "exerciseId": %7$d,
       "repsFrom": 8,
       "repsTo": 8
