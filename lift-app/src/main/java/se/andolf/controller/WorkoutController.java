@@ -35,8 +35,8 @@ public class WorkoutController {
             @ApiResponse(code = 201, message = "Workout added", responseHeaders = {
                     @ResponseHeader(name = "Location", description = "path to the newly created resource", response = String.class)
             }),
-            @ApiResponse(code = 400, message = "Bad request", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method = PUT, value="/workouts")
     public ResponseEntity add(@RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
@@ -49,8 +49,8 @@ public class WorkoutController {
     @ApiOperation(value = "Delete a workout by id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Workout deleted"),
-            @ApiResponse(code = 404, message = "Not found", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=DELETE, value="/workouts/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -63,7 +63,7 @@ public class WorkoutController {
     @ApiOperation(value = "Get a list of all workouts")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned all workouts"),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/workouts")
     public List<Workout> getAll(){
@@ -73,8 +73,8 @@ public class WorkoutController {
     @ApiOperation(value = "Get a workout by id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned workout"),
-            @ApiResponse(code = 404, message = "Not found", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Internal server error", response = ErrorMessage.class)
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/workouts/{id}")
     public Object getById(@PathVariable("id") Long id){
