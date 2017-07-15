@@ -16,6 +16,7 @@ import se.andolf.util.UriUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static io.restassured.path.json.JsonPath.from;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -167,6 +168,15 @@ public class WorkoutControllerIT {
                 .extract().body().asString();
         final List<Long> ids = from(json).get("id");
         assertEquals(3, ids.size());
+    }
+
+    @Test
+    public void shouldReturn404IfFetchedWorkoutDoesNotExists() {
+        final Long id = 1234L;
+        get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .then()
+                .assertThat()
+                .statusCode(404);
     }
 
     private List<Integer> putExercises(String... equipmentNames){

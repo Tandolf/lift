@@ -6,12 +6,14 @@ import se.andolf.api.Exercise;
 import se.andolf.api.Resistance;
 import se.andolf.api.Workout;
 import se.andolf.entities.*;
+import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.ExerciseRepository;
 import se.andolf.repository.WorkoutRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -98,7 +100,10 @@ public class WorkoutService {
     }
 
     public Workout find(Long id) {
-        return toWorkout(workoutRepository.findById(id));
+        final Optional<WorkoutEntity> workoutEntity = Optional.ofNullable(workoutRepository.findById(id));
+        if(workoutEntity.isPresent())
+            return toWorkout(workoutEntity.get());
+        throw new NodeNotFoundException(String.format("Couldn't not find node with id %d", id));
     }
 
     private Workout toWorkout(WorkoutEntity workout) {
