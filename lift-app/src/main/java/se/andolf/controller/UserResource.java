@@ -8,18 +8,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.andolf.api.User;
-import se.andolf.api.Workout;
 import se.andolf.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * @author Thomas on 2017-07-16.
@@ -43,7 +39,7 @@ public class UserResource {
     public ResponseEntity add(@RequestBody User user, HttpServletRequest request) throws URISyntaxException {
         final long id = userService.save(user);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + id));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 
