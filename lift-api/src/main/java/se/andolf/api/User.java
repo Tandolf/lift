@@ -8,11 +8,13 @@ public class User {
     private final long id;
     private final String firstname;
     private final String lastname;
+    private final AccountInfo accountInfo;
 
-    public User(long id, String firstname, String lastname) {
+    public User(long id, String firstname, String lastname, AccountInfo accountInfo) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.accountInfo = accountInfo;
     }
 
     public long getId() {
@@ -25,6 +27,10 @@ public class User {
 
     public String getLastname() {
         return lastname;
+    }
+
+    public AccountInfo getAccountInfo() {
+        return accountInfo;
     }
 
     public static class Builder {
@@ -49,7 +55,7 @@ public class User {
         }
 
         public User build() {
-            return new User(id, firstname, lastname);
+            return new User(id, firstname, lastname, null);
         }
     }
 }

@@ -14,4 +14,9 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
     @Query("MATCH (u:UserEntity) " +
             "RETURN u")
     List<UserEntity> findAllUsersAsList();
+
+    @Query("MATCH (u:UserEntity)-->(a:AccountInfoEntity) " +
+            "WHERE ID(u) = {id} " +
+            "DETACH DELETE u, a")
+    void deleteUserById(long id);
 }

@@ -1,4 +1,7 @@
 {
   "firstname": "Kalle",
-  "lastname": "Andersson"
+  "lastname": "Andersson",
+  "accountInfo": {
+    "email": "kalle.andersson@gmail.com"
+  }
 }

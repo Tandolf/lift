@@ -41,15 +41,15 @@ public class UserResourceIT {
     @Test
     public void shouldDeleteUserById(){
         final String user = FileUtils.read("users/user.json");
-        final String header = put(user);
+        final String header = putUser(user);
         delete(header).then().assertThat().statusCode(204);
     }
 
     @Test
     public void shouldRetrieveAListOfUserIds() {
-        final int id = Integer.parseInt(UriUtil.extractLastPath(put(FileUtils.read("users/user.json"))));
-        final int id2 = Integer.parseInt(UriUtil.extractLastPath(put(FileUtils.read("users/user2.json"))));
-        final int id3 = Integer.parseInt(UriUtil.extractLastPath(put(FileUtils.read("users/user3.json"))));
+        final int id = Integer.parseInt(UriUtil.extractLastPath(putUser(FileUtils.read("users/user.json"))));
+        final int id2 = Integer.parseInt(UriUtil.extractLastPath(putUser(FileUtils.read("users/user2.json"))));
+        final int id3 = Integer.parseInt(UriUtil.extractLastPath(putUser(FileUtils.read("users/user3.json"))));
 
         get(USER_RESOURCE)
                 .then()
@@ -60,7 +60,19 @@ public class UserResourceIT {
 
     }
 
-    public String put(String json) {
+    @Test
+    public void shouldThrowConflict409IfTryingToAddUsersWithSameEmail() {
+        putUser(FileUtils.read("users/user.json"));
+        given()
+                .contentType(ContentType.JSON)
+                .body(FileUtils.read("users/user.json"))
+                .put(USER_RESOURCE)
+                .then()
+                .assertThat()
+                .statusCode(409);
+    }
+
+    public String putUser(String json) {
         return given()
                 .contentType(ContentType.JSON)
                 .body(json)
