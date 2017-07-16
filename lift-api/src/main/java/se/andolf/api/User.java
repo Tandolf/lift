@@ -5,12 +5,18 @@ package se.andolf.api;
  */
 public class User {
 
+    private final long id;
     private final String firstname;
     private final String lastname;
 
-    public User(String firstname, String lastname) {
+    public User(long id, String firstname, String lastname) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFirstname() {
@@ -19,5 +25,31 @@ public class User {
 
     public String getLastname() {
         return lastname;
+    }
+
+    public static class Builder {
+
+        private long id;
+        private String firstname;
+        private String lastname;
+
+        public Builder setId(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setFirstname(String firstname) {
+            this.firstname = firstname;
+            return this;
+        }
+
+        public Builder setLastname(String lastname) {
+            this.lastname = lastname;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, firstname, lastname);
+        }
     }
 }

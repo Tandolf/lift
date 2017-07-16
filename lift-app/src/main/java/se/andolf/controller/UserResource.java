@@ -53,7 +53,6 @@ public class UserResource {
             @ApiParam(value = "id of the category that will find deleted", required = true)
             @PathVariable("id") String id){
         userService.delete(Long.parseLong(id));
-
     }
 
     @ApiOperation(value = "Get a list of all users")
@@ -62,7 +61,7 @@ public class UserResource {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/users")
-    public List<Workout> getAll(){
-        return new ArrayList<>();
+    public List<User> getAll(){
+        return userService.getAll();
     }
 }

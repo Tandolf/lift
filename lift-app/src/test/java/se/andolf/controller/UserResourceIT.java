@@ -9,10 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.andolf.config.Client;
 import se.andolf.util.FileUtils;
+import se.andolf.util.UriUtil;
 
-import static io.restassured.RestAssured.delete;
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 import static se.andolf.util.DbUtil.purge;
@@ -39,17 +41,34 @@ public class UserResourceIT {
     @Test
     public void shouldDeleteUserById(){
         final String user = FileUtils.read("users/user.json");
+        final String header = put(user);
+        delete(header).then().assertThat().statusCode(204);
+    }
 
-        final String header = given()
+    @Test
+    public void shouldRetrieveAListOfUserIds() {
+        final int id = Integer.parseInt(UriUtil.extractLastPath(put(FileUtils.read("users/user.json"))));
+        final int id2 = Integer.parseInt(UriUtil.extractLastPath(put(FileUtils.read("users/user2.json"))));
+        final int id3 = Integer.parseInt(UriUtil.extractLastPath(put(FileUtils.read("users/user3.json"))));
+
+        get(USER_RESOURCE)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("size()", equalTo(3))
+                .body("id", containsInAnyOrder(id, id2, id3));
+
+    }
+
+    public String put(String json) {
+        return given()
                 .contentType(ContentType.JSON)
-                .body(user)
+                .body(json)
                 .put("{path}/", USER_RESOURCE)
                 .then()
                 .assertThat()
                 .statusCode(201)
                 .header("Location", is(notNullValue()))
                 .extract().response().getHeader("Location");
-
-        delete(header).then().assertThat().statusCode(204);
     }
 }

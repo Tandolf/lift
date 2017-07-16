@@ -3,8 +3,14 @@ package se.andolf.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.User;
+import se.andolf.api.Workout;
 import se.andolf.entities.UserEntity;
+import se.andolf.entities.WorkoutEntity;
 import se.andolf.repository.UserRepository;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @author Thomas on 2017-07-16.
@@ -30,5 +36,17 @@ public class UserService {
 
     public void delete(long id) {
         userRepository.delete(id);
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAllUsersAsList().stream().map(this::toUser).collect(Collectors.toList());
+    }
+
+    private User toUser(UserEntity userEntity) {
+        return new User.Builder()
+                .setId(userEntity.getId())
+                .setFirstname(userEntity.getFirstname())
+                .setLastname(userEntity.getLastname())
+                .build();
     }
 }
