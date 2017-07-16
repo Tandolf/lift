@@ -7,15 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.AccountInfo;
 import se.andolf.api.User;
-import se.andolf.api.Workout;
 import se.andolf.entities.AccountInfoEntity;
 import se.andolf.entities.UserEntity;
-import se.andolf.entities.WorkoutEntity;
 import se.andolf.exceptions.NodeExistsException;
 import se.andolf.repository.UserRepository;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**

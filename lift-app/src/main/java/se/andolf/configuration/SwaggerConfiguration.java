@@ -40,7 +40,8 @@ public class SwaggerConfiguration {
                 .tags(new Tag("Categories", ""),
                         new Tag("Equipments", ""),
                         new Tag("Exercises", ""),
-                        new Tag("Workouts", "")
+                        new Tag("Workouts", ""),
+                        new Tag("Users", "")
                 );
     }
 
@@ -50,7 +51,8 @@ public class SwaggerConfiguration {
                 regex("/exercises.*"),
                 regex("/categories.*"),
                 regex("/equipments.*"),
-                regex("/workouts.*")
+                regex("/workouts.*"),
+                regex("/users.*")
         );
     }
 
