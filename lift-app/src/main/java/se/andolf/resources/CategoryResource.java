@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.*;
@@ -22,7 +22,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  */
 @RestController
 @Api(tags = { "Categories" })
-public class CategoryController {
+public class CategoryResource {
 
     @Autowired
     private CategoryService categoryService;
@@ -41,7 +41,7 @@ public class CategoryController {
             @RequestBody Category category, HttpServletRequest request) throws URISyntaxException {
         final Long id = categoryService.save(category);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + id));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
 

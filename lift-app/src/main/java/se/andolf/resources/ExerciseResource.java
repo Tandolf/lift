@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +23,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  */
 @RestController
 @Api(tags = "Exercises")
-public class ExerciseController {
+public class ExerciseResource {
 
     @Autowired
     private ExerciseService exerciseService;
@@ -33,7 +33,7 @@ public class ExerciseController {
     public ResponseEntity add(@RequestBody Exercise exercise, HttpServletRequest request) throws URISyntaxException {
         final long id = exerciseService.save(exercise);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + id));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 

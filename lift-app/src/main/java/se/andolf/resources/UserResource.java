@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

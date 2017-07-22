@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  */
 @RestController
 @Api(tags = { "Workouts" })
-public class WorkoutController {
+public class WorkoutResource {
 
     @Autowired
     private WorkoutService workoutService;
@@ -41,7 +41,7 @@ public class WorkoutController {
     public ResponseEntity add(@RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
         final long id = workoutService.save(workout);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + id));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 

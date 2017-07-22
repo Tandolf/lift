@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;

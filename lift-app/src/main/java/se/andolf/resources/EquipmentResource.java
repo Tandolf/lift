@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import com.github.fge.jsonpatch.JsonPatch;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  */
 @RestController
 @Api(tags = "Equipments")
-public class EquipmentController {
+public class EquipmentResource {
 
     @Autowired
     private EquipmentService equipmentService;
@@ -36,7 +36,7 @@ public class EquipmentController {
     public ResponseEntity add(@RequestBody Equipment equipment, HttpServletRequest request) throws URISyntaxException {
         final long id = equipmentService.save(equipment);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().toString() + "/" + id));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 

@@ -1,4 +1,4 @@
-package se.andolf.controller;
+package se.andolf.resources;
 
 import io.restassured.http.ContentType;
 import org.junit.Before;
