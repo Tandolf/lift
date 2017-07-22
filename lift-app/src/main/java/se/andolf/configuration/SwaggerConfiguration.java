@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -23,7 +22,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
  * @author Thomas on 2016-06-25.
  */
 @Configuration
-@ComponentScan(basePackages = "se.andolf.controller")
+@ComponentScan(basePackages = "se.andolf.resources")
 public class SwaggerConfiguration {
 
     @Bean
