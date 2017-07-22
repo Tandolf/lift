@@ -19,4 +19,9 @@ public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
             "WHERE ID(u) = {id} " +
             "DETACH DELETE u, a")
     void deleteUserById(long id);
+
+    @Query("MATCH (u:UserEntity)-[r*0..1]-(x) " +
+            "WHERE ID(u) = {id}" +
+            "RETURN u, r, x")
+    UserEntity findById(Long id);
 }

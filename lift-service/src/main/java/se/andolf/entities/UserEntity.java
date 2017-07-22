@@ -3,6 +3,7 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import se.andolf.api.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,14 +22,19 @@ public class UserEntity {
     @Relationship(type = "HAS_ACCOUNT_INFO")
     private Set<AccountInfoEntity> accountInfoEntities;
 
+    @Relationship(type = "HAS_CONTACT_INFO")
+    private Set<ContactInfoEntity> contactInfoEntities;
+
     public UserEntity() {
         this.accountInfoEntities = new HashSet<>();
+        this.contactInfoEntities = new HashSet<>();
     }
 
-    private UserEntity(String firstname, String lastname, Set<AccountInfoEntity> accountInfoEntities) {
+    private UserEntity(String firstname, String lastname, Set<AccountInfoEntity> accountInfoEntities, Set<ContactInfoEntity> contactInfoEntities) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.accountInfoEntities = accountInfoEntities;
+        this.contactInfoEntities = contactInfoEntities;
     }
 
     public Long getId() {
@@ -59,11 +65,25 @@ public class UserEntity {
         accountInfoEntities.add(accountInfoEntity);
     }
 
+    public void addContactInfo(ContactInfoEntity contactInfoEntity) {
+        contactInfoEntities.add(contactInfoEntity);
+    }
+
+    public Set<AccountInfoEntity> getAccountInfoEntities() {
+        return accountInfoEntities;
+    }
+
+    public Set<ContactInfoEntity> getContactInfoEntities() {
+        return contactInfoEntities;
+    }
+
     public static class Builder {
 
         private String firstname;
         private String lastname;
         private Set<AccountInfoEntity> accountInfoEntities = new HashSet<>();
+        private Set<ContactInfoEntity> contactInfoEntities = new HashSet<>();
+
 
         public Builder setFirstname(String firstname) {
             this.firstname = firstname;
@@ -80,8 +100,13 @@ public class UserEntity {
             return this;
         }
 
+        public Builder addContactInfo(ContactInfoEntity contactInfoEntity) {
+            contactInfoEntities.add(contactInfoEntity);
+            return this;
+        }
+
         public UserEntity build() {
-            return new UserEntity(firstname, lastname, accountInfoEntities);
+            return new UserEntity(firstname, lastname, accountInfoEntities, contactInfoEntities);
         }
     }
 }

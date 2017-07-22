@@ -9,12 +9,14 @@ public class User {
     private final String firstname;
     private final String lastname;
     private final AccountInfo accountInfo;
+    private final ContactInfo contactInfo;
 
-    public User(long id, String firstname, String lastname, AccountInfo accountInfo) {
+    public User(long id, String firstname, String lastname, AccountInfo accountInfo, ContactInfo contactInfo) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.accountInfo = accountInfo;
+        this.contactInfo = contactInfo;
     }
 
     public long getId() {
@@ -33,11 +35,16 @@ public class User {
         return accountInfo;
     }
 
+    public ContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
     public static class Builder {
 
         private long id;
         private String firstname;
         private String lastname;
+        private ContactInfo contactInfo;
 
         public Builder setId(long id) {
             this.id = id;
@@ -54,8 +61,13 @@ public class User {
             return this;
         }
 
+        public Builder setContactInfo(ContactInfo contactInfo) {
+            this.contactInfo = contactInfo;
+            return this;
+        }
+
         public User build() {
-            return new User(id, firstname, lastname, null);
+            return new User(id, firstname, lastname, null, contactInfo);
         }
     }
 }

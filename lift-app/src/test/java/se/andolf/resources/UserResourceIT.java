@@ -72,6 +72,17 @@ public class UserResourceIT {
                 .statusCode(409);
     }
 
+    @Test
+    public void shouldRetrieveUserWithCorrectContactInformation() {
+        final String location = putUser(FileUtils.read("users/user.json"));
+        get(location)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("contactInfo.addressLine1", is(equalTo("Sveavägen 15")));
+
+    }
+
     public String putUser(String json) {
         return given()
                 .contentType(ContentType.JSON)

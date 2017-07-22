@@ -53,11 +53,22 @@ public class UserResource {
 
     @ApiOperation(value = "Get a list of all users")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returned all workouts"),
+            @ApiResponse(code = 200, message = "Successfully returned all users"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/users")
     public List<User> getAll(){
         return userService.getAll();
+    }
+
+    @ApiOperation(value = "Get a workout by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully returned workout"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @RequestMapping(method=GET, value="/users/{id}")
+    public User getById(@PathVariable("id") Long id){
+        return userService.find(id);
     }
 }

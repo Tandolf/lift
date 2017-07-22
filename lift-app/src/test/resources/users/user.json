@@ -3,5 +3,8 @@
   "lastname": "Andersson",
   "accountInfo": {
     "email": "kalle.andersson@gmail.com"
+  },
+  "contactInfo": {
+    "addressLine1": "Sveavägen 15"
   }
 }

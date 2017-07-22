@@ -6,13 +6,18 @@ import org.neo4j.driver.v1.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.AccountInfo;
+import se.andolf.api.ContactInfo;
 import se.andolf.api.User;
 import se.andolf.entities.AccountInfoEntity;
+import se.andolf.entities.ContactInfoEntity;
 import se.andolf.entities.UserEntity;
 import se.andolf.exceptions.NodeExistsException;
+import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +47,12 @@ public class UserService {
                 .setFirstname(user.getFirstname())
                 .setLastname(user.getLastname())
                 .addAccountInfo(toAccountInfoEntity(user.getAccountInfo()))
+                .addContactInfo(toContactInfoEntity(user.getContactInfo()))
                 .build();
+    }
+
+    private ContactInfoEntity toContactInfoEntity(ContactInfo contactInfo) {
+        return new ContactInfoEntity.Builder().setAddressLine1(contactInfo.getAddressLine1()).build();
     }
 
     private AccountInfoEntity toAccountInfoEntity(AccountInfo accountInfo) {
@@ -62,6 +72,18 @@ public class UserService {
                 .setId(userEntity.getId())
                 .setFirstname(userEntity.getFirstname())
                 .setLastname(userEntity.getLastname())
+                .setContactInfo(toContactInfo(userEntity.getContactInfoEntities()))
                 .build();
+    }
+
+    private ContactInfo toContactInfo(Set<ContactInfoEntity> contactInfoEntities) {
+        return contactInfoEntities.stream().findFirst().map(contactInfoEntity -> new ContactInfo.Builder().setAddressLine1(contactInfoEntity.getAddressLine1()).build()).orElse(null);
+    }
+
+    public User find(Long id) {
+        final Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(id));
+        if(userEntity.isPresent())
+            return toUser(userEntity.get());
+        throw new NodeNotFoundException(String.format("Couldn't not find user with id %d", id));
     }
 }
