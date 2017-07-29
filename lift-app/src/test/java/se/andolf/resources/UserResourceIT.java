@@ -73,13 +73,21 @@ public class UserResourceIT {
     }
 
     @Test
-    public void shouldRetrieveUserWithCorrectContactInformation() {
+    public void shouldRetrieveUserWithCorrectInformation() {
         final String location = putUser(FileUtils.read("users/user.json"));
         get(location)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("contactInfo.addressLine1", is(equalTo("Sveavägen 15")));
+                .body("firstname", is(equalTo("Kalle")))
+                .body("lastname", is(equalTo("Andersson")))
+                .body("accountInfo.email", is(equalTo("kalle.andersson@gmail.com")))
+                .body("contactInfo.addressLine1", is(equalTo("Sveavägen 15")))
+                .body("contactInfo.addressLine2", is(equalTo("2tr")))
+                .body("contactInfo.city", is(equalTo("Stockholm")))
+                .body("contactInfo.stateOrProvince", is(equalTo("Stockholms län")))
+                .body("contactInfo.postalCode", is(equalTo("11422")))
+                .body("contactInfo.mobileNumber", is(equalTo("0046701234567")));
 
     }
 
@@ -87,7 +95,7 @@ public class UserResourceIT {
         return given()
                 .contentType(ContentType.JSON)
                 .body(json)
-                .put("{path}/", USER_RESOURCE)
+                .put("{path}", USER_RESOURCE)
                 .then()
                 .assertThat()
                 .statusCode(201)

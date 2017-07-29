@@ -41,7 +41,7 @@ public class CategoryResource {
             @RequestBody Category category, HttpServletRequest request) throws URISyntaxException {
         final Long id = categoryService.save(category);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
     }
 

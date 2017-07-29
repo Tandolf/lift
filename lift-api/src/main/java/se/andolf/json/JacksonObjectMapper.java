@@ -29,8 +29,8 @@ public enum JacksonObjectMapper {
         objectMapper.setSerializationInclusion(NON_NULL);
         objectMapper.setSerializationInclusion(NON_DEFAULT);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.configure(DeserializationFeature.USE_LONG_FOR_INTS, true);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        objectMapper.enable(DeserializationFeature.USE_LONG_FOR_INTS);
+        objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     public ObjectMapper objectMapper() {

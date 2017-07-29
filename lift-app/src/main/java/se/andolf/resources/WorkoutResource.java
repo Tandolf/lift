@@ -41,7 +41,7 @@ public class WorkoutResource {
     public ResponseEntity add(@RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
         final long id = workoutService.save(workout);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 

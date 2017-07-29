@@ -11,13 +11,14 @@ import java.util.List;
  */
 public interface UserRepository extends Neo4jRepository<UserEntity, Long> {
 
-    @Query("MATCH (u:UserEntity) " +
-            "RETURN u")
+    @Query("MATCH (u:UserEntity)-[r*0..1]-(x) " +
+            "RETURN u, r, x")
     List<UserEntity> findAllUsersAsList();
 
     @Query("MATCH (u:UserEntity)-->(a:AccountInfoEntity) " +
+            "MATCH (u:UserEntity)-->(c:ContactInfoEntity) " +
             "WHERE ID(u) = {id} " +
-            "DETACH DELETE u, a")
+            "DETACH DELETE u, a, c")
     void deleteUserById(long id);
 
     @Query("MATCH (u:UserEntity)-[r*0..1]-(x) " +

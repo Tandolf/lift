@@ -33,7 +33,7 @@ public class ExerciseResource {
     public ResponseEntity add(@RequestBody Exercise exercise, HttpServletRequest request) throws URISyntaxException {
         final long id = exerciseService.save(exercise);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().append(id).toString()));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 

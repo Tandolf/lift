@@ -5,6 +5,11 @@
     "email": "kalle.andersson@gmail.com"
   },
   "contactInfo": {
-    "addressLine1": "Sveavägen 15"
+    "addressLine1": "Sveavägen 15",
+    "addressLine2": "2tr",
+    "city": "Stockholm",
+    "stateOrProvince": "Stockholms län",
+    "postalCode": "11422",
+    "mobileNumber": "0046701234567"
   }
 }

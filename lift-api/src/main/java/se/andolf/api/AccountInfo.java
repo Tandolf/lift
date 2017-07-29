@@ -5,7 +5,7 @@ package se.andolf.api;
  */
 public class AccountInfo {
 
-    public final String email;
+    private final String email;
 
     public AccountInfo(String email) {
         this.email = email;
@@ -13,5 +13,19 @@ public class AccountInfo {
 
     public String getEmail() {
         return email;
+    }
+
+    public static class Builder {
+
+        private String email;
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public AccountInfo build() {
+            return new AccountInfo(email);
+        }
     }
 }

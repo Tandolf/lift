@@ -3,5 +3,13 @@
   "lastname": "Svensson",
   "accountInfo": {
     "email": "frida.svensson@gmail.com"
+  },
+  "contactInfo": {
+    "addressLine1": "Strandvägen 1",
+    "addressLine2": "",
+    "city": "Luleå",
+    "stateOrProvince": "",
+    "postalCode": "90123",
+    "mobileNumber": "00467612121212"
   }
 }

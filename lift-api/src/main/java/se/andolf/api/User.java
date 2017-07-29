@@ -45,6 +45,7 @@ public class User {
         private String firstname;
         private String lastname;
         private ContactInfo contactInfo;
+        private AccountInfo accountInfo;
 
         public Builder setId(long id) {
             this.id = id;
@@ -66,8 +67,13 @@ public class User {
             return this;
         }
 
+        public Builder setAccountInfo(AccountInfo accountInfo) {
+            this.accountInfo = accountInfo;
+            return this;
+        }
+
         public User build() {
-            return new User(id, firstname, lastname, null, contactInfo);
+            return new User(id, firstname, lastname, accountInfo, contactInfo);
         }
     }
 }

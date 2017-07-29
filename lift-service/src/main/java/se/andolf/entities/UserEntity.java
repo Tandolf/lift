@@ -3,7 +3,6 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import se.andolf.api.User;
 
 import java.util.HashSet;
 import java.util.Set;

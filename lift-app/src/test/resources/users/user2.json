@@ -3,5 +3,13 @@
   "lastname": "Persson",
   "accountInfo": {
     "email": "anders.persson@gmail.com"
+  },
+  "contactInfo": {
+    "addressLine1": "Regeringsgatan 4",
+    "addressLine2": "",
+    "city": "Örebro",
+    "stateOrProvince": "Örebro län",
+    "postalCode": "32145",
+    "mobileNumber": "004673967676767"
   }
 }
