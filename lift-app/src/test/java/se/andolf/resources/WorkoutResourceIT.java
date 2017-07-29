@@ -29,10 +29,13 @@ import static se.andolf.util.DbUtil.purge;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
-public class WorkoutControllerIT {
+public class WorkoutResourceIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";
+    private static final String USER_RESOURCE = "users";
     private static final String WORKOUT_RESOURCE = "workouts";
+
+    private String userWorkoutPath;
 
     @BeforeClass
     public static void init(){
@@ -41,7 +44,10 @@ public class WorkoutControllerIT {
 
     @Before
     public void purgeDB() {
-        purge(WORKOUT_RESOURCE);
+        purge(USER_RESOURCE);
+        final String userId = UriUtil.extractLastPath(UserResourceIT.putUser(FileUtils.read("users/user.json")));
+        userWorkoutPath = "users/" + userId + "/" + "workouts";
+        purge(userWorkoutPath);
         purge(EXERCISE_RESOURCE);
     }
 
@@ -53,14 +59,14 @@ public class WorkoutControllerIT {
         final String id2 = put(formatJson("170607_2.json", exercises2));
 
         given()
-                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .get("/{resource}/{id}", userWorkoutPath, id)
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .body("id", is(Integer.parseInt(id)));
 
         given()
-                .get("/{resource}/{id}", WORKOUT_RESOURCE, id2)
+                .get("/{resource}/{id}", userWorkoutPath, id2)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -73,7 +79,7 @@ public class WorkoutControllerIT {
         final String id = put(formatJson("170502.json", exercises));
 
         given()
-                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .get("/{resource}/{id}", userWorkoutPath, id)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -95,7 +101,7 @@ public class WorkoutControllerIT {
         final String id = put(formatJson("170706.json", exercises));
 
         given()
-                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .get("/{resource}/{id}", userWorkoutPath, id)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -128,7 +134,7 @@ public class WorkoutControllerIT {
         final String id = put(formatJson("170706.json", exercises));
 
         given()
-                .get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+                .get("/{resource}/{id}", userWorkoutPath, id)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -142,10 +148,10 @@ public class WorkoutControllerIT {
 
     @Test
     public void shouldDeleteASingleWorkout() {
-        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk", "Back Squats", "Half TGU");
+        final List<Integer> exercises = putExercises("Hang Power Clean", "Push Press", "Power Clean", "Split Jerk");
         final String id = put(formatJson("170607_1.json", exercises));
         given()
-                .delete("{resource}/{id}", WORKOUT_RESOURCE, id)
+                .delete("{resource}/{id}", userWorkoutPath, id)
                 .then()
                 .statusCode(204);
     }
@@ -160,7 +166,7 @@ public class WorkoutControllerIT {
         put(formatJson("170607_1.json", exercises));
         put(formatJson("170607_1.json", exercises));
         put(formatJson("170607_1.json", exercises));
-        get("/workouts")
+        get(userWorkoutPath)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -189,7 +195,7 @@ public class WorkoutControllerIT {
 
         given()
                 .queryParam("date", "2017-06-07")
-                .get("/{resource}", WORKOUT_RESOURCE)
+                .get("/{resource}", userWorkoutPath)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -200,7 +206,7 @@ public class WorkoutControllerIT {
     @Test
     public void shouldReturn404IfFetchedWorkoutDoesNotExists() {
         final Long id = 1234L;
-        get("/{resource}/{id}", WORKOUT_RESOURCE, id)
+        get("/{resource}/{id}", userWorkoutPath, id)
                 .then()
                 .assertThat()
                 .statusCode(404);
@@ -229,12 +235,12 @@ public class WorkoutControllerIT {
         return String.format(jsonTemplate, (Object[])exerciseIdArray);
     }
 
-    private static String put(String json) {
+    private String put(String json) {
         return UriUtil.extractLastPath(given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .body(json)
                 .when()
-                .put(WORKOUT_RESOURCE)
+                .put(userWorkoutPath)
                 .then()
                 .assertThat()
                 .statusCode(201)

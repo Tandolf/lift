@@ -15,6 +15,7 @@ public class Client {
     public static void init(){
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(Singleton.INSTANCE.mapperConfig);
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        RestAssured.urlEncodingEnabled = false;
     }
 
     private enum Singleton {

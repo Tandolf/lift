@@ -3,6 +3,7 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
+import org.neo4j.ogm.cypher.query.SortOrder;
 import se.andolf.api.WorkoutType;
 import se.andolf.converter.LocalDateConverter;
 
@@ -33,9 +34,13 @@ public class WorkoutEntity {
     @Relationship(type = "HAS_GROUP")
     private List<GroupEntity> groupEntities;
 
+    @Relationship(type = "HAS_WORKOUTS", direction = "INCOMING")
+    private Set<UserEntity> userEntities;
+
     public WorkoutEntity() {
         this.resistanceEntities = new ArrayList<>();
         this.groupEntities = new ArrayList<>();
+        this.userEntities = new HashSet<>();
     }
 
     public Long getId() {
@@ -116,5 +121,9 @@ public class WorkoutEntity {
 
     public List<GroupEntity> getGroupEntities() {
         return groupEntities;
+    }
+
+    public void addUserEntity(UserEntity userEntity) {
+        this.userEntities.add(userEntity);
     }
 }

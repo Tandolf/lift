@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.andolf.api.User;
 import se.andolf.api.Workout;
+import se.andolf.service.UserService;
 import se.andolf.service.WorkoutService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
  */
 @RestController
 @Api(tags = { "Workouts" })
+@RequestMapping("/users")
 public class WorkoutResource {
 
     @Autowired
@@ -37,11 +40,11 @@ public class WorkoutResource {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method = PUT, value="/workouts")
-    public ResponseEntity add(@RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
-        final long id = workoutService.save(workout);
+    @RequestMapping(method = PUT, value="{userId}/workouts")
+    public ResponseEntity add(@PathVariable Long userId, @RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
+        final long workoutId = workoutService.save(userId, workout);
         final HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
+        responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(workoutId).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
     }
 
@@ -51,9 +54,10 @@ public class WorkoutResource {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method=DELETE, value="/workouts/{id}")
+    @RequestMapping(method=DELETE, value="{userId}/workouts/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(
+            @PathVariable("userId") String userId,
             @ApiParam(value = "id of the Wod you want to delete", required = true)
             @PathVariable("id") String id){
         workoutService.delete(Long.parseLong(id));
@@ -64,7 +68,7 @@ public class WorkoutResource {
             @ApiResponse(code = 200, message = "Successfully returned all workouts"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method=GET, value="/workouts")
+    @RequestMapping(method=GET, value="{id}//workouts")
     public List<Workout> getAll(@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         if(date != null)
             return workoutService.getAll(date);
@@ -78,7 +82,7 @@ public class WorkoutResource {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method=GET, value="/workouts/{id}")
+    @RequestMapping(method=GET, value="{id}//workouts/{id}")
     public Workout getById(@PathVariable("id") Long id){
         return workoutService.find(id);
     }

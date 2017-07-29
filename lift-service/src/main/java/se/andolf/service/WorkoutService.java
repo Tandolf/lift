@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.Exercise;
 import se.andolf.api.Resistance;
+import se.andolf.api.User;
 import se.andolf.api.Workout;
 import se.andolf.entities.*;
 import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.ExerciseRepository;
+import se.andolf.repository.UserRepository;
 import se.andolf.repository.WorkoutRepository;
 
 import java.time.LocalDate;
@@ -31,7 +33,12 @@ public class WorkoutService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
-    public Long save(Workout workout) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public Long save(Long userId, Workout workout) {
+
+        final UserEntity userEntity = userRepository.findOne(userId);
 
         final WorkoutEntity workoutEntity = new WorkoutEntity();
         workoutEntity.setWork(workout.getWork());
@@ -66,6 +73,8 @@ public class WorkoutService {
             resistanceEntity.addExercise(e);
             workoutEntity.addResistanceRelation(resistanceEntity);
         });
+
+        workoutEntity.addUserEntity(userEntity);
 
         return workoutRepository.save(workoutEntity).getId();
     }

@@ -91,7 +91,7 @@ public class UserResourceIT {
 
     }
 
-    public String putUser(String json) {
+    public static String putUser(String json) {
         return given()
                 .contentType(ContentType.JSON)
                 .body(json)

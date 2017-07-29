@@ -3,6 +3,7 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import se.andolf.api.Workout;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,9 +25,13 @@ public class UserEntity {
     @Relationship(type = "HAS_CONTACT_INFO")
     private Set<ContactInfoEntity> contactInfoEntities;
 
+    @Relationship(type = "HAS_WORKOUTS")
+    private Set<WorkoutEntity> workoutEntities;
+
     public UserEntity() {
         this.accountInfoEntities = new HashSet<>();
         this.contactInfoEntities = new HashSet<>();
+        this.workoutEntities = new HashSet<>();
     }
 
     private UserEntity(String firstname, String lastname, Set<AccountInfoEntity> accountInfoEntities, Set<ContactInfoEntity> contactInfoEntities) {
@@ -74,6 +79,10 @@ public class UserEntity {
 
     public Set<ContactInfoEntity> getContactInfoEntities() {
         return contactInfoEntities;
+    }
+
+    public void addWorkout(WorkoutEntity workout) {
+        workoutEntities.add(workout);
     }
 
     public static class Builder {
