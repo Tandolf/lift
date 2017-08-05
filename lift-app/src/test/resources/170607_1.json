@@ -28,6 +28,7 @@
   ],
   "exercises": [
     {
+      "type": "EMOM",
       "exercises": [
         {
           "id": %1$d
@@ -38,6 +39,7 @@
       ]
     },
     {
+      "type": "EMOM",
       "exercises": [
         {
           "id": %3$d
