@@ -12,6 +12,7 @@ import se.andolf.repository.WorkoutRepository;
 import se.andolf.utils.Mapper;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,28 +45,8 @@ public class WorkoutService {
         workoutEntity.setEffort(workout.getEffort());
         workoutEntity.setAlternating(workout.isAlternating());
         workoutEntity.setWorkoutType(workout.getType());
+        workoutEntity.setExercisesEntities(toExerciseSessionEntity(workout.getExercises()));
 
-        IntStream.range(0, workout.getExercises().size()).forEach(i -> {
-            final Exercise exercise = workout.getExercises().get(i);
-            final ExerciseEntity combinedExercises = new ExerciseEntity();
-
-            if (exercise.getExercises() != null) {
-                IntStream.range(0, exercise.getExercises().size()).forEach(f -> {
-                    final Exercise e = exercise.getExercises().get(f);
-                    final ExerciseEntity exerciseEntity = getExerciseEntity(e.getId());
-                    exerciseEntity.setOrder(f);
-                    combinedExercises.addExerciseEntity(exerciseEntity);
-                });
-            } else {
-                final ExerciseEntity exerciseEntity = getExerciseEntity(exercise.getId());
-                exerciseEntity.setOrder(0);
-                combinedExercises.addExerciseEntity(exerciseEntity);
-            }
-
-            combinedExercises.setOrder(i);
-            combinedExercises.setType(exercise.getType());
-            workoutEntity.addExercise(combinedExercises);
-        });
 
         workout.getResistances().stream().forEach(resistance -> {
             final ResistanceEntity resistanceEntity = Mapper.toResistanceEntity(resistance);
@@ -77,6 +58,26 @@ public class WorkoutService {
         workoutEntity.addUserEntity(userEntity);
 
         return workoutRepository.save(workoutEntity).getId();
+    }
+
+    public List<ExerciseSessionEntity> toExerciseSessionEntity(List<Exercise> exercises) {
+        if(exercises != null)
+            return IntStream.range(0, exercises.size()).mapToObj(i -> {
+                final Exercise exercise = exercises.get(i);
+                final ExerciseSessionEntity exerciseSessionEntity = toExerciseSessionEntity(exercise);
+                exerciseSessionEntity.setOrder(i);
+                if(exercise.getId() != null)
+                    exerciseSessionEntity.addExerciseEntity(exerciseRepository.findOne(exercise.getId()));
+                return exerciseSessionEntity;
+            }).collect(Collectors.toList());
+        return new ArrayList<>();
+    }
+
+    private ExerciseSessionEntity toExerciseSessionEntity(Exercise exercise) {
+        final ExerciseSessionEntity exerciseSessionEntity = new ExerciseSessionEntity();
+        exerciseSessionEntity.setType(exercise.getType());
+        exerciseSessionEntity.setExerciseSessionEntities(toExerciseSessionEntity(exercise.getExercises()));
+        return exerciseSessionEntity;
     }
 
     public ExerciseEntity getExerciseEntity(long id){

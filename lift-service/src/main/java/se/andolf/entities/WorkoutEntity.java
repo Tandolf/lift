@@ -30,15 +30,15 @@ public class WorkoutEntity {
     @Relationship(type = "RECOMMENDED_RESISTANCE")
     private List<ResistanceEntity> resistanceEntities;
 
-    @Relationship(type = "CONTAINS_EXERCISE")
-    private List<ExerciseEntity> exerciseEntities;
+    @Relationship(type = "INCLUDES")
+    private List<ExerciseSessionEntity> exerciseSessionEntities;
 
     @Relationship(type = "HAS_WORKOUTS", direction = "INCOMING")
     private Set<UserEntity> userEntities;
 
     public WorkoutEntity() {
         this.resistanceEntities = new ArrayList<>();
-        this.exerciseEntities = new ArrayList<>();
+        this.exerciseSessionEntities = new ArrayList<>();
         this.userEntities = new HashSet<>();
     }
 
@@ -106,10 +106,6 @@ public class WorkoutEntity {
         resistanceEntities.add(resistanceEntity);
     }
 
-    public void addExercise(ExerciseEntity groupEntity) {
-        exerciseEntities.add(groupEntity);
-    }
-
     public void setEffort(int effort) {
         this.effort = effort;
     }
@@ -118,11 +114,15 @@ public class WorkoutEntity {
         return resistanceEntities;
     }
 
-    public List<ExerciseEntity> getExerciseEntities() {
-        return exerciseEntities;
+    public List<ExerciseSessionEntity> getExerciseSessionEntities() {
+        return exerciseSessionEntities;
     }
 
     public void addUserEntity(UserEntity userEntity) {
         this.userEntities.add(userEntity);
+    }
+
+    public void setExercisesEntities(List<ExerciseSessionEntity> exerciseSessionEntity) {
+        this.exerciseSessionEntities = exerciseSessionEntity;
     }
 }

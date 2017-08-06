@@ -2,11 +2,14 @@ package se.andolf.utils;
 
 import se.andolf.api.*;
 import se.andolf.entities.*;
+import se.andolf.exceptions.NodeNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Thomas on 2017-07-29.
@@ -83,26 +86,36 @@ public final class Mapper {
                 .setEffort(workout.getEffort())
                 .isAlternating(workout.isAlternating())
                 .setResistances(Mapper.toResistance(workout.getResistanceEntities()))
-                .setExercises(Mapper.toExercise(workout.getExerciseEntities()))
+                .setExercises(Mapper.toExercise(workout.getExerciseSessionEntities()))
                 .build();
     }
 
-    public static List<Exercise> toExercise(List<ExerciseEntity> exerciseEntities) {
-        if(exerciseEntities != null){
-            exerciseEntities.sort((e1, e2) -> Integer.compare(e1.getOrder(), e2.getOrder()));
-            return exerciseEntities.stream().map(Mapper::toExercise).collect(Collectors.toList());
+    public static List<Exercise> toExercise(List<ExerciseSessionEntity> exerciseSessionEntities) {
+        if(exerciseSessionEntities != null){
+            exerciseSessionEntities.sort((e1, e2) -> Integer.compare(e1.getOrder(), e2.getOrder()));
+            return exerciseSessionEntities.stream().map(exerciseSessionEntity -> {
+                if (!exerciseSessionEntity.getExerciseEntities().isEmpty())
+                    return toExercise(exerciseSessionEntity.getExerciseEntities().stream().findFirst().orElseThrow(NodeNotFoundException::new));
+                else
+                    return toExercise(exerciseSessionEntity);
+            }).collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
     }
 
+    public static Exercise toExercise(ExerciseSessionEntity exerciseSessionEntity) {
+        return new Exercise.Builder()
+                .setId(exerciseSessionEntity.getId())
+                .setType(exerciseSessionEntity.getType())
+                .setExercises(toExercise(exerciseSessionEntity.getExerciseSessionEntities()))
+                .build();
+    }
+
     public static Exercise toExercise(ExerciseEntity exerciseEntity) {
         return new Exercise.Builder()
                 .setId(exerciseEntity.getId())
-                .setType(exerciseEntity.getType())
-                .setName(exerciseEntity.getName())
-                .setExercises(toExercise(exerciseEntity.getExerciseEntities()))
-                .build();
+                .setName(exerciseEntity.getName()).build();
     }
 
     public static List<Resistance> toResistance(List<ResistanceEntity> resistanceEntities) {
@@ -149,4 +162,5 @@ public final class Mapper {
         resistanceEntity.setDamper(resistance.getDamper());
         return resistanceEntity;
     }
+
 }
