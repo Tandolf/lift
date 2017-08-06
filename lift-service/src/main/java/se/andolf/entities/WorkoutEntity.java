@@ -30,7 +30,7 @@ public class WorkoutEntity {
     @Relationship(type = "RECOMMENDED_RESISTANCE")
     private List<ResistanceEntity> resistanceEntities;
 
-    @Relationship(type = "HAS_GROUP")
+    @Relationship(type = "CONTAINS_EXERCISE")
     private List<ExerciseEntity> exerciseEntities;
 
     @Relationship(type = "HAS_WORKOUTS", direction = "INCOMING")
