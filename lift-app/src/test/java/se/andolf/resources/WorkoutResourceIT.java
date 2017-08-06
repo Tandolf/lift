@@ -46,7 +46,7 @@ public class WorkoutResourceIT {
     public void purgeDB() {
         purge(USER_RESOURCE);
         final String userId = UriUtil.extractLastPath(UserResourceIT.putUser(FileUtils.read("users/user.json")));
-        userWorkoutPath = "users/" + userId + "/" + "workouts";
+        userWorkoutPath = USER_RESOURCE + "/" + userId + "/" + WORKOUT_RESOURCE;
         purge(userWorkoutPath);
         purge(EXERCISE_RESOURCE);
     }

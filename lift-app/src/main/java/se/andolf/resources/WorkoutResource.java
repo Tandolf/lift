@@ -68,7 +68,7 @@ public class WorkoutResource {
             @ApiResponse(code = 200, message = "Successfully returned all workouts"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method=GET, value="{id}//workouts")
+    @RequestMapping(method=GET, value="{id}/workouts")
     public List<Workout> getAll(@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         if(date != null)
             return workoutService.getAll(date);
@@ -82,7 +82,7 @@ public class WorkoutResource {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method=GET, value="{id}//workouts/{id}")
+    @RequestMapping(method=GET, value="{id}/workouts/{id}")
     public Workout getById(@PathVariable("id") Long id){
         return workoutService.find(id);
     }

@@ -3,7 +3,6 @@ package se.andolf.entities;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Relationship;
 import org.neo4j.ogm.annotation.typeconversion.Convert;
-import org.neo4j.ogm.cypher.query.SortOrder;
 import se.andolf.api.WorkoutType;
 import se.andolf.converter.LocalDateConverter;
 
@@ -32,14 +31,14 @@ public class WorkoutEntity {
     private List<ResistanceEntity> resistanceEntities;
 
     @Relationship(type = "HAS_GROUP")
-    private List<GroupEntity> groupEntities;
+    private List<ExerciseEntity> exerciseEntities;
 
     @Relationship(type = "HAS_WORKOUTS", direction = "INCOMING")
     private Set<UserEntity> userEntities;
 
     public WorkoutEntity() {
         this.resistanceEntities = new ArrayList<>();
-        this.groupEntities = new ArrayList<>();
+        this.exerciseEntities = new ArrayList<>();
         this.userEntities = new HashSet<>();
     }
 
@@ -107,8 +106,8 @@ public class WorkoutEntity {
         resistanceEntities.add(resistanceEntity);
     }
 
-    public void addGroup(GroupEntity groupEntity) {
-        groupEntities.add(groupEntity);
+    public void addExercise(ExerciseEntity groupEntity) {
+        exerciseEntities.add(groupEntity);
     }
 
     public void setEffort(int effort) {
@@ -119,8 +118,8 @@ public class WorkoutEntity {
         return resistanceEntities;
     }
 
-    public List<GroupEntity> getGroupEntities() {
-        return groupEntities;
+    public List<ExerciseEntity> getExerciseEntities() {
+        return exerciseEntities;
     }
 
     public void addUserEntity(UserEntity userEntity) {

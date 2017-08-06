@@ -25,8 +25,9 @@ public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> 
 
     List<WorkoutEntity> findByDate(LocalDate date);
 
-    @Query("MATCH workout=(w:WorkoutEntity)--(n)--(e:ExerciseEntity) " +
+    @Query("MATCH (w:WorkoutEntity)-[rela*..1]-(e1:ExerciseEntity)-[rela2*..1]-(e2:ExerciseEntity) " +
             "WHERE ID(w)={id}" +
-            "RETURN workout")
+            "MATCH (w)-[rela1]-(r:ResistanceEntity)-[rela3*..1]-(e3:ExerciseEntity)" +
+            "RETURN w, rela, rela1, rela2, rela3, e1, e2, e3, r")
     WorkoutEntity findById(Long id);
 }

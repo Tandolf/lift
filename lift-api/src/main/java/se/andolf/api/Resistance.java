@@ -110,6 +110,10 @@ public class Resistance {
         private Unit units;
         private int damper;
 
+        public Builder() {
+            this.units = Unit.METRIC;
+        }
+
         public Builder setId(Long id) {
             this.id = id;
             return this;

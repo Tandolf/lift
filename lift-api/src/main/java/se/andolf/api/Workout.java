@@ -9,18 +9,17 @@ import java.util.List;
 public class Workout {
 
     private final Long id;
-    private LocalDate date;
+    private final LocalDate date;
     private final int work;
     private final int rest;
     private final int sets;
     private final int effort;
     private final WorkoutType type;
     private final boolean isAlternating;
-    private List<Exercise> exercises;
-    private List<Resistance> resistances;
-    private List<Group> groups;
+    private final List<Exercise> exercises;
+    private final List<Resistance> resistances;
 
-    public Workout(Long id, LocalDate date, int work, int rest, int sets, int effort, WorkoutType type, boolean isAlternating, List<Exercise> exercises, List<Resistance> resistances, List<Group> groups) {
+    public Workout(Long id, LocalDate date, int work, int rest, int sets, int effort, WorkoutType type, boolean isAlternating, List<Exercise> exercises, List<Resistance> resistances) {
         this.id = id;
         this.date = date;
         this.work = work;
@@ -31,7 +30,6 @@ public class Workout {
         this.isAlternating = isAlternating;
         this.exercises = exercises;
         this.resistances = resistances;
-        this.groups = groups;
     }
 
     public Long getId() {
@@ -74,10 +72,6 @@ public class Workout {
         return resistances;
     }
 
-    public List<Group> getGroups() {
-        return groups;
-    }
-
     public static class Builder {
 
         private Long id;
@@ -90,7 +84,6 @@ public class Workout {
         private boolean isAlternating;
         private List<Exercise> exercises;
         private List<Resistance> resistances;
-        private List<Group> groups;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -142,13 +135,8 @@ public class Workout {
             return this;
         }
 
-        public Builder setGroups(List<Group> groups) {
-            this.groups = groups;
-            return this;
-        }
-
         public Workout build(){
-            return new Workout(id, date, work, rest, sets, effort, workoutType, isAlternating, exercises, resistances, groups);
+            return new Workout(id, date, work, rest, sets, effort, workoutType, isAlternating, exercises, resistances);
         }
     }
 }

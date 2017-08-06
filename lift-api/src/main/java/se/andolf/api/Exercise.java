@@ -1,13 +1,11 @@
 package se.andolf.api;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Thomas on 2016-06-18.
  */
-public class Exercise {
+    public class Exercise {
 
     private final Long id;
     private final String name;
