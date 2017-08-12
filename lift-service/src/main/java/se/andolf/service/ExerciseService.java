@@ -13,6 +13,7 @@ import se.andolf.exceptions.NodeExistsException;
 import se.andolf.exceptions.NodeNotFoundException;
 import se.andolf.repository.EquipmentRepository;
 import se.andolf.repository.ExerciseRepository;
+import se.andolf.utils.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,21 +61,13 @@ public class ExerciseService {
     }
 
     public List<Exercise> find() {
-        return StreamSupport.stream(exerciseRepository.findAll().spliterator(), false).map(ExerciseService::toExercise).collect(Collectors.toList());
-    }
-
-    public static Exercise toExercise(ExerciseEntity exerciseEntity) {
-        final List<Equipment> equipments = new ArrayList<>();
-        if(exerciseEntity.getEquipments() != null){
-            exerciseEntity.getEquipments().stream().forEach(e -> equipments.add(EquipmentService.toEquipment(e)));
-        }
-        return new Exercise.Builder().setId(exerciseEntity.getId()).setName(exerciseEntity.getName()).setEquipments(equipments).build();
+        return StreamSupport.stream(exerciseRepository.findAll().spliterator(), false).map(Mapper::toExercise).collect(Collectors.toList());
     }
 
     public Exercise find(long id) {
         final Optional<ExerciseEntity> exerciseEntity = Optional.ofNullable(exerciseRepository.findOne(id));
         if(exerciseEntity.isPresent()){
-            return toExercise(exerciseEntity.get());
+            return Mapper.toExercise(exerciseEntity.get());
         } else {
             throw new NodeNotFoundException("Could not find exercise with id: " + id);
         }

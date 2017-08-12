@@ -2,7 +2,7 @@ package se.andolf.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.andolf.api.Exercise;
+import se.andolf.api.ExerciseSession;
 import se.andolf.api.Workout;
 import se.andolf.entities.*;
 import se.andolf.exceptions.NodeNotFoundException;
@@ -44,39 +44,43 @@ public class WorkoutService {
         workoutEntity.setDate(workout.getDate());
         workoutEntity.setEffort(workout.getEffort());
         workoutEntity.setAlternating(workout.isAlternating());
-        workoutEntity.setWorkoutType(workout.getType());
-        workoutEntity.setExercisesEntities(toExerciseSessionEntity(workout.getExercises()));
-
-
-        workout.getResistances().stream().forEach(resistance -> {
-            final ResistanceEntity resistanceEntity = Mapper.toResistanceEntity(resistance);
-            final ExerciseEntity e = getExerciseEntity(resistance.getExerciseId());
-            resistanceEntity.addExercise(e);
-            workoutEntity.addResistanceRelation(resistanceEntity);
-        });
-
+        workoutEntity.setWorkoutType(workout.getWorkoutType());
+        workoutEntity.setExerciseSessionEntities(toExerciseSessionEntity(workout.getExerciseSessions()));
         workoutEntity.addUserEntity(userEntity);
 
         return workoutRepository.save(workoutEntity).getId();
     }
 
-    public List<ExerciseSessionEntity> toExerciseSessionEntity(List<Exercise> exercises) {
-        if(exercises != null)
-            return IntStream.range(0, exercises.size()).mapToObj(i -> {
-                final Exercise exercise = exercises.get(i);
-                final ExerciseSessionEntity exerciseSessionEntity = toExerciseSessionEntity(exercise);
+    public List<ExerciseSessionEntity> toExerciseSessionEntity(List<ExerciseSession> exerciseSessions) {
+        if(exerciseSessions != null)
+            return IntStream.range(0, exerciseSessions.size()).mapToObj(i -> {
+                final ExerciseSession exerciseSession = exerciseSessions.get(i);
+                final ExerciseSessionEntity exerciseSessionEntity = toExerciseSessionEntity(exerciseSession);
                 exerciseSessionEntity.setOrder(i);
-                if(exercise.getId() != null)
-                    exerciseSessionEntity.addExerciseEntity(exerciseRepository.findOne(exercise.getId()));
+                if(exerciseSession.getExerciseId() != null)
+                    exerciseSessionEntity.addExerciseEntity(exerciseRepository.findOne(exerciseSession.getExerciseId()));
                 return exerciseSessionEntity;
             }).collect(Collectors.toList());
         return new ArrayList<>();
     }
 
-    private ExerciseSessionEntity toExerciseSessionEntity(Exercise exercise) {
+    private ExerciseSessionEntity toExerciseSessionEntity(ExerciseSession exerciseSession) {
         final ExerciseSessionEntity exerciseSessionEntity = new ExerciseSessionEntity();
-        exerciseSessionEntity.setType(exercise.getType());
-        exerciseSessionEntity.setExerciseSessionEntities(toExerciseSessionEntity(exercise.getExercises()));
+        exerciseSessionEntity.setWorkoutType(exerciseSession.getWorkoutType());
+        exerciseSessionEntity.setAlternateSides(exerciseSession.isAlternateSides());
+        exerciseSessionEntity.setCalories(exerciseSession.getCalories());
+        exerciseSessionEntity.setDamper(exerciseSession.getDamper());
+        exerciseSessionEntity.setDistance(exerciseSession.getDistance());
+        exerciseSessionEntity.setEffort(exerciseSession.getEffort());
+        exerciseSessionEntity.setForCal(exerciseSession.isForCal());
+        exerciseSessionEntity.setRepsFrom(exerciseSession.getRepsFrom());
+        exerciseSessionEntity.setRepsTo(exerciseSession.getRepsTo());
+        exerciseSessionEntity.setStrapless(exerciseSession.isStrapless());
+        exerciseSessionEntity.setForDistance(exerciseSession.isForDistance());
+        exerciseSessionEntity.setUnits(exerciseSession.getUnits());
+        exerciseSessionEntity.setWeight(exerciseSession.getWeight());
+        if( exerciseSessionEntity.getExerciseSessionEntities() != null || exerciseSessionEntity.getExerciseSessionEntities().isEmpty())
+            exerciseSessionEntity.setExerciseSessionEntities(toExerciseSessionEntity(exerciseSession.getExerciseSessions()));
         return exerciseSessionEntity;
     }
 

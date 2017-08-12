@@ -4,10 +4,13 @@
   "rest": 30,
   "sets": 15,
   "effort": 85,
-  "resistances": [
+  "exerciseSessions": [
     {
       "exerciseId": %1$d,
       "alternateSides": true
+    },
+    {
+      "exerciseId": %2$d
     },
     {
       "exerciseId": %3$d,
@@ -18,37 +21,17 @@
       "forDistance": true
     },
     {
-      "exerciseId": %5$d,
-      "repsFrom": 5,
-      "repsTo": 5,
-      "alternateSides": true
-    },
-    {
-      "exerciseId": %6$d,
-      "distance": 30
-    }
-  ],
-  "exercises": [
-    {
-      "id": %1$d
-    },
-    {
-      "id": %2$d
-    },
-    {
-      "id": %3$d
-    },
-    {
-      "id": %4$d
-    },
-    {
-      "type": "AMRAP",
-      "exercises": [
+      "workoutType": "AMRAP",
+      "exerciseSessions": [
         {
-          "id": %5$d
+          "exerciseId": %5$d,
+          "repsFrom": 5,
+          "repsTo": 5,
+          "alternateSides": true
         },
         {
-          "id": %6$d
+          "exerciseId": %6$d,
+          "distance": 30
         }
       ]
     }

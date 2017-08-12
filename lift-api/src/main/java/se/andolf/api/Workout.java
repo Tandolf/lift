@@ -14,22 +14,20 @@ public class Workout {
     private final int rest;
     private final int sets;
     private final int effort;
-    private final WorkoutType type;
+    private final WorkoutType workoutType;
     private final boolean isAlternating;
-    private final List<Exercise> exercises;
-    private final List<Resistance> resistances;
+    private final List<ExerciseSession> exerciseSessions;
 
-    public Workout(Long id, LocalDate date, int work, int rest, int sets, int effort, WorkoutType type, boolean isAlternating, List<Exercise> exercises, List<Resistance> resistances) {
+    public Workout(Long id, LocalDate date, int work, int rest, int sets, int effort, WorkoutType workoutType, boolean isAlternating, List<ExerciseSession> exerciseSessions) {
         this.id = id;
         this.date = date;
         this.work = work;
         this.rest = rest;
         this.sets = sets;
         this.effort = effort;
-        this.type = type;
+        this.workoutType = workoutType;
         this.isAlternating = isAlternating;
-        this.exercises = exercises;
-        this.resistances = resistances;
+        this.exerciseSessions = exerciseSessions;
     }
 
     public Long getId() {
@@ -56,20 +54,16 @@ public class Workout {
         return effort;
     }
 
-    public WorkoutType getType() {
-        return type;
+    public WorkoutType getWorkoutType() {
+        return workoutType;
     }
 
     public boolean isAlternating() {
         return isAlternating;
     }
 
-    public List<Exercise> getExercises() {
-        return exercises;
-    }
-
-    public List<Resistance> getResistances() {
-        return resistances;
+    public List<ExerciseSession> getExerciseSessions() {
+        return exerciseSessions;
     }
 
     public static class Builder {
@@ -82,8 +76,7 @@ public class Workout {
         private int effort;
         private WorkoutType workoutType;
         private boolean isAlternating;
-        private List<Exercise> exercises;
-        private List<Resistance> resistances;
+        private List<ExerciseSession> exerciseSessions;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -125,18 +118,13 @@ public class Workout {
             return this;
         }
 
-        public Builder setExercises(List<Exercise> exercises) {
-            this.exercises = exercises;
-            return this;
-        }
-
-        public Builder setResistances(List<Resistance> resistances) {
-            this.resistances = resistances;
+        public Builder setExerciseSessions(List<ExerciseSession> exerciseSessions) {
+            this.exerciseSessions = exerciseSessions;
             return this;
         }
 
         public Workout build(){
-            return new Workout(id, date, work, rest, sets, effort, workoutType, isAlternating, exercises, resistances);
+            return new Workout(id, date, work, rest, sets, effort, workoutType, isAlternating, exerciseSessions);
         }
     }
 }

@@ -3,86 +3,60 @@
   "work": 180,
   "rest": 60,
   "sets": 8,
-  "resistances": [
+  "exerciseSessions": [
     {
-      "exerciseId": %1$d,
-      "distance": 40
-    },
-    {
-      "exerciseId": %2$d,
-      "distance": 120
-    },
-    {
-      "exerciseId": %3$d,
-      "repsFrom": 5,
-      "repsTo": 5
-    },
-    {
-      "exerciseId": %4$d,
-      "calories": 6
-    },
-    {
-      "exerciseId": %5$d,
-      "weight": 24
-    },
-    {
-      "exerciseId": %6$d,
-      "strapless": true,
-      "damper": 3
-    },
-    {
-      "exerciseId": %7$d,
-      "repsFrom": 8,
-      "repsTo": 8
-    },
-    {
-      "exerciseId": %8$d,
-      "repsFrom": 7,
-      "repsTo": 7
-    }
-  ],
-  "exercises": [
-    {
-      "type": "AMRAP",
-      "exercises": [
+      "workoutType": "AMRAP",
+      "exerciseSessions": [
         {
-          "id": %1$d
+          "exerciseId": %1$d,
+          "distance": 40
         },
         {
-          "id": %2$d
+          "exerciseId": %2$d,
+          "distance": 120
         }
       ]
     },
     {
-      "type": "AMRAP",
-      "exercises": [
+      "workoutType": "AMRAP",
+      "exerciseSessions": [
         {
-          "id": %3$d
+          "exerciseId": %3$d,
+          "repsFrom": 5,
+          "repsTo": 5
         },
         {
-          "id": %4$d
+          "exerciseId": %4$d,
+          "calories": 6
         }
       ]
     },
     {
-      "type": "AMRAP",
-      "exercises": [
+      "workoutType": "AMRAP",
+      "exerciseSessions": [
         {
-          "id": %5$d
+          "exerciseId": %5$d,
+          "weight": 24
         },
         {
-          "id": %6$d
+          "exerciseId": %6$d,
+          "strapless": true,
+          "damper": 3
         }
       ]
     },
     {
-      "type": "AMRAP",
-      "exercises": [
+      "workoutType": "AMRAP",
+      "exerciseSessions": [
         {
-          "id": %7$d
+          "exerciseId": %7$d,
+          "repsFrom": 8,
+          "repsTo": 8
         },
         {
-          "id": %8$d
+          "exerciseId": %8$d,
+          "repsFrom": 7,
+          "repsTo": 7
         }
       ]
     }

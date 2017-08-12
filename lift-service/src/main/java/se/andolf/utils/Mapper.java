@@ -2,14 +2,12 @@ package se.andolf.utils;
 
 import se.andolf.api.*;
 import se.andolf.entities.*;
-import se.andolf.exceptions.NodeNotFoundException;
+import se.andolf.service.EquipmentService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * @author Thomas on 2017-07-29.
@@ -85,82 +83,42 @@ public final class Mapper {
                 .setRest(workout.getRest())
                 .setEffort(workout.getEffort())
                 .isAlternating(workout.isAlternating())
-                .setResistances(Mapper.toResistance(workout.getResistanceEntities()))
-                .setExercises(Mapper.toExercise(workout.getExerciseSessionEntities()))
+                .setExerciseSessions(Mapper.toExerciseSession(workout.getExerciseSessionEntities()))
                 .build();
     }
 
-    public static List<Exercise> toExercise(List<ExerciseSessionEntity> exerciseSessionEntities) {
-        if(exerciseSessionEntities != null){
-            exerciseSessionEntities.sort((e1, e2) -> Integer.compare(e1.getOrder(), e2.getOrder()));
-            return exerciseSessionEntities.stream().map(exerciseSessionEntity -> {
-                if (!exerciseSessionEntity.getExerciseEntities().isEmpty())
-                    return toExercise(exerciseSessionEntity.getExerciseEntities().stream().findFirst().orElseThrow(NodeNotFoundException::new));
-                else
-                    return toExercise(exerciseSessionEntity);
-            }).collect(Collectors.toList());
-        } else {
-            return new ArrayList<>();
-        }
+    private static List<ExerciseSession> toExerciseSession(List<ExerciseSessionEntity> exerciseSessionEntities) {
+        return exerciseSessionEntities.stream().sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder())).map(Mapper::toExerciseSession).collect(Collectors.toList());
     }
 
-    public static Exercise toExercise(ExerciseSessionEntity exerciseSessionEntity) {
-        return new Exercise.Builder()
-                .setId(exerciseSessionEntity.getId())
-                .setType(exerciseSessionEntity.getType())
-                .setExercises(toExercise(exerciseSessionEntity.getExerciseSessionEntities()))
+    private static ExerciseSession toExerciseSession(ExerciseSessionEntity exerciseSessionEntity) {
+        final ExerciseSession.Builder builder = new ExerciseSession.Builder();
+        if(exerciseSessionEntity.getExerciseEntities() != null && !exerciseSessionEntity.getExerciseEntities().isEmpty()) {
+            builder.setExerciseId(exerciseSessionEntity.getExerciseEntities().stream().findFirst().map(ExerciseEntity::getId).orElse(null));
+        } else if (exerciseSessionEntity.getExerciseSessionEntities() != null && !exerciseSessionEntity.getExerciseSessionEntities().isEmpty())
+            builder.setExerciseSessions(toExerciseSession(exerciseSessionEntity.getExerciseSessionEntities()));
+        return builder.setId(exerciseSessionEntity.getId())
+                .setUnits(exerciseSessionEntity.getUnits())
+                .isAlternateSides(exerciseSessionEntity.isAlternateSides())
+                .isStrapless(exerciseSessionEntity.isStrapless())
+                .setCalories(exerciseSessionEntity.getCalories())
+                .setForCal(exerciseSessionEntity.isForCal())
+                .setEffort(exerciseSessionEntity.getEffort())
+                .setForDistance(exerciseSessionEntity.isForDistance())
+                .setDamper(exerciseSessionEntity.getDamper())
+                .setDistance(exerciseSessionEntity.getDistance())
+                .setRepsFrom(exerciseSessionEntity.getRepsFrom())
+                .setRepsTo(exerciseSessionEntity.getRepsTo())
+                .setWeight(exerciseSessionEntity.getWeight())
+                .setWorkoutType(exerciseSessionEntity.getWorkoutType())
                 .build();
     }
 
     public static Exercise toExercise(ExerciseEntity exerciseEntity) {
-        return new Exercise.Builder()
-                .setId(exerciseEntity.getId())
-                .setName(exerciseEntity.getName()).build();
+        final List<Equipment> equipments = new ArrayList<>();
+        if(exerciseEntity.getEquipments() != null){
+            exerciseEntity.getEquipments().stream().forEach(e -> equipments.add(EquipmentService.toEquipment(e)));
+        }
+        return new Exercise.Builder().setId(exerciseEntity.getId()).setName(exerciseEntity.getName()).setEquipments(equipments).build();
     }
-
-    public static List<Resistance> toResistance(List<ResistanceEntity> resistanceEntities) {
-        final List<Resistance> resistances = new ArrayList<>();
-        resistanceEntities.stream().forEach(r -> r.getExercises().stream().forEach(e -> {
-            final Resistance.Builder builder = toResistance(r);
-            resistances.add(builder.setExerciseId(e.getId()).build());
-        }));
-
-        return resistances;
-    }
-
-    public static Resistance.Builder toResistance(ResistanceEntity resistanceEntity) {
-        return new Resistance.Builder()
-                .setId(resistanceEntity.getId())
-                .setWeight(resistanceEntity.getWeight())
-                .setDistance(resistanceEntity.getDistance())
-                .setCalories(resistanceEntity.getCalories())
-                .setRepsFrom(resistanceEntity.getRepsFrom())
-                .setRepsTo(resistanceEntity.getRepsTo())
-                .isAlternateSides(resistanceEntity.isAlternateSides())
-                .setForCal(resistanceEntity.isForCal())
-                .setForDistance(resistanceEntity.isForDistance())
-                .setUnits(resistanceEntity.getUnits())
-                .setEffort(resistanceEntity.getEffort())
-                .isStrapless(resistanceEntity.isStrapless())
-                .setDamper(resistanceEntity.getDamper());
-    }
-
-
-    public static ResistanceEntity toResistanceEntity(Resistance resistance) {
-        final ResistanceEntity resistanceEntity = new ResistanceEntity();
-        resistanceEntity.setRepsFrom(resistance.getRepsFrom());
-        resistanceEntity.setRepsTo(resistance.getRepsTo());
-        resistanceEntity.setCalories(resistance.getCalories());
-        resistanceEntity.setDistance(resistance.getDistance());
-        resistanceEntity.setWeight(resistance.getWeight());
-        resistanceEntity.setAlternateSides(resistance.isAlternateSides());
-        resistanceEntity.setUnits(resistance.getUnits());
-        resistanceEntity.isForCal(resistance.isForCal());
-        resistanceEntity.isForDistance(resistance.isForDistance());
-        resistanceEntity.isStrapless(resistance.isStrapless());
-        resistanceEntity.setEffort(resistance.getEffort());
-        resistanceEntity.setDamper(resistance.getDamper());
-        return resistanceEntity;
-    }
-
 }

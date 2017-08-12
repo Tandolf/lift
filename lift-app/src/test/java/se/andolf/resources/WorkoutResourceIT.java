@@ -105,18 +105,18 @@ public class WorkoutResourceIT {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("exercises[0].type", is("AMRAP"))
-                .body("exercises.exercises[0][0].id", is(exercises.get(0)))
-                .body("exercises.exercises[0][1].id", is(exercises.get(1)))
-                .body("exercises[1].type", is("AMRAP"))
-                .body("exercises.exercises[1][0].id", is(exercises.get(2)))
-                .body("exercises.exercises[1][1].id", is(exercises.get(3)))
-                .body("exercises[2].type", is("AMRAP"))
-                .body("exercises.exercises[2][0].id", is(exercises.get(4)))
-                .body("exercises.exercises[2][1].id", is(exercises.get(5)))
-                .body("exercises[3].type", is("AMRAP"))
-                .body("exercises.exercises[3][0].id", is(exercises.get(6)))
-                .body("exercises.exercises[3][1].id", is(exercises.get(7)));
+                .body("exerciseSessions[0].workoutType", is("AMRAP"))
+                .body("exerciseSessions.exerciseSessions[0][0].exerciseId", is(exercises.get(0)))
+                .body("exerciseSessions.exerciseSessions[0][1].exerciseId", is(exercises.get(1)))
+                .body("exerciseSessions[1].workoutType", is("AMRAP"))
+                .body("exerciseSessions.exerciseSessions[1][0].exerciseId", is(exercises.get(2)))
+                .body("exerciseSessions.exerciseSessions[1][1].exerciseId", is(exercises.get(3)))
+                .body("exerciseSessions[2].workoutType", is("AMRAP"))
+                .body("exerciseSessions.exerciseSessions[2][0].exerciseId", is(exercises.get(4)))
+                .body("exerciseSessions.exerciseSessions[2][1].exerciseId", is(exercises.get(5)))
+                .body("exerciseSessions[3].workoutType", is("AMRAP"))
+                .body("exerciseSessions.exerciseSessions[3][0].exerciseId", is(exercises.get(6)))
+                .body("exerciseSessions.exerciseSessions[3][1].exerciseId", is(exercises.get(7)));
     }
 
     @Test
@@ -141,9 +141,7 @@ public class WorkoutResourceIT {
                 .body("id", is(Integer.parseInt(id)))
                 .body("work", equalTo(180))
                 .body("rest", equalTo(60))
-                .body("sets", equalTo(8))
-                .body("resistances.damper", hasItems(3))
-                .body("resistances.strapless", hasItems(true));
+                .body("sets", equalTo(8));
     }
 
     @Test

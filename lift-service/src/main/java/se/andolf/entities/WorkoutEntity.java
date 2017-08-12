@@ -122,7 +122,7 @@ public class WorkoutEntity {
         this.userEntities.add(userEntity);
     }
 
-    public void setExercisesEntities(List<ExerciseSessionEntity> exerciseSessionEntity) {
+    public void setExerciseSessionEntities(List<ExerciseSessionEntity> exerciseSessionEntity) {
         this.exerciseSessionEntities = exerciseSessionEntity;
     }
 }

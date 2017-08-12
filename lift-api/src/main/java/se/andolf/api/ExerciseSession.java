@@ -1,9 +1,11 @@
 package se.andolf.api;
 
+import java.util.List;
+
 /**
  * @author Thomas on 2017-06-24.
  */
-public class Resistance {
+public class ExerciseSession {
 
     private final Long id;
     private final Long exerciseId;
@@ -19,8 +21,11 @@ public class Resistance {
     private final int damper;
     private final boolean alternateSides;
     private final Unit units;
+    private final WorkoutType workoutType;
+    private final List<ExerciseSession> exerciseSessions;
 
-    public Resistance(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper) {
+
+    public ExerciseSession(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper, WorkoutType workoutType, List<ExerciseSession> exerciseSessions) {
         this.id = id;
         this.exerciseId = exerciseId;
         this.weight = weight;
@@ -35,6 +40,8 @@ public class Resistance {
         this.forDistance = forDistance;
         this.strapless = strapless;
         this.damper = damper;
+        this.workoutType = workoutType;
+        this.exerciseSessions = exerciseSessions;
     }
 
     public Long getId() {
@@ -93,6 +100,14 @@ public class Resistance {
         return damper;
     }
 
+    public WorkoutType getWorkoutType() {
+        return workoutType;
+    }
+
+    public List<ExerciseSession> getExerciseSessions() {
+        return exerciseSessions;
+    }
+
     public static class Builder {
 
         private Long id;
@@ -109,6 +124,8 @@ public class Resistance {
         private boolean alternateSides;
         private Unit units;
         private int damper;
+        private WorkoutType workoutType;
+        private List<ExerciseSession> exerciseSessions;
 
         public Builder() {
             this.units = Unit.METRIC;
@@ -119,13 +136,13 @@ public class Resistance {
             return this;
         }
 
-        public Builder setExerciseId(Long exerciseId) {
-            this.exerciseId = exerciseId;
+        public Builder setWeight(int weight) {
+            this.weight = weight;
             return this;
         }
 
-        public Builder setWeight(int weight) {
-            this.weight = weight;
+        public Builder setExerciseId(Long exerciseId) {
+            this.exerciseId = exerciseId;
             return this;
         }
 
@@ -184,8 +201,18 @@ public class Resistance {
             return this;
         }
 
-        public Resistance build() {
-            return new Resistance(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless, damper);
+        public Builder setWorkoutType(WorkoutType workoutType) {
+            this.workoutType = workoutType;
+            return this;
+        }
+
+        public Builder setExerciseSessions(List<ExerciseSession> exerciseSessions) {
+            this.exerciseSessions = exerciseSessions;
+            return this;
+        }
+
+        public ExerciseSession build() {
+            return new ExerciseSession(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless, damper, workoutType, exerciseSessions);
         }
     }
 }

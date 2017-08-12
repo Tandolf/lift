@@ -1,9 +1,9 @@
 package se.andolf.entities;
 
 import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import se.andolf.api.Unit;
 import se.andolf.api.WorkoutType;
 
 import java.util.ArrayList;
@@ -17,9 +17,20 @@ public class ExerciseSessionEntity {
 
     @GraphId
     private Long id;
-
     private int order;
-    private WorkoutType type;
+    private WorkoutType workoutType;
+    private int weight;
+    private int distance;
+    private int calories;
+    private int repsFrom;
+    private int repsTo;
+    private boolean alternateSides;
+    private boolean forCal;
+    private boolean forDistance;
+    private Unit units;
+    private boolean strapless;
+    private int effort;
+    private int damper;
 
     @Relationship(type = "FOR_NESTED_SESSION")
     private List<ExerciseSessionEntity> exerciseSessionEntities;
@@ -48,12 +59,12 @@ public class ExerciseSessionEntity {
         this.order = order;
     }
 
-    public WorkoutType getType() {
-        return type;
+    public WorkoutType getWorkoutType() {
+        return workoutType;
     }
 
-    public void setType(WorkoutType type) {
-        this.type = type;
+    public void setWorkoutType(WorkoutType workoutType) {
+        this.workoutType = workoutType;
     }
 
     public List<ExerciseSessionEntity> getExerciseSessionEntities() {
@@ -74,5 +85,101 @@ public class ExerciseSessionEntity {
 
     public void addExerciseEntity(ExerciseEntity exerciseEntity) {
         this.exerciseEntities.add(exerciseEntity);
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getCalories() {
+        return calories;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
+    }
+
+    public int getRepsFrom() {
+        return repsFrom;
+    }
+
+    public void setRepsFrom(int repsFrom) {
+        this.repsFrom = repsFrom;
+    }
+
+    public int getRepsTo() {
+        return repsTo;
+    }
+
+    public void setRepsTo(int repsTo) {
+        this.repsTo = repsTo;
+    }
+
+    public boolean isAlternateSides() {
+        return alternateSides;
+    }
+
+    public void setAlternateSides(boolean alternateSides) {
+        this.alternateSides = alternateSides;
+    }
+
+    public boolean isForCal() {
+        return forCal;
+    }
+
+    public void setForCal(boolean forCal) {
+        this.forCal = forCal;
+    }
+
+    public boolean isForDistance() {
+        return forDistance;
+    }
+
+    public void setForDistance(boolean forDistance) {
+        this.forDistance = forDistance;
+    }
+
+    public Unit getUnits() {
+        return units;
+    }
+
+    public void setUnits(Unit units) {
+        this.units = units;
+    }
+
+    public boolean isStrapless() {
+        return strapless;
+    }
+
+    public void setStrapless(boolean strapless) {
+        this.strapless = strapless;
+    }
+
+    public int getEffort() {
+        return effort;
+    }
+
+    public void setEffort(int effort) {
+        this.effort = effort;
+    }
+
+    public int getDamper() {
+        return damper;
+    }
+
+    public void setDamper(int damper) {
+        this.damper = damper;
     }
 }

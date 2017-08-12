@@ -2,50 +2,34 @@
   "date": "2017-06-07",
   "work": 60,
   "sets": 14,
-  "type": "EMOM",
+  "workoutType": "EMOM",
   "isAlternating": true,
-  "resistances": [
+  "exerciseSessions": [
     {
-      "exerciseId": %1$d,
-      "repsFrom": 2,
-      "repsTo": 2
-    },
-    {
-      "exerciseId": %2$d,
-      "repsFrom": 2,
-      "repsTo": 2
-    },
-    {
-      "exerciseId": %3$d,
-      "repsFrom": 2,
-      "repsTo": 2
-    },
-    {
-      "exerciseId": %4$d,
-      "repsFrom": 2,
-      "repsTo": 2
-    }
-  ],
-  "exercises": [
-    {
-      "type": "EMOM",
-      "exercises": [
+      "exerciseSessions": [
         {
-          "id": %1$d
+          "exerciseId": %1$d,
+          "repsFrom": 2,
+          "repsTo": 2
         },
         {
-          "id": %2$d
+          "exerciseId": %2$d,
+          "repsFrom": 2,
+          "repsTo": 2
         }
       ]
     },
     {
-      "type": "EMOM",
-      "exercises": [
+      "exerciseSessions": [
         {
-          "id": %3$d
+          "exerciseId": %3$d,
+          "repsFrom": 2,
+          "repsTo": 2
         },
         {
-          "id": %4$d
+          "exerciseId": %4$d,
+          "repsFrom": 1,
+          "repsTo": 1
         }
       ]
     }

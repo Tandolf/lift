@@ -2,9 +2,9 @@
   "date": "2017-06-07",
   "work": 120,
   "sets": 8,
-  "type": "E2M",
+  "workoutType": "E2M",
   "isAlternating": true,
-  "resistances": [
+  "exerciseSessions": [
     {
       "exerciseId": %1$d,
       "repsFrom": 2,
@@ -15,14 +15,6 @@
       "exerciseId": %2$d,
       "repsFrom": 2,
       "repsTo": 2
-    }
-  ],
-  "exercises": [
-    {
-      "id": %1$d
-    },
-    {
-      "id": %2$d
     }
   ]
 }
