@@ -4,7 +4,7 @@
   "rest": 30,
   "sets": 15,
   "effort": 85,
-  "exerciseSessions": [
+  "sessions": [
     {
       "exerciseId": %1$d,
       "alternateSides": true
@@ -22,7 +22,7 @@
     },
     {
       "workoutType": "AMRAP",
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %5$d,
           "repsFrom": 5,

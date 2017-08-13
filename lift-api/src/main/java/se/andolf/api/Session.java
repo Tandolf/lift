@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author Thomas on 2017-06-24.
  */
-public class ExerciseSession {
+public class Session {
 
     private final Long id;
     private final Long exerciseId;
@@ -22,10 +22,10 @@ public class ExerciseSession {
     private final boolean alternateSides;
     private final Unit units;
     private final WorkoutType workoutType;
-    private final List<ExerciseSession> exerciseSessions;
+    private final List<Session> sessions;
 
 
-    public ExerciseSession(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper, WorkoutType workoutType, List<ExerciseSession> exerciseSessions) {
+    public Session(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper, WorkoutType workoutType, List<Session> sessions) {
         this.id = id;
         this.exerciseId = exerciseId;
         this.weight = weight;
@@ -41,7 +41,7 @@ public class ExerciseSession {
         this.strapless = strapless;
         this.damper = damper;
         this.workoutType = workoutType;
-        this.exerciseSessions = exerciseSessions;
+        this.sessions = sessions;
     }
 
     public Long getId() {
@@ -104,8 +104,8 @@ public class ExerciseSession {
         return workoutType;
     }
 
-    public List<ExerciseSession> getExerciseSessions() {
-        return exerciseSessions;
+    public List<Session> getSessions() {
+        return sessions;
     }
 
     public static class Builder {
@@ -125,7 +125,7 @@ public class ExerciseSession {
         private Unit units;
         private int damper;
         private WorkoutType workoutType;
-        private List<ExerciseSession> exerciseSessions;
+        private List<Session> sessions;
 
         public Builder() {
             this.units = Unit.METRIC;
@@ -206,13 +206,13 @@ public class ExerciseSession {
             return this;
         }
 
-        public Builder setExerciseSessions(List<ExerciseSession> exerciseSessions) {
-            this.exerciseSessions = exerciseSessions;
+        public Builder setSessions(List<Session> sessions) {
+            this.sessions = sessions;
             return this;
         }
 
-        public ExerciseSession build() {
-            return new ExerciseSession(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless, damper, workoutType, exerciseSessions);
+        public Session build() {
+            return new Session(id, exerciseId, weight, distance, calories, repsFrom, repsTo, alternateSides, units, effort, forCal, forDistance, strapless, damper, workoutType, sessions);
         }
     }
 }

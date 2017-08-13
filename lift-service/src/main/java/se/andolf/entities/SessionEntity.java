@@ -13,7 +13,7 @@ import java.util.List;
  * @author Thomas on 2016-06-11.
  */
 @NodeEntity
-public class ExerciseSessionEntity {
+public class SessionEntity {
 
     @GraphId
     private Long id;
@@ -33,13 +33,13 @@ public class ExerciseSessionEntity {
     private int damper;
 
     @Relationship(type = "FOR_NESTED_SESSION")
-    private List<ExerciseSessionEntity> exerciseSessionEntities;
+    private List<SessionEntity> sessionEntities;
 
     @Relationship(type = "FOR_EXERCISE")
     private List<ExerciseEntity> exerciseEntities;
 
-    public ExerciseSessionEntity() {
-        exerciseSessionEntities = new ArrayList<>();
+    public SessionEntity() {
+        sessionEntities = new ArrayList<>();
         exerciseEntities = new ArrayList<>();
     }
 
@@ -67,12 +67,12 @@ public class ExerciseSessionEntity {
         this.workoutType = workoutType;
     }
 
-    public List<ExerciseSessionEntity> getExerciseSessionEntities() {
-        return exerciseSessionEntities;
+    public List<SessionEntity> getSessionEntities() {
+        return sessionEntities;
     }
 
-    public void setExerciseSessionEntities(List<ExerciseSessionEntity> exerciseSessionEntities) {
-        this.exerciseSessionEntities = exerciseSessionEntities;
+    public void setSessionEntities(List<SessionEntity> sessionEntities) {
+        this.sessionEntities = sessionEntities;
     }
 
     public List<ExerciseEntity> getExerciseEntities() {

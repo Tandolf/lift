@@ -3,10 +3,10 @@
   "work": 180,
   "rest": 60,
   "sets": 8,
-  "exerciseSessions": [
+  "sessions": [
     {
       "workoutType": "AMRAP",
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %1$d,
           "distance": 40
@@ -19,7 +19,7 @@
     },
     {
       "workoutType": "AMRAP",
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %3$d,
           "repsFrom": 5,
@@ -33,7 +33,7 @@
     },
     {
       "workoutType": "AMRAP",
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %5$d,
           "weight": 24
@@ -47,7 +47,7 @@
     },
     {
       "workoutType": "AMRAP",
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %7$d,
           "repsFrom": 8,

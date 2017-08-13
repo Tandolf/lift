@@ -16,9 +16,9 @@ public class Workout {
     private final int effort;
     private final WorkoutType workoutType;
     private final boolean isAlternating;
-    private final List<ExerciseSession> exerciseSessions;
+    private final List<Session> sessions;
 
-    public Workout(Long id, LocalDate date, int work, int rest, int sets, int effort, WorkoutType workoutType, boolean isAlternating, List<ExerciseSession> exerciseSessions) {
+    public Workout(Long id, LocalDate date, int work, int rest, int sets, int effort, WorkoutType workoutType, boolean isAlternating, List<Session> sessions) {
         this.id = id;
         this.date = date;
         this.work = work;
@@ -27,7 +27,7 @@ public class Workout {
         this.effort = effort;
         this.workoutType = workoutType;
         this.isAlternating = isAlternating;
-        this.exerciseSessions = exerciseSessions;
+        this.sessions = sessions;
     }
 
     public Long getId() {
@@ -62,8 +62,8 @@ public class Workout {
         return isAlternating;
     }
 
-    public List<ExerciseSession> getExerciseSessions() {
-        return exerciseSessions;
+    public List<Session> getSessions() {
+        return sessions;
     }
 
     public static class Builder {
@@ -76,7 +76,7 @@ public class Workout {
         private int effort;
         private WorkoutType workoutType;
         private boolean isAlternating;
-        private List<ExerciseSession> exerciseSessions;
+        private List<Session> sessions;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -118,13 +118,13 @@ public class Workout {
             return this;
         }
 
-        public Builder setExerciseSessions(List<ExerciseSession> exerciseSessions) {
-            this.exerciseSessions = exerciseSessions;
+        public Builder setSessions(List<Session> sessions) {
+            this.sessions = sessions;
             return this;
         }
 
         public Workout build(){
-            return new Workout(id, date, work, rest, sets, effort, workoutType, isAlternating, exerciseSessions);
+            return new Workout(id, date, work, rest, sets, effort, workoutType, isAlternating, sessions);
         }
     }
 }

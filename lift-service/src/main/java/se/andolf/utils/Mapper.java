@@ -83,34 +83,34 @@ public final class Mapper {
                 .setRest(workout.getRest())
                 .setEffort(workout.getEffort())
                 .isAlternating(workout.isAlternating())
-                .setExerciseSessions(Mapper.toExerciseSession(workout.getExerciseSessionEntities()))
+                .setSessions(Mapper.toExerciseSession(workout.getExerciseSessionEntities()))
                 .build();
     }
 
-    private static List<ExerciseSession> toExerciseSession(List<ExerciseSessionEntity> exerciseSessionEntities) {
+    private static List<Session> toExerciseSession(List<SessionEntity> exerciseSessionEntities) {
         return exerciseSessionEntities.stream().sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder())).map(Mapper::toExerciseSession).collect(Collectors.toList());
     }
 
-    private static ExerciseSession toExerciseSession(ExerciseSessionEntity exerciseSessionEntity) {
-        final ExerciseSession.Builder builder = new ExerciseSession.Builder();
-        if(exerciseSessionEntity.getExerciseEntities() != null && !exerciseSessionEntity.getExerciseEntities().isEmpty()) {
-            builder.setExerciseId(exerciseSessionEntity.getExerciseEntities().stream().findFirst().map(ExerciseEntity::getId).orElse(null));
-        } else if (exerciseSessionEntity.getExerciseSessionEntities() != null && !exerciseSessionEntity.getExerciseSessionEntities().isEmpty())
-            builder.setExerciseSessions(toExerciseSession(exerciseSessionEntity.getExerciseSessionEntities()));
-        return builder.setId(exerciseSessionEntity.getId())
-                .setUnits(exerciseSessionEntity.getUnits())
-                .isAlternateSides(exerciseSessionEntity.isAlternateSides())
-                .isStrapless(exerciseSessionEntity.isStrapless())
-                .setCalories(exerciseSessionEntity.getCalories())
-                .setForCal(exerciseSessionEntity.isForCal())
-                .setEffort(exerciseSessionEntity.getEffort())
-                .setForDistance(exerciseSessionEntity.isForDistance())
-                .setDamper(exerciseSessionEntity.getDamper())
-                .setDistance(exerciseSessionEntity.getDistance())
-                .setRepsFrom(exerciseSessionEntity.getRepsFrom())
-                .setRepsTo(exerciseSessionEntity.getRepsTo())
-                .setWeight(exerciseSessionEntity.getWeight())
-                .setWorkoutType(exerciseSessionEntity.getWorkoutType())
+    private static Session toExerciseSession(SessionEntity sessionEntity) {
+        final Session.Builder builder = new Session.Builder();
+        if(sessionEntity.getExerciseEntities() != null && !sessionEntity.getExerciseEntities().isEmpty()) {
+            builder.setExerciseId(sessionEntity.getExerciseEntities().stream().findFirst().map(ExerciseEntity::getId).orElse(null));
+        } else if (sessionEntity.getSessionEntities() != null && !sessionEntity.getSessionEntities().isEmpty())
+            builder.setSessions(toExerciseSession(sessionEntity.getSessionEntities()));
+        return builder.setId(sessionEntity.getId())
+                .setUnits(sessionEntity.getUnits())
+                .isAlternateSides(sessionEntity.isAlternateSides())
+                .isStrapless(sessionEntity.isStrapless())
+                .setCalories(sessionEntity.getCalories())
+                .setForCal(sessionEntity.isForCal())
+                .setEffort(sessionEntity.getEffort())
+                .setForDistance(sessionEntity.isForDistance())
+                .setDamper(sessionEntity.getDamper())
+                .setDistance(sessionEntity.getDistance())
+                .setRepsFrom(sessionEntity.getRepsFrom())
+                .setRepsTo(sessionEntity.getRepsTo())
+                .setWeight(sessionEntity.getWeight())
+                .setWorkoutType(sessionEntity.getWorkoutType())
                 .build();
     }
 

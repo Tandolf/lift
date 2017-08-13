@@ -4,7 +4,7 @@
   "sets": 8,
   "workoutType": "E2M",
   "isAlternating": true,
-  "exerciseSessions": [
+  "sessions": [
     {
       "exerciseId": %1$d,
       "repsFrom": 2,

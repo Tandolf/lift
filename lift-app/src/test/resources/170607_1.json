@@ -4,9 +4,9 @@
   "sets": 14,
   "workoutType": "EMOM",
   "isAlternating": true,
-  "exerciseSessions": [
+  "sessions": [
     {
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %1$d,
           "repsFrom": 2,
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "exerciseSessions": [
+      "sessions": [
         {
           "exerciseId": %3$d,
           "repsFrom": 2,
