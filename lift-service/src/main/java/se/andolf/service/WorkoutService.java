@@ -45,17 +45,17 @@ public class WorkoutService {
         workoutEntity.setEffort(workout.getEffort());
         workoutEntity.setAlternating(workout.isAlternating());
         workoutEntity.setWorkoutType(workout.getWorkoutType());
-        workoutEntity.setExerciseSessionEntities(toExerciseSessionEntity(workout.getSessions()));
+        workoutEntity.setSessionEntities(toSessionEntity(workout.getSessions()));
         workoutEntity.addUserEntity(userEntity);
 
         return workoutRepository.save(workoutEntity).getId();
     }
 
-    public List<SessionEntity> toExerciseSessionEntity(List<Session> sessions) {
+    public List<SessionEntity> toSessionEntity(List<Session> sessions) {
         if(sessions != null)
             return IntStream.range(0, sessions.size()).mapToObj(i -> {
                 final Session session = sessions.get(i);
-                final SessionEntity sessionEntity = toExerciseSessionEntity(session);
+                final SessionEntity sessionEntity = toSessionEntity(session);
                 sessionEntity.setOrder(i);
                 if(session.getExerciseId() != null)
                     sessionEntity.addExerciseEntity(exerciseRepository.findOne(session.getExerciseId()));
@@ -64,7 +64,7 @@ public class WorkoutService {
         return new ArrayList<>();
     }
 
-    private SessionEntity toExerciseSessionEntity(Session session) {
+    private SessionEntity toSessionEntity(Session session) {
         final SessionEntity sessionEntity = new SessionEntity();
         sessionEntity.setWorkoutType(session.getWorkoutType());
         sessionEntity.setAlternateSides(session.isAlternateSides());
@@ -80,7 +80,7 @@ public class WorkoutService {
         sessionEntity.setUnits(session.getUnits());
         sessionEntity.setWeight(session.getWeight());
         if( sessionEntity.getSessionEntities() != null || sessionEntity.getSessionEntities().isEmpty())
-            sessionEntity.setSessionEntities(toExerciseSessionEntity(session.getSessions()));
+            sessionEntity.setSessionEntities(toSessionEntity(session.getSessions()));
         return sessionEntity;
     }
 

@@ -83,20 +83,20 @@ public final class Mapper {
                 .setRest(workout.getRest())
                 .setEffort(workout.getEffort())
                 .isAlternating(workout.isAlternating())
-                .setSessions(Mapper.toExerciseSession(workout.getExerciseSessionEntities()))
+                .setSessions(Mapper.toSession(workout.getSessionEntities()))
                 .build();
     }
 
-    private static List<Session> toExerciseSession(List<SessionEntity> exerciseSessionEntities) {
-        return exerciseSessionEntities.stream().sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder())).map(Mapper::toExerciseSession).collect(Collectors.toList());
+    private static List<Session> toSession(List<SessionEntity> sessionEntities) {
+        return sessionEntities.stream().sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder())).map(Mapper::toSession).collect(Collectors.toList());
     }
 
-    private static Session toExerciseSession(SessionEntity sessionEntity) {
+    private static Session toSession(SessionEntity sessionEntity) {
         final Session.Builder builder = new Session.Builder();
         if(sessionEntity.getExerciseEntities() != null && !sessionEntity.getExerciseEntities().isEmpty()) {
             builder.setExerciseId(sessionEntity.getExerciseEntities().stream().findFirst().map(ExerciseEntity::getId).orElse(null));
         } else if (sessionEntity.getSessionEntities() != null && !sessionEntity.getSessionEntities().isEmpty())
-            builder.setSessions(toExerciseSession(sessionEntity.getSessionEntities()));
+            builder.setSessions(toSession(sessionEntity.getSessionEntities()));
         return builder.setId(sessionEntity.getId())
                 .setUnits(sessionEntity.getUnits())
                 .isAlternateSides(sessionEntity.isAlternateSides())

@@ -31,14 +31,14 @@ public class WorkoutEntity {
     private List<ResistanceEntity> resistanceEntities;
 
     @Relationship(type = "INCLUDES")
-    private List<SessionEntity> exerciseSessionEntities;
+    private List<SessionEntity> sessionEntities;
 
     @Relationship(type = "HAS_WORKOUTS", direction = "INCOMING")
     private Set<UserEntity> userEntities;
 
     public WorkoutEntity() {
         this.resistanceEntities = new ArrayList<>();
-        this.exerciseSessionEntities = new ArrayList<>();
+        this.sessionEntities = new ArrayList<>();
         this.userEntities = new HashSet<>();
     }
 
@@ -114,15 +114,15 @@ public class WorkoutEntity {
         return resistanceEntities;
     }
 
-    public List<SessionEntity> getExerciseSessionEntities() {
-        return exerciseSessionEntities;
+    public List<SessionEntity> getSessionEntities() {
+        return sessionEntities;
     }
 
     public void addUserEntity(UserEntity userEntity) {
         this.userEntities.add(userEntity);
     }
 
-    public void setExerciseSessionEntities(List<SessionEntity> sessionEntity) {
-        this.exerciseSessionEntities = sessionEntity;
+    public void setSessionEntities(List<SessionEntity> sessionEntity) {
+        this.sessionEntities = sessionEntity;
     }
 }
