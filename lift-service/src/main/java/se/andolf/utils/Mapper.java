@@ -5,6 +5,7 @@ import se.andolf.entities.*;
 import se.andolf.service.EquipmentService;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -87,8 +88,8 @@ public final class Mapper {
                 .build();
     }
 
-    private static List<Session> toSession(List<SessionEntity> sessionEntities) {
-        return sessionEntities.stream().sorted((o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder())).map(Mapper::toSession).collect(Collectors.toList());
+    public static List<Session> toSession(List<SessionEntity> sessionEntities) {
+        return sessionEntities.stream().sorted(Comparator.comparingInt(SessionEntity::getOrder)).map(Mapper::toSession).collect(Collectors.toList());
     }
 
     private static Session toSession(SessionEntity sessionEntity) {

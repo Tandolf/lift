@@ -19,7 +19,7 @@ import se.andolf.service.ExerciseService;
 @EnableTransactionManagement
 public class SessionConfig {
 
-    private final static Log LOG = LogFactory.getLog(ExerciseService.class);
+    private static final Log LOG = LogFactory.getLog(ExerciseService.class);
 
     @Autowired
     private DriverConfig driverConfig;

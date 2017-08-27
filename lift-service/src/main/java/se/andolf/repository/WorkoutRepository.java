@@ -14,9 +14,9 @@ public interface WorkoutRepository extends Neo4jRepository<WorkoutEntity, Long> 
 
     @Query("MATCH (w:WorkoutEntity) " +
             "WHERE ID(w)={id} " +
-            "OPTIONAL MATCH (w)--(r:ResistanceEntity) " +
-            "OPTIONAL MATCH (w)-[*1..2]-(e:sessionEntity) " +
-            "DETACH DELETE w, r, e")
+            "OPTIONAL MATCH (w)-[*1..2]-(se:SessionEntity) " +
+            "OPTIONAL MATCH (w)--(se)--(re:ResultEntity)" +
+            "DETACH DELETE w, se, re")
     void deleteWorkoutById(long id);
 
     @Query("MATCH (w:WorkoutEntity) " +

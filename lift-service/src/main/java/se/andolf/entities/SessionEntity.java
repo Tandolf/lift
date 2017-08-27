@@ -38,9 +38,13 @@ public class SessionEntity {
     @Relationship(type = "FOR_EXERCISE")
     private List<ExerciseEntity> exerciseEntities;
 
+    @Relationship(type = "RECORDED")
+    private List<ResultEntity> resultEntities;
+
     public SessionEntity() {
         sessionEntities = new ArrayList<>();
         exerciseEntities = new ArrayList<>();
+        resultEntities = new ArrayList<>();
     }
 
     public Long getId() {
@@ -181,5 +185,17 @@ public class SessionEntity {
 
     public void setDamper(int damper) {
         this.damper = damper;
+    }
+
+    public List<ResultEntity> getResultEntities() {
+        return resultEntities;
+    }
+
+    public void setResultEntities(List<ResultEntity> resultEntities) {
+        this.resultEntities = resultEntities;
+    }
+
+    public void addResultEntity(ResultEntity resultEntity) {
+        resultEntities.add(resultEntity);
     }
 }
