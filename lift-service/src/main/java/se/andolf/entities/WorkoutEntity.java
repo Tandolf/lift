@@ -1,23 +1,25 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.annotation.typeconversion.Convert;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 import se.andolf.api.WorkoutType;
-import se.andolf.converter.LocalDateConverter;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Thomas on 2017-06-18.
  */
+@Document(collection = "Workout")
 public class WorkoutEntity {
 
-    @GraphId
+    @Id
     private Long id;
 
-    @Convert(LocalDateConverter.class)
     private LocalDate date;
 
     private int work;
@@ -27,15 +29,13 @@ public class WorkoutEntity {
     private WorkoutType workoutType;
     private boolean isAlternating;
 
-    @Relationship(type = "RECOMMENDED_RESISTANCE")
     private List<ResistanceEntity> resistanceEntities;
 
-    @Relationship(type = "INCLUDES")
     private List<SessionEntity> sessionEntities;
 
-    @Relationship(type = "HAS_WORKOUTS", direction = "INCOMING")
     private Set<UserEntity> userEntities;
 
+    @PersistenceConstructor
     public WorkoutEntity() {
         this.resistanceEntities = new ArrayList<>();
         this.sessionEntities = new ArrayList<>();

@@ -1,8 +1,7 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import se.andolf.api.Unit;
 import se.andolf.api.WorkoutType;
 
@@ -12,11 +11,11 @@ import java.util.List;
 /**
  * @author Thomas on 2016-06-11.
  */
-@NodeEntity
+@Document(collection = "Session")
 public class SessionEntity {
 
-    @GraphId
-    private Long id;
+    @Id
+    private String id;
     private int order;
     private WorkoutType workoutType;
     private int weight;
@@ -32,13 +31,10 @@ public class SessionEntity {
     private int effort;
     private int damper;
 
-    @Relationship(type = "FOR_NESTED_SESSION")
     private List<SessionEntity> sessionEntities;
 
-    @Relationship(type = "FOR_EXERCISE")
     private List<ExerciseEntity> exerciseEntities;
 
-    @Relationship(type = "RECORDED")
     private List<ResultEntity> resultEntities;
 
     public SessionEntity() {
@@ -47,11 +43,11 @@ public class SessionEntity {
         resultEntities = new ArrayList<>();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,7 +1,7 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import se.andolf.api.Unit;
 
 import java.util.ArrayList;
@@ -10,9 +10,10 @@ import java.util.List;
 /**
  * @author Thomas on 2017-06-24.
  */
+@Document(collection = "Resistance")
 public class ResistanceEntity {
 
-    @GraphId
+    @Id
     private Long id;
     private int weight;
     private int distance;
@@ -27,7 +28,6 @@ public class ResistanceEntity {
     private int effort;
     private int damper;
 
-    @Relationship(type = "FOR_EXERCISE")
     private List<ExerciseEntity> exercises;
 
     public ResistanceEntity() {

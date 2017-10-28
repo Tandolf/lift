@@ -30,6 +30,7 @@ import static se.andolf.util.DbUtil.purge;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
+@Ignore
 public class ResultsResourceIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";

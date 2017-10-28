@@ -5,23 +5,23 @@ package se.andolf.api;
  */
 public class Equipment {
 
-    private long id;
+    private String id;
     private String name;
 
     public Equipment(String name) {
         this.name = name;
     }
 
-    public Equipment(long id, String name) {
+    public Equipment(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

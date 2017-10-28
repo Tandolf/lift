@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import se.andolf.api.Result;
 import se.andolf.entities.ResultEntity;
 import se.andolf.entities.SessionEntity;
-import se.andolf.exceptions.NodeNotFoundException;
+import se.andolf.exceptions.DocomentNotFoundException;
 import se.andolf.repository.ResultRepository;
 import se.andolf.repository.SessionRepository;
 
@@ -23,14 +23,14 @@ public class ResultsService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    public void delete(long id) {
+    public void delete(String id) {
 
     }
 
-    public Long save(Long sessionId, Result result){
+    public String save(String sessionId, Result result){
         final Optional<SessionEntity> sessionEntity = Optional.ofNullable(sessionRepository.findOne(sessionId));
         if(!sessionEntity.isPresent())
-            throw new NodeNotFoundException("No session with id: " + sessionId + " was found.");
+            throw new DocomentNotFoundException("No session with id: " + sessionId + " was found.");
         final ResultEntity resultEntity = new ResultEntity.Builder()
                 .setRound(result.getRound())
                 .setWeight(result.getWeight())

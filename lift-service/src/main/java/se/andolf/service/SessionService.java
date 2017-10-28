@@ -22,7 +22,7 @@ public class SessionService {
         this.workoutRepository = workoutRepository;
     }
 
-    public List<Session> getAll(Long userId, Long workoutId) {
-        return Mapper.toSession(workoutRepository.findById(workoutId).getSessionEntities());
+    public List<Session> getAll(String userId, String workoutId) {
+        return Mapper.toSession(workoutRepository.findOne(workoutId).getSessionEntities());
     }
 }

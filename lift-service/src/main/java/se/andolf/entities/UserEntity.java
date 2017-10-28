@@ -1,120 +1,120 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-import se.andolf.api.Workout;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import se.andolf.api.user.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * @author Thomas on 2017-07-16.
  */
-@NodeEntity
+@Document(collection = "User")
 public class UserEntity {
 
-    @GraphId
-    private Long id;
-    private String firstname;
-    private String lastname;
+    @Id
+    private String id;
+    private MetaEntity meta;
+    private String userName;
+    private boolean active;
+    private Name name;
+    private List<Email> emails;
+    private List<PhoneNumber> phoneNumbers;
+    private List<Role> roles;
 
-    @Relationship(type = "HAS_ACCOUNT_INFO")
-    private Set<AccountInfoEntity> accountInfoEntities;
-
-    @Relationship(type = "HAS_CONTACT_INFO")
-    private Set<ContactInfoEntity> contactInfoEntities;
-
-    @Relationship(type = "HAS_WORKOUTS")
-    private Set<WorkoutEntity> workoutEntities;
-
-    public UserEntity() {
-        this.accountInfoEntities = new HashSet<>();
-        this.contactInfoEntities = new HashSet<>();
-        this.workoutEntities = new HashSet<>();
+    @PersistenceConstructor
+    private UserEntity(MetaEntity meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles) {
+        this.meta = meta;
+        this.userName = userName;
+        this.active = active;
+        this.name = name;
+        this.emails = emails;
+        this.phoneNumbers = phoneNumbers;
+        this.roles = roles;
     }
 
-    private UserEntity(String firstname, String lastname, Set<AccountInfoEntity> accountInfoEntities, Set<ContactInfoEntity> contactInfoEntities) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.accountInfoEntities = accountInfoEntities;
-        this.contactInfoEntities = contactInfoEntities;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public MetaEntity getMeta() {
+        return meta;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public Name getName() {
+        return name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public List<Email> getEmails() {
+        return emails;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public List<PhoneNumber> getPhoneNumbers() {
+        return phoneNumbers;
     }
 
-    public void addAccountInfo(AccountInfoEntity accountInfoEntity) {
-        accountInfoEntities.add(accountInfoEntity);
+    public boolean isActive() {
+        return active;
     }
 
-    public void addContactInfo(ContactInfoEntity contactInfoEntity) {
-        contactInfoEntities.add(contactInfoEntity);
-    }
-
-    public Set<AccountInfoEntity> getAccountInfoEntities() {
-        return accountInfoEntities;
-    }
-
-    public Set<ContactInfoEntity> getContactInfoEntities() {
-        return contactInfoEntities;
-    }
-
-    public void addWorkout(WorkoutEntity workout) {
-        workoutEntities.add(workout);
+    public List<Role> getRoles() {
+        return roles;
     }
 
     public static class Builder {
 
-        private String firstname;
-        private String lastname;
-        private Set<AccountInfoEntity> accountInfoEntities = new HashSet<>();
-        private Set<ContactInfoEntity> contactInfoEntities = new HashSet<>();
+        private String userName;
+        private boolean active;
+        private Name name;
+        private List<Email> emails;
+        private List<PhoneNumber> phoneNumbers;
+        private List<Role> roles;
+        private MetaEntity meta;
 
-
-        public Builder setFirstname(String firstname) {
-            this.firstname = firstname;
+        public Builder meta(MetaEntity meta) {
+            this.meta = meta;
             return this;
         }
 
-        public Builder setLastname(String lastname) {
-            this.lastname = lastname;
+        public Builder userName(String userName) {
+            this.userName = userName;
             return this;
         }
 
-        public Builder addAccountInfo(AccountInfoEntity accountInfoEntity) {
-            accountInfoEntities.add(accountInfoEntity);
+        public Builder isActive(boolean active) {
+            this.active = active;
             return this;
         }
 
-        public Builder addContactInfo(ContactInfoEntity contactInfoEntity) {
-            contactInfoEntities.add(contactInfoEntity);
+        public Builder name(Name name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder emails(List<Email> emails) {
+            this.emails = emails;
+            return this;
+        }
+
+        public Builder phoneNumbers(List<PhoneNumber> phoneNumbers) {
+            this.phoneNumbers = phoneNumbers;
+            return this;
+        }
+
+        public Builder roles(List<Role> roles) {
+            this.roles = roles;
             return this;
         }
 
         public UserEntity build() {
-            return new UserEntity(firstname, lastname, accountInfoEntities, contactInfoEntities);
+            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles);
         }
     }
 }

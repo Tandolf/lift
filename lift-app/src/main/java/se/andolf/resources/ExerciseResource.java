@@ -39,7 +39,7 @@ public class ExerciseResource {
 
     @RequestMapping(method = GET, value = "/exercises/{id}")
     @ApiOperation(value = "Gets equipment by name", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Exercise find(@PathVariable("id") long id){
+    public Exercise find(@PathVariable("id") String id){
         return exerciseService.find(id);
     }
 
@@ -53,6 +53,6 @@ public class ExerciseResource {
     @ApiOperation(value = "Delete equipment by name")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("name") String id){
-        exerciseService.delete(Long.parseLong(id));
+        exerciseService.delete(id);
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.andolf.api.Result;
-import se.andolf.api.User;
 import se.andolf.service.ResultsService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +37,8 @@ public class ResultsResource {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method = PUT, value="{userId}/workouts/{workoutId}/sessions/{sessionId}")
-    public ResponseEntity add(@PathVariable("sessionId") Long sessionId, @RequestBody Result result, HttpServletRequest request) throws URISyntaxException {
-        final long id = resultsService.save(sessionId, result);
+    public ResponseEntity add(@PathVariable("sessionId") String sessionId, @RequestBody Result result, HttpServletRequest request) throws URISyntaxException {
+        final String id = resultsService.save(sessionId, result);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
@@ -57,6 +56,6 @@ public class ResultsResource {
             @PathVariable("userId") String userId,
             @ApiParam(value = "id of the Wod you want to delete", required = true)
             @PathVariable("id") String id){
-          resultsService.delete(Long.parseLong(id));
+          resultsService.delete(id);
     }
 }

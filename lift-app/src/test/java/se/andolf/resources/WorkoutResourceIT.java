@@ -3,6 +3,7 @@ package se.andolf.resources;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,7 @@ import static se.andolf.util.DbUtil.purge;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
+@Ignore
 public class WorkoutResourceIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";

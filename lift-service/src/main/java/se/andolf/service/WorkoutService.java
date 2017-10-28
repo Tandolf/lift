@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.Session;
 import se.andolf.api.Workout;
-import se.andolf.entities.*;
-import se.andolf.exceptions.NodeNotFoundException;
+import se.andolf.entities.ExerciseEntity;
+import se.andolf.entities.SessionEntity;
+import se.andolf.entities.UserEntity;
+import se.andolf.entities.WorkoutEntity;
+import se.andolf.exceptions.DocomentNotFoundException;
 import se.andolf.repository.ExerciseRepository;
 import se.andolf.repository.UserRepository;
 import se.andolf.repository.WorkoutRepository;
@@ -33,7 +36,7 @@ public class WorkoutService {
     @Autowired
     private UserRepository userRepository;
 
-    public Long save(Long userId, Workout workout) {
+    public Long save(String userId, Workout workout) {
 
         final UserEntity userEntity = userRepository.findOne(userId);
 
@@ -84,23 +87,23 @@ public class WorkoutService {
         return sessionEntity;
     }
 
-    public ExerciseEntity getExerciseEntity(long id){
+    public ExerciseEntity getExerciseEntity(String id){
         return exerciseRepository.findOne(id);
     }
 
-    public void delete(long id) {
-        workoutRepository.deleteWorkoutById(id);
+    public void delete(String id) {
+        workoutRepository.delete(id);
     }
 
     public List<Workout> getAll() {
-        return workoutRepository.findAllWorkoutsAsList().stream().map(workoutEntity -> new Workout.Builder().setId(workoutEntity.getId()).setDate(workoutEntity.getDate()).build()).collect(Collectors.toList());
+        return workoutRepository.findAll().stream().map(workoutEntity -> new Workout.Builder().setId(workoutEntity.getId()).setDate(workoutEntity.getDate()).build()).collect(Collectors.toList());
     }
 
-    public Workout find(Long id) {
-        final Optional<WorkoutEntity> workoutEntity = Optional.ofNullable(workoutRepository.findById(id));
+    public Workout find(String id) {
+        final Optional<WorkoutEntity> workoutEntity = Optional.ofNullable(workoutRepository.findOne(id));
         if(workoutEntity.isPresent())
             return Mapper.toWorkout(workoutEntity.get());
-        throw new NodeNotFoundException(String.format("Couldn't not find node with id %d", id));
+        throw new DocomentNotFoundException(String.format("Couldn't not find node with id %d", id));
     }
 
     public List<Workout> getAll(LocalDate date) {

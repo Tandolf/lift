@@ -7,19 +7,19 @@ import java.util.List;
  */
     public class Exercise {
 
-    private final Long id;
+    private final String id;
     private final String name;
     private final List<Equipment> equipments;
     private final WorkoutType type;
 
-    public Exercise(Long id, String name, List<Equipment> equipments, WorkoutType type) {
+    public Exercise(String id, String name, List<Equipment> equipments, WorkoutType type) {
         this.id = id;
         this.name = name;
         this.equipments = equipments;
         this.type = type;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -37,7 +37,7 @@ import java.util.List;
 
     public static class Builder {
 
-        private Long id;
+        private String id;
         private String name;
         private List<Equipment> equipments;
         private WorkoutType type;
@@ -47,7 +47,7 @@ import java.util.List;
             return this;
         }
 
-        public Builder setId(Long id) {
+        public Builder setId(String id) {
             this.id = id;
             return this;
         }

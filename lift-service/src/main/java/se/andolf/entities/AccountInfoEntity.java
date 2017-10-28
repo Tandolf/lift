@@ -1,24 +1,23 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author Thomas on 2017-07-16.
  */
-@NodeEntity
+@Document(collection = "Account")
 public class AccountInfoEntity {
 
-    @GraphId
+    @Id
     private Long id;
 
-    @Index(unique = true)
+    @Indexed(unique = true)
     private String email;
 
-    public AccountInfoEntity() {
-    }
-
+    @PersistenceConstructor
     public AccountInfoEntity(Long id, String email) {
         this.id = id;
         this.email = email;
@@ -28,16 +27,8 @@ public class AccountInfoEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public static class Builder {

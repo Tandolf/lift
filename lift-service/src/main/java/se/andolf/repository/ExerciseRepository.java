@@ -1,13 +1,13 @@
 package se.andolf.repository;
 
 
-import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import se.andolf.entities.ExerciseEntity;
 
 /**
  * Created by Thomas on 2016-06-19.
  */
-public interface ExerciseRepository extends Neo4jRepository<ExerciseEntity, Long> {
+public interface ExerciseRepository extends MongoRepository<ExerciseEntity, String> {
 
 
 }

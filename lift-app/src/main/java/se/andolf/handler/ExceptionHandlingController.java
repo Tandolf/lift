@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import se.andolf.api.ErrorMessage;
-import se.andolf.exceptions.NodeExistsException;
-import se.andolf.exceptions.NodeNotFoundException;
+import se.andolf.exceptions.DocomentNotFoundException;
+import se.andolf.exceptions.DocumentExistsException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NodeNotFoundException.class)
+    @ExceptionHandler(DocomentNotFoundException.class)
     public ResponseEntity<?> nodeNotFound(HttpServletRequest request, Throwable ex) {
         return new ResponseEntity<>(new ErrorMessage(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(NodeExistsException.class)
+    @ExceptionHandler(DocumentExistsException.class)
     public ResponseEntity<?> nodeExists(HttpServletRequest request, Throwable ex) {
         return new ResponseEntity<>(new ErrorMessage(ex.getMessage()), HttpStatus.CONFLICT);
     }

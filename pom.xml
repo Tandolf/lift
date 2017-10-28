@@ -13,6 +13,7 @@
         <module>lift-api</module>
         <module>lift-service</module>
         <module>lift-app</module>
+        <module>lift-it</module>
     </modules>
 
     <repositories>
@@ -24,10 +25,8 @@
     </repositories>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-        <spring-data-releasetrain.version>Ingalls-SR3</spring-data-releasetrain.version>
+        <spring.boot.version>1.5.8.RELEASE</spring.boot.version>
         <neo4j-ogm.version>2.1.4</neo4j-ogm.version>
         <docker.image.prefix>tompilompi</docker.image.prefix>
         <jackson.java.modules>2.8.8</jackson.java.modules>
@@ -38,14 +37,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>1.5.6.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-releasetrain</artifactId>
-                <version>Fowler-SR2</version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -65,6 +57,11 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-parameter-names</artifactId>
                 <version>${jackson.java.modules}</version>
@@ -78,11 +75,6 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson.java.modules}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.neo4j</groupId>
-                <artifactId>neo4j-ogm-bolt-driver</artifactId>
-                <version>${neo4j-ogm.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.fge</groupId>

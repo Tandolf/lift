@@ -31,9 +31,9 @@ public class SessionsResource {
     })
     @RequestMapping(method=GET, value="{userId}/workouts/{workoutId}/sessions")
     public List<Session> get(
-            @PathVariable("userId") Long userId,
+            @PathVariable("userId") String userId,
             @ApiParam(value = "Id of the workout you want sessions from", required = true)
-            @PathVariable("workoutId") Long workoutId){
+            @PathVariable("workoutId") String workoutId){
         return sessionService.getAll(userId, workoutId);
     }
 }

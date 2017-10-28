@@ -1,23 +1,24 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 import se.andolf.api.WorkoutType;
 
 /**
  * @author Thomas on 2017-06-23.
  */
+@Document(collection = "Work")
 public class WorkEntity {
 
-    @GraphId
+    @Id
     private Long id;
     private int work;
     private int rest;
     private int sets;
     private WorkoutType type;
 
-    public WorkEntity() {
-    }
-
+    @PersistenceConstructor
     public WorkEntity(int work, int rest, int sets, WorkoutType type) {
         this.work = work;
         this.rest = rest;

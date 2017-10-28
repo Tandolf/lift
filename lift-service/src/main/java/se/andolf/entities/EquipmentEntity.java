@@ -1,40 +1,32 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author Thomas on 2016-06-11.
  */
-@NodeEntity
+@Document(collection = "Equipment")
 public class EquipmentEntity {
 
-    @GraphId
-    public Long id;
+    @Id
+    public String id;
 
-    @Index(unique = true)
+    @Indexed(unique = true)
     private String name;
 
-    public EquipmentEntity() { }
-
+    @PersistenceConstructor
     public EquipmentEntity(String name) {
         this.name = name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

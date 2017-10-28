@@ -1,0 +1,17 @@
+{
+  "Equipment":
+  [
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e2" },
+      "name":"Barbell"
+    },
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e3" },
+      "name":"Kettlebell"
+    },
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e4" },
+      "name":"Box"
+    }
+  ]
+}

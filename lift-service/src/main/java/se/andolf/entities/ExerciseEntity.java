@@ -1,38 +1,33 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.Index;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-import se.andolf.api.WorkoutType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Thomas on 2016-06-11.
  */
-@NodeEntity
+@Document(collection = "Exercise")
 public class ExerciseEntity {
 
-    @GraphId
-    private Long id;
+    @Id
+    private String id;
 
-    @Index(unique = true)
+    @Indexed(unique = true)
     private String name;
 
-    @Relationship(type = "USES", direction = Relationship.UNDIRECTED)
     private List<EquipmentEntity> equipments;
 
-    public ExerciseEntity() {
-    }
-
+    @PersistenceConstructor
     public ExerciseEntity(String name, List<EquipmentEntity> equipmentEntities) {
         this.name = name;
         this.equipments = equipmentEntities;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -40,15 +35,7 @@ public class ExerciseEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<EquipmentEntity> getEquipments() {
         return equipments;
-    }
-
-    public void setEquipments(List<EquipmentEntity> equipments) {
-        this.equipments = equipments;
     }
 }

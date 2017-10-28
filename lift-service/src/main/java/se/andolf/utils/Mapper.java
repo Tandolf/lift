@@ -1,13 +1,14 @@
 package se.andolf.utils;
 
 import se.andolf.api.*;
+import se.andolf.api.user.Meta;
+import se.andolf.api.user.User;
 import se.andolf.entities.*;
 import se.andolf.service.EquipmentService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -21,58 +22,29 @@ public final class Mapper {
     public static User toUser(UserEntity userEntity) {
         return new User.Builder()
                 .setId(userEntity.getId())
-                .setFirstname(userEntity.getFirstname())
-                .setLastname(userEntity.getLastname())
-                .setAccountInfo(toAccountInfo(userEntity.getAccountInfoEntities()))
-                .setContactInfo(toContactInfo(userEntity.getContactInfoEntities()))
+                .meta(toMeta(userEntity.getMeta()))
+                .setUserName(userEntity.getUserName())
+                .name(userEntity.getName())
+                .emails(userEntity.getEmails())
+                .phoneNumbers(userEntity.getPhoneNumbers())
+                .isActive(userEntity.isActive())
+                .roles(userEntity.getRoles())
                 .build();
     }
 
-    public static ContactInfo toContactInfo(Set<ContactInfoEntity> contactInfoEntities) {
-        return contactInfoEntities.stream().findFirst().map(Mapper::toContactInfo).orElse(null);
-    }
-
-    public static AccountInfo toAccountInfo(Set<AccountInfoEntity> accountInfoEntities) {
-        return accountInfoEntities.stream().findFirst().map(Mapper::toAccountInfo).orElse(null);
-    }
-
-    public static AccountInfo toAccountInfo(AccountInfoEntity accountInfoEntity) {
-        return new AccountInfo.Builder().setEmail(accountInfoEntity.getEmail()).build();
-    }
-
-    public static ContactInfo toContactInfo(ContactInfoEntity contactInfoEntity) {
-        return new ContactInfo.Builder().
-                setAddressLine1(contactInfoEntity.getAddressLine1())
-                .setAddressLine2(contactInfoEntity.getAddressLine2())
-                .setCity(contactInfoEntity.getCity())
-                .setPostalCode(contactInfoEntity.getPostalCode())
-                .setStateOrProvince(contactInfoEntity.getStateOrProvince())
-                .setMobileNumber(contactInfoEntity.getMobileNumber())
+    private static Meta toMeta(MetaEntity meta) {
+        return new Meta.Builder()
+                .created(meta.getCreated())
+                .lastModified(meta.getLastModified())
+                .location(meta.getLocation())
                 .build();
     }
-
 
     public static UserEntity toUserEntity(User user) {
         return new UserEntity.Builder()
-                .setFirstname(user.getFirstname())
-                .setLastname(user.getLastname())
-                .addAccountInfo(toAccountInfoEntity(user.getAccountInfo()))
-                .addContactInfo(toContactInfoEntity(user.getContactInfo()))
+                .userName(user.getUserName())
+                .isActive(user.isActive())
                 .build();
-    }
-
-    public static ContactInfoEntity toContactInfoEntity(ContactInfo contactInfo) {
-        return new ContactInfoEntity.Builder()
-                .setAddressLine1(contactInfo.getAddressLine1())
-                .setAddressLine2(contactInfo.getAddressLine2())
-                .setCity(contactInfo.getCity())
-                .setStateOrProvince(contactInfo.getStateOrProvince())
-                .setPostalCode(contactInfo.getPostalCode())
-                .setMobileNumber(contactInfo.getMobileNumber()).build();
-    }
-
-    public static AccountInfoEntity toAccountInfoEntity(AccountInfo accountInfo) {
-        return new AccountInfoEntity.Builder().setEmail(accountInfo.getEmail()).build();
     }
 
     public static Workout toWorkout(WorkoutEntity workout) {

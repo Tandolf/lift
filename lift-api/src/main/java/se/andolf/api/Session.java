@@ -7,8 +7,8 @@ import java.util.List;
  */
 public class Session {
 
-    private final Long id;
-    private final Long exerciseId;
+    private final String id;
+    private final String exerciseId;
     private final int weight;
     private final int distance;
     private final int calories;
@@ -25,7 +25,7 @@ public class Session {
     private final List<Session> sessions;
 
 
-    public Session(Long id, Long exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper, WorkoutType workoutType, List<Session> sessions) {
+    public Session(String id, String exerciseId, int weight, int distance, int calories, int repsFrom, int repsTo, boolean alternateSides, Unit units, int effort, boolean forCal, boolean forDistance, boolean strapless, int damper, WorkoutType workoutType, List<Session> sessions) {
         this.id = id;
         this.exerciseId = exerciseId;
         this.weight = weight;
@@ -44,11 +44,11 @@ public class Session {
         this.sessions = sessions;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public Long getExerciseId() {
+    public String getExerciseId() {
         return exerciseId;
     }
 
@@ -110,8 +110,8 @@ public class Session {
 
     public static class Builder {
 
-        private Long id;
-        private Long exerciseId;
+        private String id;
+        private String exerciseId;
         private int weight;
         private int distance;
         private int calories;
@@ -131,7 +131,7 @@ public class Session {
             this.units = Unit.METRIC;
         }
 
-        public Builder setId(Long id) {
+        public Builder setId(String id) {
             this.id = id;
             return this;
         }
@@ -141,7 +141,7 @@ public class Session {
             return this;
         }
 
-        public Builder setExerciseId(Long exerciseId) {
+        public Builder setExerciseId(String exerciseId) {
             this.exerciseId = exerciseId;
             return this;
         }

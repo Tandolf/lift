@@ -1,8 +1,8 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * @author Thomas on 2017-08-27.
  */
-@NodeEntity
+@Document(collection = "Result")
 public class ResultEntity {
 
-    @GraphId
+    @Id
     private Long id;
     private int round;
     private int weight;
@@ -22,13 +22,9 @@ public class ResultEntity {
     private int reps;
     private int grade;
 
-    @Relationship(type = "RECORDED", direction = Relationship.INCOMING)
     private final List<SessionEntity> sessionEntities;
 
-    public ResultEntity() {
-        sessionEntities = new ArrayList<>();
-    }
-
+    @PersistenceConstructor
     private ResultEntity(int round, int weight, int distance, int calories, int reps, int grade, List<SessionEntity> sessionEntities) {
         this.round = round;
         this.weight = weight;

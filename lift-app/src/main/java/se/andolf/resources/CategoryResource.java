@@ -39,7 +39,7 @@ public class CategoryResource {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> add(
             @RequestBody Category category, HttpServletRequest request) throws URISyntaxException {
-        final Long id = categoryService.save(category);
+        final String id = categoryService.save(category);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
@@ -64,7 +64,7 @@ public class CategoryResource {
     public Category find(
             @ApiParam(value = "id of the category", required = true)
             @PathVariable("id") String id){
-        return categoryService.find(Long.parseLong(id));
+        return categoryService.find(id);
     }
 
     @ApiOperation(value = "Delete a category by id", produces = "application/json")
@@ -77,7 +77,7 @@ public class CategoryResource {
     public void delete(
             @ApiParam(value = "id of the category that will find deleted", required = true)
             @PathVariable("id") String id){
-        categoryService.delete(Long.parseLong(id));
+        categoryService.delete(id);
     }
 
     @ApiOperation(value = "Patch category with RFC6902")
@@ -92,6 +92,6 @@ public class CategoryResource {
             @PathVariable String id,
             @ApiParam(value = "Json format as RFC6902", required = true)
             @RequestBody JsonPatch patch){
-        categoryService.patch(patch, Long.parseLong(id));
+        categoryService.patch(patch, id);
     }
 }

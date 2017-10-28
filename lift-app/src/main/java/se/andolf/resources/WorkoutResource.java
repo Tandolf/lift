@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.andolf.api.User;
 import se.andolf.api.Workout;
-import se.andolf.service.UserService;
 import se.andolf.service.WorkoutService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +39,7 @@ public class WorkoutResource {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method = PUT, value="{userId}/workouts")
-    public ResponseEntity add(@PathVariable Long userId, @RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
+    public ResponseEntity add(@PathVariable String userId, @RequestBody Workout workout, HttpServletRequest request) throws URISyntaxException {
         final long workoutId = workoutService.save(userId, workout);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(workoutId).toString()));
@@ -60,7 +58,7 @@ public class WorkoutResource {
             @PathVariable("userId") String userId,
             @ApiParam(value = "id of the Wod you want to delete", required = true)
             @PathVariable("id") String id){
-        workoutService.delete(Long.parseLong(id));
+        workoutService.delete(id);
     }
 
     @ApiOperation(value = "Get a list of all workouts")
@@ -83,7 +81,7 @@ public class WorkoutResource {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="{id}/workouts/{id}")
-    public Workout getById(@PathVariable("id") Long id){
+    public Workout getById(@PathVariable("id") String id){
         return workoutService.find(id);
     }
 }

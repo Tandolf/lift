@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.andolf.api.User;
+import se.andolf.api.user.User;
 import se.andolf.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class UserResource {
     })
     @RequestMapping(method = PUT, value="/users")
     public ResponseEntity add(@RequestBody User user, HttpServletRequest request) throws URISyntaxException {
-        final long id = userService.save(user);
+        final String id = userService.save(user);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
@@ -48,7 +48,7 @@ public class UserResource {
     public void delete(
             @ApiParam(value = "id of the category that will find deleted", required = true)
             @PathVariable("id") String id){
-        userService.delete(Long.parseLong(id));
+        userService.delete(id);
     }
 
     @ApiOperation(value = "Get a list of all users")
@@ -68,7 +68,7 @@ public class UserResource {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="/users/{id}")
-    public User getById(@PathVariable("id") Long id){
+    public User getById(@PathVariable("id") String id){
         return userService.find(id);
     }
 }

@@ -34,7 +34,7 @@ public class EquipmentResource {
     @RequestMapping(method=PUT, value="/equipments")
     @ApiOperation(value = "Adds a new piece of equipment", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity add(@RequestBody Equipment equipment, HttpServletRequest request) throws URISyntaxException {
-        final long id = equipmentService.save(equipment);
+        final String id = equipmentService.save(equipment);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
@@ -51,7 +51,7 @@ public class EquipmentResource {
     public Equipment getById(
             @ApiParam(value = "uniqueId of equipment", required = true)
             @PathVariable String id){
-        return equipmentService.find(Long.parseLong(id));
+        return equipmentService.find(id);
 
     }
 
@@ -61,7 +61,7 @@ public class EquipmentResource {
     public void delete(
             @ApiParam(value = "uniqueId of equipment", required = true)
             @PathVariable("id") String id){
-        equipmentService.delete(Long.parseLong(id));
+        equipmentService.delete(id);
     }
 
     @RequestMapping(method=PATCH, value="/equipments/{id}")
@@ -72,6 +72,6 @@ public class EquipmentResource {
             @PathVariable String id,
             @ApiParam(value = "Json format as RFC6902", required = true)
             @Valid @RequestBody JsonPatch patch){
-        equipmentService.patch(patch, Long.parseLong(id));
+        equipmentService.patch(patch, id);
     }
 }

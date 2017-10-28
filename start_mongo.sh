@@ -1,0 +1,1 @@
+docker run --name myMongo -d -p 127.0.0.1:27017:27017 mongo:latest

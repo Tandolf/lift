@@ -18,29 +18,34 @@ addons:
     token:
       secure: $SONARQUBE_AUTH_TOKEN
 
-script: ./mvnw clean package
-
-services:
-- docker
-
-before_install:
-- docker run -d --name neo4j --publish=7474:7474 --publish=7687:7687 --env=NEO4J_AUTH=neo4j/password
-  neo4j:3.2
-- docker ps -a
-- sudo apt-get -y install python3-pip
-- python3 -V
-- pip3 -V
-- pip3 install requests
-
-after_success:
-- ./mvnw clean verify coveralls:report -P integration-tests,coveralls
-- ./mvnw clean verify org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -P integration-tests
-
-deploy:
-  provider: heroku
-  app: lift-service
-  api_key:
-    secure: $HEROKU_AUTH_TOKEN
-
-after_deploy:
-- python3 health.py http://lift-service.herokuapp.com/health
+jobs:
+  include:
+    - stage: install python
+      script:
+        - sudo apt-get -y install python3-pip
+        - python3 -V
+        - pip3 -V
+        - pip3 install requests
+    - stage: compile
+      script: ./mvnw clean verify coveralls:report -P integration-tests,coveralls
+    - stage: compile
+      script: ./mvnw clean verify org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -P integration-tests
+    - stage: compile
+      script: ./mvnw clean package
+    - stage: deploy to staging
+      script: skip
+      deploy: &heroku
+        provider: heroku
+        app: lift-service-staging
+        api_key: $HEROKU_AUTH_TOKEN
+    - stage: health check staging
+      script: python3 health.py http://lift-service-staging.herokuapp.com/health
+    - stage: test staging
+      script: ./test-ci.sh
+    - stage: deploy to production
+      script: skip
+      deploy:
+        <<: *heroku
+        app: lift-service-production
+    - stage: health check production
+      script: python3 health.py http://lift-service-production.herokuapp.com/health

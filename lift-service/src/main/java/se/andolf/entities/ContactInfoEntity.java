@@ -1,15 +1,16 @@
 package se.andolf.entities;
 
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author Thomas on 2017-07-22.
  */
-@NodeEntity
+@Document(collection = "ContactInfo")
 public class ContactInfoEntity {
 
-    @GraphId
+    @Id
     private Long id;
     private String addressLine1;
     private String addressLine2;
@@ -18,9 +19,7 @@ public class ContactInfoEntity {
     private String postalCode;
     private String mobileNumber;
 
-    public ContactInfoEntity() {
-    }
-
+    @PersistenceConstructor
     public ContactInfoEntity(Long id, String addressLine1, String addressLine2, String city, String stateOrProvince, String postalCode, String mobileNumber) {
         this.id = id;
         this.addressLine1 = addressLine1;
@@ -43,48 +42,24 @@ public class ContactInfoEntity {
         return addressLine1;
     }
 
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
-    }
-
     public String getAddressLine2() {
         return addressLine2;
-    }
-
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getStateOrProvince() {
         return stateOrProvince;
-    }
-
-    public void setStateOrProvince(String stateOrProvince) {
-        this.stateOrProvince = stateOrProvince;
     }
 
     public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
     public String getMobileNumber() {
         return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
     }
 
     public static class Builder {
