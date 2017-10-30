@@ -20,12 +20,6 @@ addons:
 
 jobs:
   include:
-    - stage: install python
-      script:
-        - sudo apt-get -y install python3-pip
-        - python3 -V
-        - pip3 -V
-        - pip3 install requests
     - stage: compile
       script: ./mvnw clean verify coveralls:report -P integration-tests,coveralls
     - stage: compile
@@ -39,7 +33,12 @@ jobs:
         app: lift-service-staging
         api_key: $HEROKU_AUTH_TOKEN
     - stage: health check staging
-      script: python3 health.py http://lift-service-staging.herokuapp.com/health
+      script:
+        - sudo apt-get -y install python3-pip
+        - python3 -V
+        - pip3 -V
+        - pip3 install requests
+        - python3 health.py http://lift-service-staging.herokuapp.com/health
     - stage: test staging
       script: ./test-ci.sh
     - stage: deploy to production
