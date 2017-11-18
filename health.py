@@ -1,5 +1,6 @@
 import requests
 import sys
+import time
 
 try:
     url = sys.argv[1]
