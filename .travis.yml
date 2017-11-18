@@ -38,5 +38,5 @@ jobs:
       script: ./mvnw clean package
       deploy: &heroku
         provider: heroku
-        app: lift-auth-service
+        app: lift-service
         api_key: $HEROKU_AUTH_TOKEN
