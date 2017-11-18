@@ -3,6 +3,7 @@ package se.andolf.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,6 +41,7 @@ public class JwtWebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void init(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/health");
+        web.ignoring().antMatchers("/health")
+                .antMatchers(HttpMethod.POST, "/users");
     }
 }
