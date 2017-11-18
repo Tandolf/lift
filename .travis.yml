@@ -31,12 +31,12 @@ jobs:
         - pip3 -V
         - pip3 install requests
         - docker run --name myMongo -d -p 127.0.0.1:27017:27017 mongo:latest
-        - nohup java -jar lift-app/target/lift-auth-app-0.0.1-SNAPSHOT.jar &
-        - python3 health.py http://localhost:9191/uaa/health
+        - nohup java -jar lift-app/target/lift-app-0.0.1-SNAPSHOT.jar &
+        - python3 health.py http://localhost:8080/health
         - sh ci-test.sh
     - stage: deploy to production
       script: ./mvnw clean package
       deploy: &heroku
         provider: heroku
-        app: lift-service
+        app: lift-auth-service
         api_key: $HEROKU_AUTH_TOKEN
