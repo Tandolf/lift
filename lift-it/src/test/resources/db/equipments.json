@@ -12,6 +12,22 @@
     {
       "_id" : { "$oid": "59e24b59ca989685da26e4e4" },
       "name":"Box"
+    },
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e5" },
+      "name":"Sledge Hammer"
+    },
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e6" },
+      "name":"Assault Bike"
+    },
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e7" },
+      "name":"C2 Rower"
+    },
+    {
+      "_id" : { "$oid": "59e24b59ca989685da26e4e8" },
+      "name":"Dumbbell"
     }
   ]
 }

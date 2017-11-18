@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import se.andolf.api.Exercise;
 import se.andolf.service.ExerciseService;
@@ -14,6 +15,7 @@ import se.andolf.service.ExerciseService;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -28,10 +30,10 @@ public class ExerciseResource {
     @Autowired
     private ExerciseService exerciseService;
 
-    @RequestMapping(method = PUT, value="/exercises")
+    @RequestMapping(method = POST, value="/exercises")
     @ApiOperation(value = "Add new exercise", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity add(@RequestBody Exercise exercise, HttpServletRequest request) throws URISyntaxException {
-        final long id = exerciseService.save(exercise);
+        final String id = exerciseService.save(exercise);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
@@ -45,7 +47,7 @@ public class ExerciseResource {
 
     @RequestMapping(method = GET, value = "/exercises")
     @ApiOperation(value = "Gets all exercises as list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Exercise> getAll(){
+    public List<Exercise> getAll(Principal principal){
         return exerciseService.find();
     }
 

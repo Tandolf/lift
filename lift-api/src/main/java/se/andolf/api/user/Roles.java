@@ -5,17 +5,6 @@ package se.andolf.api.user;
  */
 public enum Roles {
 
-    USER("user"),
-    ADMIN("admin");
-
-    private final String name;
-
-    Roles(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
+    USER,
+    ADMIN;
 }

@@ -15,6 +15,7 @@ import se.andolf.entities.EquipmentEntity;
 import se.andolf.exceptions.DocomentNotFoundException;
 import se.andolf.exceptions.DocumentExistsException;
 import se.andolf.repository.EquipmentRepository;
+import se.andolf.repository.ExerciseRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +33,9 @@ public class EquipmentService {
 
     @Autowired
     private EquipmentRepository equipmentRepository;
+
+    @Autowired
+    private ExerciseRepository exerciseRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -53,6 +57,7 @@ public class EquipmentService {
 
     public void delete(String id) {
         equipmentRepository.delete(id);
+        exerciseRepository.deleteAllEquipments(id);
     }
 
     public void patch(JsonPatch jsonPatch, String id){

@@ -9,14 +9,12 @@ import java.util.List;
 
     private final String id;
     private final String name;
-    private final List<Equipment> equipments;
-    private final WorkoutType type;
+    private final List<String> equipments;
 
-    public Exercise(String id, String name, List<Equipment> equipments, WorkoutType type) {
+    public Exercise(String id, String name, List<String> equipments) {
         this.id = id;
         this.name = name;
         this.equipments = equipments;
-        this.type = type;
     }
 
     public String getId() {
@@ -27,20 +25,15 @@ import java.util.List;
         return name;
     }
 
-    public List<Equipment> getEquipments() {
+    public List<String> getEquipments() {
         return equipments;
-    }
-
-    public WorkoutType getType() {
-        return type;
     }
 
     public static class Builder {
 
         private String id;
         private String name;
-        private List<Equipment> equipments;
-        private WorkoutType type;
+        private List<String> equipments;
 
         public Builder setName(String name) {
             this.name = name;
@@ -52,18 +45,13 @@ import java.util.List;
             return this;
         }
 
-        public Builder setType(WorkoutType type) {
-            this.type = type;
-            return this;
-        }
-
-        public Builder setEquipments(List<Equipment> equipments) {
+        public Builder setEquipments(List<String> equipments) {
             this.equipments = equipments;
             return this;
         }
 
         public Exercise build() {
-            return new Exercise(id, name, equipments, type);
+            return new Exercise(id, name, equipments);
         }
     }
 }

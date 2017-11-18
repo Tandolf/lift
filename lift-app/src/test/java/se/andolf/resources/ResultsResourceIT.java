@@ -36,7 +36,7 @@ public class ResultsResourceIT {
     private static final String EXERCISE_RESOURCE = "exercises";
     private static final String USER_RESOURCE = "users";
     private static final String WORKOUT_RESOURCE = "workouts";
-    private static final String SESSIONS_RESOURCE = "sessions";
+    private static final String SESSIONS_RESOURCE = "workouts";
     private List<Integer> exercises;
 
     private String userWorkoutPath;
@@ -61,7 +61,7 @@ public class ResultsResourceIT {
         final String workoutId = put(formatJson("170502.json", exercises));
         final String json = given()
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .get("{basePath}/{workoutId}/sessions", userWorkoutPath, workoutId)
+                .get("{basePath}/{workoutId}/workouts", userWorkoutPath, workoutId)
                 .then()
                 .statusCode(200)
                 .extract().response().getBody().asString();
@@ -71,7 +71,7 @@ public class ResultsResourceIT {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .body(FileUtils.read("results/result.json"))
                 .when()
-                .put("{basePath}/{workoutId}/sessions/{id}", userWorkoutPath, workoutId, sessionIds.get(0))
+                .put("{basePath}/{workoutId}/workouts/{id}", userWorkoutPath, workoutId, sessionIds.get(0))
                 .then()
                 .statusCode(201)
                 .header("Location", is(notNullValue()))

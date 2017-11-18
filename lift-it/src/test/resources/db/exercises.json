@@ -1,0 +1,126 @@
+{
+  "Exercise": [
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f1" },
+      "name" : "Kettlebell Swings",
+      "equipments" : [
+        "59e24b59ca989685da26e4e3"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f2" },
+      "name" : "Deadlift",
+      "equipments" : [
+        "59e24b59ca989685da26e4e2"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f3" },
+      "name" : "HSPU"
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f4" },
+      "name" : "Hang Power Clean",
+      "equipments" : [
+        "59e24b59ca989685da26e4e2"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f5" },
+      "name" : "Push Press",
+      "equipments" : [
+        "59e24b59ca989685da26e4e2"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f6" },
+      "name" : "Power Clean",
+      "equipments" : [
+        "59e24b59ca989685da26e4e2"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f7" },
+      "name" : "Split Jerk",
+      "equipments" : [
+        "59e24b59ca989685da26e4e2"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f8" },
+      "name" : "Back Squats",
+      "equipments" : [
+        "59e24b59ca989685da26e4e2"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59e24b59ca989685da26e4f9" },
+      "name" : "Half TGU",
+      "equipments" : [
+        "59e24b59ca989685da26e4e3"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59ff2d5eca989648f7c404e6" },
+      "name" : "Sledge Slams",
+      "equipments" : [
+        "59e24b59ca989685da26e4e5"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59ff2d82ca989648fa7d145d" },
+      "name" : "Target Sprawls"
+    },
+    {
+      "_id" : { "$oid" : "59ff2d82ca989648fa7d146d" },
+      "name" : "Assault Bike",
+      "equipments" : [
+        "59e24b59ca989685da26e4e6"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59ff2d82ca989648fa7d147d" },
+      "name" : "Row",
+      "equipments" : [
+        "59e24b59ca989685da26e4e7"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "59ff2d82ca989648fa7d148d" },
+      "name" : "Walking Lunges"
+    },
+    {
+      "_id" : { "$oid" : "59ff2d82ca989648fa7d149d" },
+      "name" : "Shuttle Runs"
+    },
+    {
+      "_id" : { "$oid" : "5a089ed5ca9896154dc97624" },
+      "name" : "Heavy Farmers Walk",
+      "equipments" : [
+        "59e24b59ca989685da26e4e3"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "5a089ed5ca9896154dc97625" },
+      "name" : "Toes to bar"
+    },
+    {
+      "_id" : { "$oid" : "5a089ed5ca9896154dc97626" },
+      "name" : "Goblet reverse lunge from block",
+      "equipments" : [
+        "59e24b59ca989685da26e4e3"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "5a089ed5ca9896154dc97627" },
+      "name" : "Dumbbell Thrusters",
+      "equipments" : [
+        "59e24b59ca989685da26e4e8"
+      ]
+    },
+    {
+      "_id" : { "$oid" : "5a089ed5ca9896154dc97628" },
+      "name" : "Burpees"
+    }
+  ]
+}

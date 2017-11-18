@@ -1,197 +1,88 @@
 package se.andolf.entities;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import se.andolf.api.Unit;
-import se.andolf.api.WorkoutType;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 /**
- * @author Thomas on 2016-06-11.
+ * @author Thomas on 2017-11-05.
  */
-@Document(collection = "Session")
 public class SessionEntity {
 
     @Id
-    private String id;
-    private int order;
-    private WorkoutType workoutType;
-    private int weight;
-    private int distance;
-    private int calories;
-    private int repsFrom;
-    private int repsTo;
-    private boolean alternateSides;
-    private boolean forCal;
-    private boolean forDistance;
-    private Unit units;
-    private boolean strapless;
-    private int effort;
-    private int damper;
+    private final String id;
+    private final String exerciseId;
+    private final int repsFrom;
+    private final int repsTo;
+    private final boolean forDistance;
+    private final boolean forCal;
+    private final int damper;
+    private final int weight;
+    private final int distance;
+    private final int calories;
+    private final int effort;
+    private final boolean strapless;
 
-    private List<SessionEntity> sessionEntities;
-
-    private List<ExerciseEntity> exerciseEntities;
-
-    private List<ResultEntity> resultEntities;
-
-    public SessionEntity() {
-        sessionEntities = new ArrayList<>();
-        exerciseEntities = new ArrayList<>();
-        resultEntities = new ArrayList<>();
+    @PersistenceConstructor
+    public SessionEntity(String id, String exerciseId, int repsFrom, int repsTo, boolean forDistance, boolean forCal, int damper, int weight, int distance, int calories, int effort, boolean strapless) {
+        this.id = id;
+        this.exerciseId = exerciseId;
+        this.repsTo = repsTo;
+        this.repsFrom = repsFrom;
+        this.forDistance = forDistance;
+        this.forCal = forCal;
+        this.damper = damper;
+        this.weight = weight;
+        this.distance = distance;
+        this.calories = calories;
+        this.effort = effort;
+        this.strapless = strapless;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
-    public WorkoutType getWorkoutType() {
-        return workoutType;
-    }
-
-    public void setWorkoutType(WorkoutType workoutType) {
-        this.workoutType = workoutType;
-    }
-
-    public List<SessionEntity> getSessionEntities() {
-        return sessionEntities;
-    }
-
-    public void setSessionEntities(List<SessionEntity> sessionEntities) {
-        this.sessionEntities = sessionEntities;
-    }
-
-    public List<ExerciseEntity> getExerciseEntities() {
-        return exerciseEntities;
-    }
-
-    public void setExerciseEntities(List<ExerciseEntity> exerciseEntities) {
-        this.exerciseEntities = exerciseEntities;
-    }
-
-    public void addExerciseEntity(ExerciseEntity exerciseEntity) {
-        this.exerciseEntities.add(exerciseEntity);
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public int getDistance() {
-        return distance;
-    }
-
-    public void setDistance(int distance) {
-        this.distance = distance;
-    }
-
-    public int getCalories() {
-        return calories;
-    }
-
-    public void setCalories(int calories) {
-        this.calories = calories;
-    }
-
-    public int getRepsFrom() {
-        return repsFrom;
-    }
-
-    public void setRepsFrom(int repsFrom) {
-        this.repsFrom = repsFrom;
+    public String getExerciseId() {
+        return exerciseId;
     }
 
     public int getRepsTo() {
         return repsTo;
     }
 
-    public void setRepsTo(int repsTo) {
-        this.repsTo = repsTo;
-    }
-
-    public boolean isAlternateSides() {
-        return alternateSides;
-    }
-
-    public void setAlternateSides(boolean alternateSides) {
-        this.alternateSides = alternateSides;
-    }
-
-    public boolean isForCal() {
-        return forCal;
-    }
-
-    public void setForCal(boolean forCal) {
-        this.forCal = forCal;
+    public int getRepsFrom() {
+        return repsFrom;
     }
 
     public boolean isForDistance() {
         return forDistance;
     }
 
-    public void setForDistance(boolean forDistance) {
-        this.forDistance = forDistance;
-    }
-
-    public Unit getUnits() {
-        return units;
-    }
-
-    public void setUnits(Unit units) {
-        this.units = units;
-    }
-
-    public boolean isStrapless() {
-        return strapless;
-    }
-
-    public void setStrapless(boolean strapless) {
-        this.strapless = strapless;
-    }
-
-    public int getEffort() {
-        return effort;
-    }
-
-    public void setEffort(int effort) {
-        this.effort = effort;
+    public boolean isForCal() {
+        return forCal;
     }
 
     public int getDamper() {
         return damper;
     }
 
-    public void setDamper(int damper) {
-        this.damper = damper;
+    public int getWeight() {
+        return weight;
     }
 
-    public List<ResultEntity> getResultEntities() {
-        return resultEntities;
+    public int getDistance() {
+        return distance;
     }
 
-    public void setResultEntities(List<ResultEntity> resultEntities) {
-        this.resultEntities = resultEntities;
+    public int getCalories() {
+        return calories;
     }
 
-    public void addResultEntity(ResultEntity resultEntity) {
-        resultEntities.add(resultEntity);
+    public int getEffort() {
+        return effort;
+    }
+
+    public boolean isStrapless() {
+        return strapless;
     }
 }

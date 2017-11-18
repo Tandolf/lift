@@ -24,9 +24,11 @@ public class UserEntity {
     private List<Email> emails;
     private List<PhoneNumber> phoneNumbers;
     private List<Role> roles;
+    private List<Address> addresses;
+    private final String password;
 
     @PersistenceConstructor
-    private UserEntity(MetaEntity meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles) {
+    private UserEntity(MetaEntity meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password) {
         this.meta = meta;
         this.userName = userName;
         this.active = active;
@@ -34,6 +36,8 @@ public class UserEntity {
         this.emails = emails;
         this.phoneNumbers = phoneNumbers;
         this.roles = roles;
+        this.addresses = addresses;
+        this.password = password;
     }
 
     public String getId() {
@@ -68,6 +72,14 @@ public class UserEntity {
         return roles;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public static class Builder {
 
         private String userName;
@@ -77,6 +89,8 @@ public class UserEntity {
         private List<PhoneNumber> phoneNumbers;
         private List<Role> roles;
         private MetaEntity meta;
+        private List<Address> addresses;
+        private String password;
 
         public Builder meta(MetaEntity meta) {
             this.meta = meta;
@@ -113,8 +127,18 @@ public class UserEntity {
             return this;
         }
 
+        public Builder addresses(List<Address> addresses) {
+            this.addresses = addresses;
+            return this;
+        }
+
         public UserEntity build() {
-            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles);
+            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles, addresses, password);
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
         }
     }
 }

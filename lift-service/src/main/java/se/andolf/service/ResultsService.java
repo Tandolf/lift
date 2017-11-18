@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.Result;
 import se.andolf.entities.ResultEntity;
-import se.andolf.entities.SessionEntity;
+import se.andolf.entities.WorkoutEntity;
 import se.andolf.exceptions.DocomentNotFoundException;
 import se.andolf.repository.ResultRepository;
 import se.andolf.repository.SessionRepository;
@@ -28,7 +28,7 @@ public class ResultsService {
     }
 
     public String save(String sessionId, Result result){
-        final Optional<SessionEntity> sessionEntity = Optional.ofNullable(sessionRepository.findOne(sessionId));
+        final Optional<WorkoutEntity> sessionEntity = Optional.ofNullable(sessionRepository.findOne(sessionId));
         if(!sessionEntity.isPresent())
             throw new DocomentNotFoundException("No session with id: " + sessionId + " was found.");
         final ResultEntity resultEntity = new ResultEntity.Builder()
@@ -39,7 +39,6 @@ public class ResultsService {
                 .setReps(result.getReps())
                 .setGrade(result.getGrade())
                 .build();
-        sessionEntity.get().addResultEntity(resultEntity);
         return sessionRepository.save(sessionEntity.get()).getId();
     }
 }

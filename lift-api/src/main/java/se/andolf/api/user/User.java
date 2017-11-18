@@ -1,5 +1,6 @@
 package se.andolf.api.user;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -15,8 +16,10 @@ public class User {
     private final List<Email> emails;
     private final List<PhoneNumber> phoneNumbers;
     private final List<Role> roles;
+    private final List<Address> addresses;
+    private final String password;
 
-    public User(String id, Meta meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles) {
+    public User(String id, Meta meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password) {
         this.id = id;
         this.meta = meta;
         this.userName = userName;
@@ -25,6 +28,8 @@ public class User {
         this.emails = emails;
         this.phoneNumbers = phoneNumbers;
         this.roles = roles;
+        this.addresses = addresses;
+        this.password = password;
     }
 
     public String getId() {
@@ -56,7 +61,17 @@ public class User {
     }
 
     public List<Role> getRoles() {
+        if(roles == null)
+            return Collections.singletonList(new Role(Roles.USER));
         return roles;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public static class Builder {
@@ -69,6 +84,8 @@ public class User {
         private List<Email> emails;
         private List<PhoneNumber> phoneNumbers;
         private List<Role> roles;
+        private List<Address> addresses;
+        private String password;
 
         public Builder setId(String id) {
             this.id = id;
@@ -110,8 +127,18 @@ public class User {
             return this;
         }
 
+        public Builder addresses(List<Address> addresses) {
+            this.addresses = addresses;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
         public User build() {
-            return new User(id, meta, userName, active, name, emails, phoneNumbers, roles);
+            return new User(id, meta, userName, active, name, emails, phoneNumbers, roles, addresses, password);
         }
     }
 }

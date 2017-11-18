@@ -31,7 +31,7 @@ import static se.andolf.util.DbUtil.purge;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
 @Ignore
-public class WorkoutResourceIT {
+public class WodResourceIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";
     private static final String USER_RESOURCE = "users";
@@ -107,18 +107,18 @@ public class WorkoutResourceIT {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("sessions[0].workoutType", is("AMRAP"))
-                .body("sessions.sessions[0][0].exerciseId", is(exercises.get(0)))
-                .body("sessions.sessions[0][1].exerciseId", is(exercises.get(1)))
-                .body("sessions[1].workoutType", is("AMRAP"))
-                .body("sessions.sessions[1][0].exerciseId", is(exercises.get(2)))
-                .body("sessions.sessions[1][1].exerciseId", is(exercises.get(3)))
-                .body("sessions[2].workoutType", is("AMRAP"))
-                .body("sessions.sessions[2][0].exerciseId", is(exercises.get(4)))
-                .body("sessions.sessions[2][1].exerciseId", is(exercises.get(5)))
-                .body("sessions[3].workoutType", is("AMRAP"))
-                .body("sessions.sessions[3][0].exerciseId", is(exercises.get(6)))
-                .body("sessions.sessions[3][1].exerciseId", is(exercises.get(7)));
+                .body("workouts[0].workoutType", is("AMRAP"))
+                .body("workouts.workouts[0][0].exerciseId", is(exercises.get(0)))
+                .body("workouts.workouts[0][1].exerciseId", is(exercises.get(1)))
+                .body("workouts[1].workoutType", is("AMRAP"))
+                .body("workouts.workouts[1][0].exerciseId", is(exercises.get(2)))
+                .body("workouts.workouts[1][1].exerciseId", is(exercises.get(3)))
+                .body("workouts[2].workoutType", is("AMRAP"))
+                .body("workouts.workouts[2][0].exerciseId", is(exercises.get(4)))
+                .body("workouts.workouts[2][1].exerciseId", is(exercises.get(5)))
+                .body("workouts[3].workoutType", is("AMRAP"))
+                .body("workouts.workouts[3][0].exerciseId", is(exercises.get(6)))
+                .body("workouts.workouts[3][1].exerciseId", is(exercises.get(7)));
     }
 
     @Test

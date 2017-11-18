@@ -27,6 +27,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public String save(User user) {
+
         final UserEntity userEntity = Mapper.toUserEntity(user);
 
         try {

@@ -22,10 +22,10 @@ public class ResultEntity {
     private int reps;
     private int grade;
 
-    private final List<SessionEntity> sessionEntities;
+    private final List<WorkoutEntity> sessionEntities;
 
     @PersistenceConstructor
-    private ResultEntity(int round, int weight, int distance, int calories, int reps, int grade, List<SessionEntity> sessionEntities) {
+    private ResultEntity(int round, int weight, int distance, int calories, int reps, int grade, List<WorkoutEntity> sessionEntities) {
         this.round = round;
         this.weight = weight;
         this.distance = distance;
@@ -67,19 +67,19 @@ public class ResultEntity {
         return grade;
     }
 
-    public List<SessionEntity> getSessionEntities() {
+    public List<WorkoutEntity> getSessionEntities() {
         return sessionEntities;
     }
 
     public static class Builder {
-        
+
         private int round;
         private int weight;
         private int distance;
         private int calories;
         private int reps;
         private int grade;
-        private List<SessionEntity> sessionEntities;
+        private List<WorkoutEntity> sessionEntities;
 
         public Builder() {
             sessionEntities = new ArrayList<>();
@@ -115,8 +115,8 @@ public class ResultEntity {
             return this;
         }
 
-        public Builder addSessionEntity(SessionEntity sessionEntity) {
-            sessionEntities.add(sessionEntity);
+        public Builder addSessionEntity(WorkoutEntity workoutEntity) {
+            sessionEntities.add(workoutEntity);
             return this;
         }
 

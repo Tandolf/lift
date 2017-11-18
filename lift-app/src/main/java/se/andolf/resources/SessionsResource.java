@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.andolf.api.Session;
+import se.andolf.api.Workout;
 import se.andolf.service.SessionService;
 
 import java.util.List;
@@ -25,14 +25,14 @@ public class SessionsResource {
 
     @ApiOperation(value = "Delete a result by id")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "fetch sessions successfull"),
+            @ApiResponse(code = 200, message = "fetch workouts successfull"),
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(method=GET, value="{userId}/workouts/{workoutId}/sessions")
-    public List<Session> get(
+    public List<Workout> get(
             @PathVariable("userId") String userId,
-            @ApiParam(value = "Id of the workout you want sessions from", required = true)
+            @ApiParam(value = "Id of the workout you want workouts from", required = true)
             @PathVariable("workoutId") String workoutId){
         return sessionService.getAll(userId, workoutId);
     }

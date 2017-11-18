@@ -5,6 +5,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,16 +16,14 @@ public class ExerciseEntity {
 
     @Id
     private String id;
-
-    @Indexed(unique = true)
     private String name;
-
-    private List<EquipmentEntity> equipments;
+    private List<String> equipments = new ArrayList<>();
 
     @PersistenceConstructor
-    public ExerciseEntity(String name, List<EquipmentEntity> equipmentEntities) {
+    public ExerciseEntity(String id, String name, List<String> equipments) {
+        this.id = id;
         this.name = name;
-        this.equipments = equipmentEntities;
+        this.equipments = equipments;
     }
 
     public String getId() {
@@ -35,7 +34,33 @@ public class ExerciseEntity {
         return name;
     }
 
-    public List<EquipmentEntity> getEquipments() {
+    public List<String> getEquipments() {
         return equipments;
+    }
+
+    public static class Builder {
+
+        private String id;
+        private String name;
+        private List<String> equipments;
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder equipment(List<String> equipments) {
+            this.equipments = equipments;
+            return this;
+        }
+
+        public ExerciseEntity build() {
+            return new ExerciseEntity(id, name, equipments);
+        }
     }
 }

@@ -9,8 +9,8 @@ public class Name {
     private final String givenName;
     private final String familyName;
 
-    public Name(String formatted, String givenName, String familyName) {
-        this.formatted = formatted;
+    public Name(String givenName, String familyName) {
+        this.formatted = givenName + " " + familyName;
         this.givenName = givenName;
         this.familyName = familyName;
     }
@@ -28,14 +28,8 @@ public class Name {
     }
 
     public static class Builder {
-        private String formatted;
         private String givenName;
         private String familyName;
-
-        public Builder formatted(String formatted) {
-            this.formatted = formatted;
-            return this;
-        }
 
         public Builder givenName(String givenName) {
             this.givenName = givenName;
@@ -48,7 +42,7 @@ public class Name {
         }
 
         public Name build() {
-            return new Name(formatted, givenName, familyName);
+            return new Name(givenName, familyName);
         }
     }
 }

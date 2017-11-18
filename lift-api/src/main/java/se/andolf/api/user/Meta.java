@@ -9,12 +9,10 @@ public class Meta {
 
     private final LocalDateTime created;
     private final LocalDateTime lastModified;
-    private final String location;
 
-    public Meta(LocalDateTime created, LocalDateTime lastModified, String location) {
+    public Meta(LocalDateTime created, LocalDateTime lastModified) {
         this.created = created;
         this.lastModified = lastModified;
-        this.location = location;
     }
 
     public LocalDateTime getCreated() {
@@ -25,16 +23,10 @@ public class Meta {
         return lastModified;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public static class Builder {
 
         private LocalDateTime created;
         private LocalDateTime lastModified;
-        private String location;
-
         public Builder created(LocalDateTime created) {
             this.created = created;
             return this;
@@ -45,13 +37,8 @@ public class Meta {
             return this;
         }
 
-        public Builder location(String location) {
-            this.location = location;
-            return this;
-        }
-
         public Meta build() {
-            return new Meta(created, lastModified, location);
+            return new Meta(created, lastModified);
         }
     }
 }

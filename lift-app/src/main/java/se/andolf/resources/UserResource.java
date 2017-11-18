@@ -35,7 +35,7 @@ public class UserResource {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method = PUT, value="/users")
+    @RequestMapping(method = POST, value="/users")
     public ResponseEntity add(@RequestBody User user, HttpServletRequest request) throws URISyntaxException {
         final String id = userService.save(user);
         final HttpHeaders responseHeaders = new HttpHeaders();

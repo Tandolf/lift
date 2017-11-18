@@ -1,12 +1,11 @@
 {
   "User": [
     {
+      "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
       "_id" : { "$oid" : "59e24b59ca989685da26e4e1" },
       "meta":{
-
         "created": { "$date" : "2011-08-01T18:29:49.793Z" },
-        "lastModified": { "$date" : "2011-08-01T18:29:49.793Z" },
-        "location":"http://localhost:8080/Users/59e24b59ca989685da26e4e1"
+        "lastModified": { "$date" : "2011-08-01T18:29:49.793Z" }
       },
       "userName": "john.doe@gmail.com",
       "name": {
@@ -15,7 +14,7 @@
         "familyName": "Doe"
       },
       "active": true,
-      "password": "abc",
+      "password": "$2a$11$SXrRj.HMqQEE94Z4u1/YLubZefHzNKB4CuhhCKhnTMohomLOuDhxq",
       "phoneNumbers":[
         {
           "type":"MOBILE",

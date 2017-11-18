@@ -36,9 +36,4 @@ public class JwtWebSecurityConfig extends WebSecurityConfigurerAdapter{
 
         http.headers().cacheControl();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }
