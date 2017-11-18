@@ -3,6 +3,7 @@ import sys
 
 try:
     url = sys.argv[1]
+    time.sleep(30)
     r = requests.get(url)
 except requests.exceptions.ConnectionError as e:
     print('Could not connect to "%s", reason: "%s"' % (str(sys.argv), str(e)))
