@@ -5,7 +5,7 @@ package se.andolf.config;
  */
 public enum Environment {
     LOCAL("localhost", 8080),
-    CI("", 8080);
+    CI("localhost", 8080);
 
     private final int port;
     private final String host;
@@ -34,6 +34,6 @@ public enum Environment {
         if (environment == null) {
             return LOCAL;
         }
-        return Environment.valueOf(environment.toUpperCase());
+        return CI;
     }
 }
