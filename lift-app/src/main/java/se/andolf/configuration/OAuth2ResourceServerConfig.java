@@ -1,5 +1,6 @@
 package se.andolf.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -30,16 +31,15 @@ import java.util.Map;
 @EnableResourceServer
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setVerifierKey("-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiLWvriVuh7WJP72RdiokM15SwXL/wUQw5mXFC1Wy/yTSDVUqb8keYUflVs7fQDBIgx+2lnqqx4dBJgIWvnYLwLWa8f1Vy28AWgJYlQ/nHY3MgshRfQ9ekx+aD44YIAeI/uo6hdwskva3Gfdq5qS9J9JbJ4ZzFloKYp+k+18e8fAs7zD1vhuA9Getp61jr22H1DcRoxgUk1FJRyKeMMarMHV1bV7rlH1Ym0chD/0mN2/3kwJGIeerngpf/jpn5/0ackSH28YiT3ljELj7yIFdsChmTfw8sJyOuVRfvmKziVbWUA4lER1PNvS3pCSBdkvi81xli65IXfgcEEPMpPH1aQIDAQAB\n-----END PUBLIC KEY-----");
         final DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
         defaultAccessTokenConverter.setUserTokenConverter(new MyAccessTokenConverter());
-
-
-        converter.setAccessTokenConverter(defaultAccessTokenConverter);
-        return converter;
+        jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter);
+        return jwtAccessTokenConverter;
     }
 
     @Bean
