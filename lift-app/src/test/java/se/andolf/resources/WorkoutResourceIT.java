@@ -31,7 +31,7 @@ import static se.andolf.util.DbUtil.purge;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = DEFINED_PORT)
 @Ignore
-public class WodResourceIT {
+public class WorkoutResourceIT {
 
     private static final String EXERCISE_RESOURCE = "exercises";
     private static final String USER_RESOURCE = "users";

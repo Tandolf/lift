@@ -8,6 +8,7 @@ import io.restassured.response.ResponseBody;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+import se.andolf.api.user.ContactType;
 import se.andolf.api.user.Meta;
 import se.andolf.api.user.Name;
 import se.andolf.api.user.User;
@@ -20,6 +21,7 @@ import static com.lordofthejars.nosqlunit.mongodb.MongoDbConfigurationBuilder.mo
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 /**
  * @author Thomas on 2017-10-28.
@@ -46,23 +48,23 @@ public class UsersIT {
                 .then()
                 .statusCode(200)
                 .body("id", is(USER_ID))
-                //TODO Fix dates and timezones
-//                .body("meta.created", is("2011-08-01T20:29:49.793"))
-//                .body("meta.lastModified", is("2011-08-01T20:29:49.793"))
+                .body("meta.created", is(notNullValue()))
+                .body("meta.lastModified", is(notNullValue()))
+                .body("timezone", is("Europe/Stockholm"))
                 .body("userName", is("john.doe@gmail.com"))
                 .body("name.formatted", is("John Doe"))
                 .body("name.givenName", is("John"))
                 .body("name.familyName", is("Doe"))
-                .body("emails[0].type", is("private"))
+                .body("emails[0].type", is(ContactType.PRIVATE.name()))
                 .body("emails[0].value", is("john.doe@gmail.com"))
                 .body("emails[0].primary", is(true))
-                .body("addresses[0].type", is("home"))
+                .body("addresses[0].type", is(ContactType.HOME.name()))
                 .body("addresses[0].streetAddress", is("Torsgatan 1"))
                 .body("addresses[0].locality", is("Stockholm"))
                 .body("addresses[0].postalCode", is("11400"))
                 .body("addresses[0].country", is("Sweden"))
                 .body("addresses[0].primary", is(true))
-                .body("phoneNumbers[0].type", is("mobile"))
+                .body("phoneNumbers[0].type", is(ContactType.MOBILE.name()))
                 .body("phoneNumbers[0].value", is("0046701234567"))
                 .body("active", is(true));
     }

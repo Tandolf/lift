@@ -2,6 +2,7 @@ package se.andolf.api.user;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * @author Thomas on 2017-07-16.
@@ -18,8 +19,9 @@ public class User {
     private final List<Role> roles;
     private final List<Address> addresses;
     private final String password;
+    private final String timezone;
 
-    public User(String id, Meta meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password) {
+    public User(String id, Meta meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password, String timezone) {
         this.id = id;
         this.meta = meta;
         this.userName = userName;
@@ -30,6 +32,7 @@ public class User {
         this.roles = roles;
         this.addresses = addresses;
         this.password = password;
+        this.timezone = timezone;
     }
 
     public String getId() {
@@ -74,6 +77,10 @@ public class User {
         return password;
     }
 
+    public String getTimezone() {
+        return timezone;
+    }
+
     public static class Builder {
 
         private String id;
@@ -86,6 +93,7 @@ public class User {
         private List<Role> roles;
         private List<Address> addresses;
         private String password;
+        private String timeZone;
 
         public Builder setId(String id) {
             this.id = id;
@@ -138,7 +146,12 @@ public class User {
         }
 
         public User build() {
-            return new User(id, meta, userName, active, name, emails, phoneNumbers, roles, addresses, password);
+            return new User(id, meta, userName, active, name, emails, phoneNumbers, roles, addresses, password, timeZone);
+        }
+
+        public Builder timeZone(String timezone) {
+            this.timeZone = timezone;
+            return this;
         }
     }
 }

@@ -13,6 +13,7 @@
         "givenName": "John",
         "familyName": "Doe"
       },
+      "timezone": "Europe/Stockholm",
       "active": true,
       "password": "$2a$11$SXrRj.HMqQEE94Z4u1/YLubZefHzNKB4CuhhCKhnTMohomLOuDhxq",
       "phoneNumbers":[

@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -22,15 +21,13 @@ public class WodEntity {
     @Id
     private final String id;
     private final LocalDateTime date;
-    private final ZoneId zoneId;
     private final List<WorkoutEntity> workouts;
     private final List<String> users;
 
     @PersistenceConstructor
-    public WodEntity(String id, LocalDateTime date, ZoneId zoneId, List<WorkoutEntity> workouts, List<String> users) {
+    public WodEntity(String id, LocalDateTime date, List<WorkoutEntity> workouts, List<String> users) {
         this.id = id;
         this.date = date;
-        this.zoneId = zoneId;
         this.workouts = workouts;
         this.users = users;
     }
@@ -43,10 +40,6 @@ public class WodEntity {
         return date;
     }
 
-    public ZoneId getZoneId() {
-        return zoneId;
-    }
-
     public List<WorkoutEntity> getWorkouts() {
         return workouts;
     }
@@ -55,7 +48,6 @@ public class WodEntity {
 
         private String id;
         private LocalDateTime date;
-        private ZoneId zoneId;
 
         public Builder id(String id) {
             this.id = id;
@@ -67,13 +59,8 @@ public class WodEntity {
             return this;
         }
 
-        public Builder zoneId(ZoneId zoneId) {
-            this.zoneId = zoneId;
-            return this;
-        }
-
         public WodEntity build() {
-            return new WodEntity(id, date, zoneId, null, null);
+            return new WodEntity(id, date, null, null);
         }
     }
 }

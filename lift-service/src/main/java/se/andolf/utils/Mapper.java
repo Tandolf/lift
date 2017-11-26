@@ -1,13 +1,14 @@
 package se.andolf.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import se.andolf.api.*;
+import se.andolf.api.Exercise;
 import se.andolf.api.user.Meta;
 import se.andolf.api.user.User;
-import se.andolf.entities.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import se.andolf.api.workout.Workout;
+import se.andolf.entities.ExerciseEntity;
+import se.andolf.entities.MetaEntity;
+import se.andolf.entities.UserEntity;
+import se.andolf.entities.WorkoutEntity;
 
 /**
  * @author Thomas on 2017-07-29.
@@ -28,6 +29,7 @@ public final class Mapper {
                 .isActive(userEntity.isActive())
                 .roles(userEntity.getRoles())
                 .addresses(userEntity.getAddresses())
+                .timeZone(userEntity.getTimezone())
                 .build();
     }
 
@@ -61,59 +63,16 @@ public final class Mapper {
                 .build();
     }
 
-    public static Wod toWod(WodEntity workout) {
-        return new Wod.Builder()
-                .setId(workout.getId())
-                .date(workout.getDate().atZone(workout.getZoneId()))
-                .workouts(Mapper.toWorkouts(workout.getWorkouts()))
-                .build();
-    }
-
-    public static List<Workout> toWorkouts(List<WorkoutEntity> sessionEntities) {
-        return sessionEntities.stream().map(Mapper::toWorkout).collect(Collectors.toList());
-    }
-
-    private static Workout toWorkout(WorkoutEntity workoutEntity) {
+    public static Workout toWorkout(WorkoutEntity workoutEntity) {
         return new Workout.Builder()
                 .id(workoutEntity.getId())
+                .user(workoutEntity.getUser())
+                .date(workoutEntity.getDate())
+                .description(workoutEntity.getDescription())
+                .effort(workoutEntity.getEffort())
                 .job(workoutEntity.getJob())
-                .alternating(workoutEntity.isAlternating())
-                .routines(toRoutines(workoutEntity.getRoutines()))
+                .jobs(workoutEntity.getJobs())
                 .build();
-    }
-
-    private static List<Routine> toRoutines(List<RoutineEntity> routines) {
-        return routines.stream().map(Mapper::toRoutine).collect(Collectors.toList());
-    }
-
-    private static Routine toRoutine(RoutineEntity routineEntity) {
-        return new Routine.Builder()
-                .id(routineEntity.getId())
-                .name(routineEntity.getName())
-                .sessions(toSessions(routineEntity.getSessions()))
-                .build();
-    }
-
-    private static List<Session> toSessions(List<SessionEntity> sessions) {
-        return sessions.stream().map(Mapper::toSession).collect(Collectors.toList());
-    }
-
-    private static Session toSession(SessionEntity sessionEntity) {
-        return new Session.Builder()
-                .id(sessionEntity.getId())
-                .exerciseId(sessionEntity.getExerciseId())
-                .repsFrom(sessionEntity.getRepsFrom())
-                .repsTo(sessionEntity.getRepsTo())
-                .forDistance(sessionEntity.isForDistance())
-                .forCal(sessionEntity.isForCal())
-                .damper(sessionEntity.getDamper())
-                .weight(sessionEntity.getWeight())
-                .distance(sessionEntity.getDistance())
-                .calories(sessionEntity.getCalories())
-                .effort(sessionEntity.getEffort())
-                .strapless(sessionEntity.isStrapless())
-                .build();
-
     }
 
     public static Exercise toExercise(ExerciseEntity exerciseEntity) {

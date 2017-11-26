@@ -1,0 +1,98 @@
+{
+  "Workout": [
+    {
+      "_id": {
+        "$oid": "59e24b59ca989685da26e4e2"
+      },
+      "_class": "se.andolf.entities.WorkoutEntity",
+      "user": "59e24b59ca989685da26e4e1",
+      "effort": 90,
+      "job": {
+        "work": 120,
+        "rest": 30,
+        "sets": 6,
+        "workoutType": "AMRAP"
+      },
+      "date": {
+        "$date": "2017-11-26T21:24:53.850Z"
+      },
+      "description": "someDescription",
+      "jobs": [
+        [
+          {
+            "exerciseId": "1",
+            "parameters": {
+              "DAMPER": 4,
+              "STRAPS": true,
+              "FOR_CAL": true
+            }
+          }
+        ],
+        [
+          {
+            "exerciseId": "2"
+          }
+        ],
+        [
+          {
+            "exerciseId": "3",
+            "parameters": {
+              "WEIGHT": 24,
+              "REPS": 8
+            }
+          },
+          {
+            "exerciseId": "4",
+            "parameters": {
+              "WEIGHT": 24,
+              "REPS": 6
+            }
+          },
+          {
+            "exerciseId": "5",
+            "parameters": {
+              "WEIGHT": 24,
+              "REPS": 4
+            }
+          }
+        ],
+        [
+          {
+            "exerciseId": "6",
+            "parameters": {
+              "REPS": 10
+            }
+          },
+          {
+            "exerciseId": "7",
+            "parameters": {
+              "REPS": 9
+            }
+          }
+        ],
+        [
+          {
+            "exerciseId": "8",
+            "parameters": {
+              "DISTANCE": 10
+            }
+          },
+          {
+            "exerciseId": "9",
+            "parameters": {
+              "DISTANCE": 10
+            }
+          }
+        ],
+        [
+          {
+            "exerciseId": "9",
+            "parameters": {
+              "FOR_CAL": true
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}

@@ -26,6 +26,7 @@ public class UserEntity {
     private List<Role> roles;
     private List<Address> addresses;
     private final String password;
+    private String timezone;
 
     @PersistenceConstructor
     private UserEntity(MetaEntity meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password) {
@@ -80,6 +81,10 @@ public class UserEntity {
         return password;
     }
 
+    public String getTimezone() {
+        return timezone;
+    }
+
     public static class Builder {
 
         private String userName;
@@ -132,13 +137,13 @@ public class UserEntity {
             return this;
         }
 
-        public UserEntity build() {
-            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles, addresses, password);
-        }
-
         public Builder password(String password) {
             this.password = password;
             return this;
+        }
+
+        public UserEntity build() {
+            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles, addresses, password);
         }
     }
 }

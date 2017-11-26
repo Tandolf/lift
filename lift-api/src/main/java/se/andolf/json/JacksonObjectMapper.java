@@ -2,6 +2,7 @@ package se.andolf.json;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -30,7 +31,6 @@ public enum JacksonObjectMapper {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.enable(DeserializationFeature.USE_LONG_FOR_INTS);
         objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     }
 
     public ObjectMapper objectMapper() {

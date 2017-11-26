@@ -1,36 +1,24 @@
-package se.andolf.entities;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.Document;
-import se.andolf.api.workout.Job;
-import se.andolf.api.workout.Work;
+package se.andolf.api.workout;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author Thomas on 2016-06-11.
+ * @author Thomas on 2017-11-26.
  */
-@Document(collection = "Workout")
-@CompoundIndexes({
-        @CompoundIndex(name = "workout_idx", def = "{'date': 1, 'user': 1}")
-})
-public class WorkoutEntity {
+public class Workout {
 
-    @Id
     private final String id;
     private final String user;
-    private final int effort;
-    private final Job job;
-    private final LocalDateTime date;
-    private final String description;
+    private int effort;
+    private Job job;
+    private LocalDateTime date;
+    private String description;
     private final List<List<Work>> jobs;
 
-    @PersistenceConstructor
-    public WorkoutEntity(String id, String user, int effort, Job job, LocalDateTime date, String description, List<List<Work>> jobs) {
+    public Workout(String id, String user, int effort, Job job, LocalDateTime date, String description, List<List<Work>> jobs) {
         this.id = id;
         this.user = user;
         this.effort = effort;
@@ -69,23 +57,14 @@ public class WorkoutEntity {
     }
 
     public static final class Builder {
+
         private String id;
-        private String user;
         private int effort;
         private Job job;
         private LocalDateTime date;
         private String description;
-        private List<List<Work>> jobs;
-
-        public Builder id(String id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder user(String user) {
-            this.user = user;
-            return this;
-        }
+        private List<List<Work>> jobs = new ArrayList<>();
+        private String user;
 
         public Builder effort(int effort) {
             this.effort = effort;
@@ -107,13 +86,28 @@ public class WorkoutEntity {
             return this;
         }
 
+        public Builder addWork(Work... jobs) {
+            this.jobs.add(Arrays.asList(jobs));
+            return this;
+        }
+
         public Builder jobs(List<List<Work>> jobs) {
             this.jobs = jobs;
             return this;
         }
 
-        public WorkoutEntity build() {
-            return new WorkoutEntity(id, user, effort, job, date, description, jobs);
+        public Builder user(String user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Workout build() {
+            return new Workout(id, user, effort, job, date, description, jobs);
         }
     }
 }
