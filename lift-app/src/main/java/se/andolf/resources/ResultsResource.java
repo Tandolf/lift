@@ -13,16 +13,16 @@ import se.andolf.service.ResultsService;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.Principal;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 /**
  * @author Thomas on 2017-08-05.
  */
 @RestController
-@Api(tags = { "Workouts" })
-@RequestMapping("/users")
+@Api(tags = { "results" })
+@RequestMapping("/users/workouts/{workout}/results")
 public class ResultsResource {
 
     @Autowired
@@ -36,9 +36,10 @@ public class ResultsResource {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method = PUT, value="{userId}/workouts/{workoutId}/sessions/{sessionId}")
-    public ResponseEntity add(@PathVariable("sessionId") String sessionId, @RequestBody Result result, HttpServletRequest request) throws URISyntaxException {
-        final String id = resultsService.save(sessionId, result);
+    @RequestMapping(method = POST)
+    public ResponseEntity add(@PathVariable("workout") String workout, @RequestBody Result result, HttpServletRequest request, Principal principal) throws URISyntaxException {
+        final String userId = principal.getName();
+        final String id = resultsService.save(userId, workout, result);
         final HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(new URI(request.getRequestURL().append("/").append(id).toString()));
         return new ResponseEntity(responseHeaders, HttpStatus.CREATED);
@@ -50,12 +51,24 @@ public class ResultsResource {
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @RequestMapping(method=DELETE, value="{userId}/workouts/{workoutId}/results/{id}")
+    @RequestMapping(method=DELETE, value="{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(
-            @PathVariable("userId") String userId,
             @ApiParam(value = "id of the Wod you want to delete", required = true)
             @PathVariable("id") String id){
           resultsService.delete(id);
+    }
+
+    @ApiOperation(value = "Get a result by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Result fetched"),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @RequestMapping(method=GET, value="{id}")
+    public Result find(
+            @ApiParam(value = "id of the result you want to fetch", required = true)
+            @PathVariable("id") String id, Principal principal){
+        return resultsService.find(principal.getName(), id);
     }
 }

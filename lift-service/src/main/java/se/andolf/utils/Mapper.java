@@ -2,13 +2,11 @@ package se.andolf.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import se.andolf.api.Exercise;
+import se.andolf.api.Result;
 import se.andolf.api.user.Meta;
 import se.andolf.api.user.User;
 import se.andolf.api.workout.Workout;
-import se.andolf.entities.ExerciseEntity;
-import se.andolf.entities.MetaEntity;
-import se.andolf.entities.UserEntity;
-import se.andolf.entities.WorkoutEntity;
+import se.andolf.entities.*;
 
 /**
  * @author Thomas on 2017-07-29.
@@ -86,5 +84,14 @@ public final class Mapper {
 
     public static ExerciseEntity toExerciseEntity(Exercise exercise) {
         return new ExerciseEntity.Builder().id(exercise.getId()).name(exercise.getName()).equipment(exercise.getEquipments()).build();
+    }
+
+    public static Result toResult(ResultEntity resultEntity) {
+        return new Result.Builder()
+                .id(resultEntity.getId())
+                .workout(resultEntity.getWorkout())
+                .date(resultEntity.getDate())
+                .sets(resultEntity.getReps())
+                .build();
     }
 }

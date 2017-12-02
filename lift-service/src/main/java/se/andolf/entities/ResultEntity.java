@@ -2,126 +2,96 @@ package se.andolf.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
+import se.andolf.api.workout.ExerciseParam;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Thomas on 2017-08-27.
  */
 @Document(collection = "Result")
+@CompoundIndexes({
+        @CompoundIndex(name = "user_id_idx", def = "{'user': 1, 'id': 1}", sparse = true)
+})
 public class ResultEntity {
 
     @Id
-    private Long id;
-    private int round;
-    private int weight;
-    private int distance;
-    private int calories;
-    private int reps;
-    private int grade;
-
-    private final List<WorkoutEntity> sessionEntities;
+    private final String id;
+    private final String user;
+    private final String workout;
+    private final LocalDateTime date;
+    private final List<Map<ExerciseParam, Object>> reps;
 
     @PersistenceConstructor
-    private ResultEntity(int round, int weight, int distance, int calories, int reps, int grade, List<WorkoutEntity> sessionEntities) {
-        this.round = round;
-        this.weight = weight;
-        this.distance = distance;
-        this.calories = calories;
+    public ResultEntity(String id, String user, String workout, LocalDateTime date, List<Map<ExerciseParam, Object>> reps) {
+        this.id = id;
+        this.user = user;
+        this.workout = workout;
+        this.date = date;
         this.reps = reps;
-        this.grade = grade;
-        this.sessionEntities = sessionEntities;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getUser() {
+        return user;
     }
 
-    public int getRound() {
-        return round;
+    public String getWorkout() {
+        return workout;
     }
 
-    public int getWeight() {
-        return weight;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public int getDistance() {
-        return distance;
-    }
-
-    public int getCalories() {
-        return calories;
-    }
-
-    public int getReps() {
+    public List<Map<ExerciseParam, Object>> getReps() {
         return reps;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
-    public List<WorkoutEntity> getSessionEntities() {
-        return sessionEntities;
     }
 
     public static class Builder {
 
-        private int round;
-        private int weight;
-        private int distance;
-        private int calories;
-        private int reps;
-        private int grade;
-        private List<WorkoutEntity> sessionEntities;
+        private String id;
+        private String user;
+        private String workout;
+        private LocalDateTime date;
+        private List<Map<ExerciseParam, Object>> reps;
 
-        public Builder() {
-            sessionEntities = new ArrayList<>();
-        }
-
-        public Builder setRound(int round) {
-            this.round = round;
+        public Builder id(String id) {
+            this.id = id;
             return this;
         }
 
-        public Builder setWeight(int weight) {
-            this.weight = weight;
+        public Builder user(String id) {
+            this.user = id;
             return this;
         }
 
-        public Builder setDistance(int distance) {
-            this.distance = distance;
+        public Builder workout(String id) {
+            this.workout = id;
             return this;
         }
 
-        public Builder setCalories(int calories) {
-            this.calories = calories;
+        public Builder date(LocalDateTime date) {
+            this.date = date;
             return this;
         }
 
-        public Builder setReps(int reps) {
+        public Builder reps(List<Map<ExerciseParam, Object>> reps) {
             this.reps = reps;
             return this;
         }
 
-        public Builder setGrade(int grade) {
-            this.grade = grade;
-            return this;
-        }
-
-        public Builder addSessionEntity(WorkoutEntity workoutEntity) {
-            sessionEntities.add(workoutEntity);
-            return this;
-        }
-
         public ResultEntity build() {
-            return new ResultEntity(round, weight, distance, calories, reps, grade, sessionEntities);
+            return new ResultEntity(id, user, workout, date, reps);
         }
     }
 }

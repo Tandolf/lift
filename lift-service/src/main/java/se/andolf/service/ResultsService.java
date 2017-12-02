@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.andolf.api.Result;
 import se.andolf.entities.ResultEntity;
-import se.andolf.entities.WorkoutEntity;
 import se.andolf.exceptions.DocomentNotFoundException;
 import se.andolf.repository.ResultRepository;
-import se.andolf.repository.SessionRepository;
-
-import java.util.Optional;
+import se.andolf.repository.WorkoutRepository;
+import se.andolf.utils.Mapper;
 
 /**
  * @author Thomas on 2017-08-27.
@@ -17,28 +15,31 @@ import java.util.Optional;
 @Service
 public class ResultsService {
 
-    @Autowired
     private ResultRepository resultRepository;
+    private WorkoutRepository workoutRepository;
 
     @Autowired
-    private SessionRepository sessionRepository;
+    public ResultsService(WorkoutRepository workoutRepository, ResultRepository resultRepository) {
+        this.workoutRepository = workoutRepository;
+        this.resultRepository = resultRepository;
+    }
 
     public void delete(String id) {
 
     }
 
-    public String save(String sessionId, Result result){
-        final Optional<WorkoutEntity> sessionEntity = Optional.ofNullable(sessionRepository.findOne(sessionId));
-        if(!sessionEntity.isPresent())
-            throw new DocomentNotFoundException("No session with id: " + sessionId + " was found.");
-        final ResultEntity resultEntity = new ResultEntity.Builder()
-                .setRound(result.getRound())
-                .setWeight(result.getWeight())
-                .setDistance(result.getDistance())
-                .setCalories(result.getCalories())
-                .setReps(result.getReps())
-                .setGrade(result.getGrade())
-                .build();
-        return sessionRepository.save(sessionEntity.get()).getId();
+    public String save(String userId, String workout, Result result){
+        return workoutRepository.findById(workout).map(w -> resultRepository.save(new ResultEntity.Builder()
+                .user(userId)
+                .workout(workout)
+                .date(result.getDate())
+                .reps(result.getReps())
+                .build())
+                .getId()
+        ).orElseThrow(() ->new DocomentNotFoundException("No workout with id: " + workout + " was found."));
+    }
+
+    public Result find(String user, String id) {
+        return resultRepository.findByUserAndId(user, id).map(Mapper::toResult).orElseThrow(() -> new DocomentNotFoundException("Could not find result with id: " + id));
     }
 }

@@ -93,9 +93,9 @@ public class WorkoutIT {
     public void shouldAddWorkout() {
         final Work work = new Work.Builder().exerciseId("1").put(ExerciseParam.FOR_CAL, true).put(ExerciseParam.STRAPS, true).put(ExerciseParam.DAMPER, 4).build();
         final Work work2 = new Work.Builder().exerciseId("2").build();
-        final Work work3 = new Work.Builder().exerciseId("3").put(ExerciseParam.REPS, 8).put(ExerciseParam.WEIGHT, 24).build();
-        final Work work4 = new Work.Builder().exerciseId("4").put(ExerciseParam.REPS, 6).put(ExerciseParam.WEIGHT, 24).build();
-        final Work work5 = new Work.Builder().exerciseId("5").put(ExerciseParam.REPS, 4).put(ExerciseParam.WEIGHT, 24).build();
+        final Work work3 = new Work.Builder().exerciseId("3").put(ExerciseParam.REPS, 8).put(ExerciseParam.MALE_WEIGHT, 24).build();
+        final Work work4 = new Work.Builder().exerciseId("4").put(ExerciseParam.REPS, 6).put(ExerciseParam.MALE_WEIGHT, 24).build();
+        final Work work5 = new Work.Builder().exerciseId("5").put(ExerciseParam.REPS, 4).put(ExerciseParam.MALE_WEIGHT, 24).build();
         final Work work6 = new Work.Builder().exerciseId("6").put(ExerciseParam.REPS, 10).build();
         final Work work7 = new Work.Builder().exerciseId("7").put(ExerciseParam.REPS, 9).build();
         final Work work8 = new Work.Builder().exerciseId("8").put(ExerciseParam.DISTANCE, 10).build();
