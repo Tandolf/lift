@@ -14,8 +14,10 @@ import se.andolf.config.Environment;
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbConfigurationBuilder.mongoDb;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 /**
  * @author Thomas on 2017-10-28.
@@ -99,5 +101,16 @@ public class ExercisesIT {
                 .statusCode(200)
                 .body("id", is(notNullValue()))
                 .body("name", is("Push ups"));
+    }
+
+    @Test
+    @UsingDataSet(locations={"/db/exercises.json"}, loadStrategy=LoadStrategyEnum.CLEAN_INSERT)
+    public void shouldFetchExercisesFilteredOnName() {
+        given()
+                .param("name", "clean")
+                .get(RESOURCE)
+                .then()
+                .statusCode(200)
+                .body("$.size()", is(equalTo(2)));
     }
 }

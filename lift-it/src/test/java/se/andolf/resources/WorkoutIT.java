@@ -128,6 +128,30 @@ public class WorkoutIT {
         given().get(location).then().statusCode(200).extract().response().prettyPrint();
     }
 
+    @Test
+    public void shouldAddWorkoutWithTestParameter() {
+        final Work work = new Work.Builder()
+                .put(ExerciseParam.TEST, true)
+                .build();
+
+        final Workout workout = new Workout.Builder()
+                .addWork(work)
+                .build();
+
+        final String location = given()
+                .contentType(ContentType.JSON)
+                .body(workout)
+                .post(WORKOUT_RESOURCE)
+                .then()
+                .assertThat()
+                .statusCode(201)
+                .extract().header("location");
+
+        given().get(location).then().statusCode(200)
+        .body("jobs[0][0].parameters.TEST", is(true));
+
+    }
+
     private static ValidatableResponse delete(String resource, String id) {
         return given()
                 .delete("{resource}/{id}", resource, id)

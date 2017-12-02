@@ -10,5 +10,5 @@ public enum ExerciseParam {
     DAMPER,
     REPS,
     WEIGHT,
-    DISTANCE
+    TEST, DISTANCE
 }

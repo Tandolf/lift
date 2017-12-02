@@ -2,7 +2,6 @@ package se.andolf.api.user;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * @author Thomas on 2017-07-16.

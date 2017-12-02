@@ -47,7 +47,9 @@ public class ExerciseResource {
 
     @RequestMapping(method = GET, value = "/exercises")
     @ApiOperation(value = "Gets all exercises as list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Exercise> getAll(Principal principal){
+    public List<Exercise> getAll(@RequestParam(required = false, value = "name") String name){
+        if(name != null)
+            return exerciseService.findFilteredBy(name);
         return exerciseService.find();
     }
 

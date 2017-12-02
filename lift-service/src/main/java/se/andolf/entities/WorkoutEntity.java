@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Document(collection = "Workout")
 @CompoundIndexes({
-        @CompoundIndex(name = "workout_idx", def = "{'date': 1, 'user': 1}")
+        @CompoundIndex(name = "user_date_idx", def = "{'user': 1, 'date': 1}", sparse = true)
 })
 public class WorkoutEntity {
 

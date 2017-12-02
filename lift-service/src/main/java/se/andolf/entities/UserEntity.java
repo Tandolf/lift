@@ -5,9 +5,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import se.andolf.api.user.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Thomas on 2017-07-16.
@@ -29,7 +27,7 @@ public class UserEntity {
     private String timezone;
 
     @PersistenceConstructor
-    private UserEntity(MetaEntity meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password) {
+    private UserEntity(MetaEntity meta, String userName, boolean active, Name name, List<Email> emails, List<PhoneNumber> phoneNumbers, List<Role> roles, List<Address> addresses, String password, String timezone) {
         this.meta = meta;
         this.userName = userName;
         this.active = active;
@@ -39,6 +37,7 @@ public class UserEntity {
         this.roles = roles;
         this.addresses = addresses;
         this.password = password;
+        this.timezone = timezone;
     }
 
     public String getId() {
@@ -96,6 +95,7 @@ public class UserEntity {
         private MetaEntity meta;
         private List<Address> addresses;
         private String password;
+        private String timezone;
 
         public Builder meta(MetaEntity meta) {
             this.meta = meta;
@@ -142,8 +142,13 @@ public class UserEntity {
             return this;
         }
 
+        public Builder timezone(String timezone) {
+            this.timezone = timezone;
+            return this;
+        }
+
         public UserEntity build() {
-            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles, addresses, password);
+            return new UserEntity(meta, userName, active, name, emails, phoneNumbers, roles, addresses, password, timezone);
         }
     }
 }

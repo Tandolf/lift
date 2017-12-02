@@ -48,6 +48,7 @@ public final class Mapper {
                 .name(user.getName())
                 .password(toEncrypted(user.getPassword()))
                 .roles(user.getRoles())
+                .timezone(user.getTimezone())
                 .build();
     }
 

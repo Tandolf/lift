@@ -4,6 +4,7 @@ package se.andolf.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import se.andolf.entities.ExerciseEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,4 +13,6 @@ import java.util.Optional;
 public interface ExerciseRepository extends MongoRepository<ExerciseEntity, String>, CustomExerciseRepository {
 
     Optional<ExerciseEntity> findById(String id);
+
+    List<ExerciseEntity> findByNameContainingIgnoreCase(String name);
 }

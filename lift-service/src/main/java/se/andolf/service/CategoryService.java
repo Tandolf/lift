@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class CategoryService {
 
-    private static final Log LOG = LogFactory.getLog(CategoryService.class);
-
     @Autowired
     public ObjectMapper objectMapper;
 
@@ -42,8 +40,7 @@ public class CategoryService {
         try {
             return categoryRepository.save(categoryEntity).getId();
         } catch (DuplicateKeyException e) {
-            LOG.error("Category " + category.getName() + " exists select another name", e);
-            throw new DocumentExistsException("Category " + category.getName() + " exists please select another name");
+            throw new DocumentExistsException("Category " + category.getName() + " exists please select another name", e);
         }
     }
 
@@ -80,7 +77,6 @@ public class CategoryService {
                     categoryRepository.save(updatedCategory);
                 }
             }  catch (IOException | JsonPatchException ex) {
-                LOG.debug(ex);
                 throw new IllegalArgumentException(ex.getMessage());
             }
         }
